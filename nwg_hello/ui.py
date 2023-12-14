@@ -2,6 +2,7 @@ import os
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
+from nwg_hello.tools import eprint
 
 
 def handle_keyboard(w, event):
@@ -10,7 +11,7 @@ def handle_keyboard(w, event):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, voc):
+    def __init__(self, voc, log):
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
         builder = Gtk.Builder()
@@ -29,4 +30,13 @@ class GreeterWindow(Gtk.Window):
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
         self.window.connect("key-release-event", handle_keyboard)
+
+        screen = Gdk.Screen.get_default()
+        provider = Gtk.CssProvider()
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        try:
+            provider.load_from_path("/usr/share/nwg-hello/style.css")
+        except Exception as e:
+            eprint(f"* {e}", log=log)
         self.window.show()

@@ -103,7 +103,7 @@ def greetd(json_req):
 
 
 def main():
-    win = GreeterWindow(voc)
+    win = GreeterWindow(voc, args.log)
 
     if not args.test:
         global client

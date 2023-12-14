@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        "": ["img/*", "langs/*"]
+        "": ["img/*", "langs/*", "template.glade"]
     },
     url='https://github.com/nwg-piotr/nwg-greeter',
     license='MIT',
