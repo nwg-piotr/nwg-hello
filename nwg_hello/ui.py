@@ -2,7 +2,7 @@ import os
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
-from gi.repository import Gtk, Gdk, GtkLayerShell
+from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf
 from nwg_hello.tools import eprint
 
 
@@ -53,6 +53,11 @@ class GreeterWindow(Gtk.Window):
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "sleep.svg"), 48, 48)
+        img = Gtk.Image.new_from_pixbuf(pixbuf)
+        self.btn_sleep.set_image(img)
+        self.btn_sleep.set_always_show_image(True)
+        self.btn_sleep.set_image_position(Gtk.PositionType.TOP)
 
         self.btn_restart = builder.get_object("btn-restart")
         self.btn_restart.set_property("name", "power-button")

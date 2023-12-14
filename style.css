@@ -23,6 +23,7 @@ button:hover {
 }
 
 #power-button {
+    background:none;
     border: none;
 }
 
