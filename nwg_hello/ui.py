@@ -35,6 +35,18 @@ class GreeterWindow(Gtk.Window):
         self.lbl_session.set_property("name", "form-label")
         self.lbl_session.set_text(f'{voc["session"]}:')
 
+        self.combo_session = builder.get_object("combo-session")
+        self.combo_session.set_property("name", "form-combo")
+        for session in sessions:
+            self.combo_session.append(session["name"], session["name"])
+        self.combo_session.set_active_id(sessions[0]["name"])
+
+        self.combo_user = builder.get_object("combo-user")
+        self.combo_user.set_property("name", "form-combo")
+        for user in users:
+            self.combo_user.append(user, user)
+        self.combo_user.set_active_id(users[0])
+
         self.lbl_user = builder.get_object("lbl-user")
         self.lbl_user.set_property("name", "form-label")
         self.lbl_user.set_text(f'{voc["user"]}:')
@@ -64,4 +76,4 @@ class GreeterWindow(Gtk.Window):
         except Exception as e:
             eprint(f"* {e}", log=log)
         self.window.show()
-        form_wrapper.set_size_request(monitor.get_geometry().width * 0.35, 0)
+        form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)

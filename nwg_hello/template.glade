@@ -100,7 +100,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="combo-session">
+                          <object class="GtkComboBoxText" id="combo-session">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                           </object>
@@ -124,7 +124,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="combo-user">
+                          <object class="GtkComboBoxText" id="combo-user">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                           </object>
