@@ -4,16 +4,18 @@ window {
 
 entry {
 	background-color: rgba(255, 255, 255, 0.1);
-	border: solid 1px;
-	border-color: #eee;
+	border: 1px solid #eee;
 	border-radius: 18px;
 	padding: 12px
 }
 
+entry:hover {
+	background-color: rgba(255, 255, 255, 0.2)
+}
+
 button {
 	background-color: rgba(255, 255, 255, 0.1);
-	border: solid 1px;
-	border-color: #eee;
+	border: 1px solid #eee;
 	border-radius: 18px;
 	padding: 12px
 }
