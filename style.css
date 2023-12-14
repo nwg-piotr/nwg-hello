@@ -3,13 +3,13 @@ window {
 }
 
 entry {
-	border-radius: 6px;
-	padding: 6px
+	border-radius: 12px;
+	padding: 12px
 }
 
 button {
 	border-radius: 12px;
-	padding: 6px
+	padding: 12px
 }
 
 button:hover {
