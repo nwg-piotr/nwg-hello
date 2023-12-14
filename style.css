@@ -22,6 +22,11 @@ button:hover {
 	font-size: 18px
 }
 
+#form-combo {
+	border-radius: 12px;
+	padding: 2px
+}
+
 #password-entry {
 	border-radius: 12px
 }
