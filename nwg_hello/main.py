@@ -50,8 +50,8 @@ if args.log:
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
 # Load settings
-settings_path = "/etc/greetd/nwg-hello-default.json" if os.path.isfile(
-    "/etc/greetd/nwg-hello-custom.json") else "/etc/greetd/nwg-hello.json"
+settings_path = "/etc/greetd/nwg-hello.json" if os.path.isfile(
+    "/etc/greetd/nwg-hello.json") else "/etc/greetd/nwg-hello-default.json"
 settings = load_json(settings_path)
 if settings:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)

@@ -102,8 +102,8 @@ class GreeterWindow(Gtk.Window):
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         try:
-            style_path = "/etc/greetd/nwg-hello.css" if os.path.isfile(
-                "/etc/greetd/nwg-hello.css") else "/etc/greetd/nwg-hello-default.css"
+            style_path = "/etc/greetd/nwg-hello-default.css" if os.path.isfile(
+                "/etc/greetd/nwg-hello-default.css") else "/etc/greetd/nwg-hello-default.css"
             provider.load_from_path(style_path)
         except Exception as e:
             eprint(f"* {e}", log=log)
