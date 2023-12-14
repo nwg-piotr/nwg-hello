@@ -13,10 +13,6 @@ entry {
 	padding: 12px
 }
 
-entry:active {
-	background-color: rgba(255, 255, 255, 0.2)
-}
-
 button {
 	background-color: rgba(255, 255, 255, 0.1);
 	border: 1px solid #eee;
