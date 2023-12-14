@@ -1,0 +1,13 @@
+{
+  "failed-starting-session": "Oturum başlatılamadı",
+  "login": "Giriş yapmak",
+  "login-failed": "Giriş başarısız oldu",
+  "password": "Şifre",
+  "power-off": "Kapat",
+  "session": "Oturum",
+  "show-password": "Şifreyi göster",
+  "sleep": "Uyumak",
+  "reboot": "Yeniden başlat",
+  "user": "Kullanıcı",
+  "welcome": "Merhaba!"
+}

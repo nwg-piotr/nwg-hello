@@ -1,0 +1,13 @@
+{
+  "failed-starting-session": "Échec du démarrage de la session",
+  "login": "Se connecter",
+  "login-failed": "La connexion a échoué",
+  "password": "Mot de passe",
+  "power-off": "Éteindre",
+  "session": "Session",
+  "show-password": "Montrer le mot de passe",
+  "sleep": "Dormir",
+  "reboot": "Redémarrer",
+  "user": "Utilisateur",
+  "welcome": "Bienvenu!"
+}

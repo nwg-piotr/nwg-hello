@@ -1,0 +1,5 @@
+/.idea
+/venv
+/nwg_greeter.egg-info/
+/build/
+/dist/

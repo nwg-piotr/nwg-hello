@@ -1,0 +1,13 @@
+{
+  "failed-starting-session": "Sitzungsstart fehlgeschlagen",
+  "login": "Anmeldung",
+  "login-failed": "Fehler bei der Anmeldung",
+  "password": "Passwort",
+  "power-off": "Ausschalten",
+  "session": "Session",
+  "show-password": "Passwort anzeigen",
+  "sleep": "Schlafen",
+  "reboot": "Neustart",
+  "user": "Benutzer",
+  "welcome": "Willkommen!"
+}

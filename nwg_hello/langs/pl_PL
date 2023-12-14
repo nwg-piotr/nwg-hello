@@ -1,0 +1,13 @@
+{
+  "failed-starting-session": "Nie udało się rozpocząć sesji",
+  "login": "Zaloguj",
+  "login-failed": "Logowanie nieudane",
+  "password": "Hasło",
+  "power-off": "Wyłącz",
+  "session": "Sesja",
+  "show-password": "Pokaż hasło",
+  "sleep": "Uśpij",
+  "reboot": "Restart",
+  "user": "Użytkownik",
+  "welcome": "Witaj!"
+}

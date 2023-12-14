@@ -1,0 +1,13 @@
+{
+  "failed-starting-session": "Failed to start session",
+  "login": "Login",
+  "login-failed": "Login failed",
+  "password": "Password",
+  "power-off": "Power off",
+  "session": "Session",
+  "show-password": "Show password",
+  "sleep": "Sleep",
+  "reboot": "Reboot",
+  "user": "User",
+  "welcome": "Welcome!"
+}
