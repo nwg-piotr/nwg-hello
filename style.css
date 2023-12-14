@@ -3,7 +3,7 @@ window {
 }
 
 entry {
-	border-radius: 12px;
+	border-radius: 6px;
 	padding: 6px
 }
 
@@ -38,5 +38,5 @@ button:hover {
 }
 
 #password-entry {
-	border-radius: 12px
+	border-radius: 6px
 }
