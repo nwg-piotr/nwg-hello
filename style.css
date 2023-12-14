@@ -4,11 +4,12 @@ window {
 
 entry {
 	border-radius: 12px;
+	padding: 6px
 }
 
 button {
 	border-radius: 12px;
-	padding: 12px
+	padding: 6px
 }
 
 button:hover {
