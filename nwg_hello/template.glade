@@ -5,7 +5,7 @@
   <object class="GtkWindow" id="main-window">
     <property name="can-focus">False</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="main-box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>

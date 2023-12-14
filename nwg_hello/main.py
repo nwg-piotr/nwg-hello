@@ -62,7 +62,9 @@ for key in defaults:
         settings[key] = defaults[key]
 
 if args.debug:
-    eprint(f"Configured session_dirs: {settings['session_dirs']}", log=args.log)
+    eprint(f"Config session_dirs: {settings['session_dirs']}", log=args.log)
+    if settings['lang']:
+        eprint(f"Config lang: {settings['lang']}", log=args.log)
 
 
 # Load vocabulary
@@ -103,7 +105,13 @@ def greetd(json_req):
 
 
 def main():
-    win = GreeterWindow(voc, args.log)
+    display = Gdk.Display.get_default()
+    for i in range(display.get_n_monitors()):
+        monitor = display.get_monitor(i)
+        print(monitor)
+        geometry = monitor.get_geometry()
+
+        win = GreeterWindow(monitor, voc, args.log)
 
     if not args.test:
         global client
