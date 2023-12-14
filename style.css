@@ -25,7 +25,7 @@ button:hover {
 }
 
 #power-button {
-	border-radius: 45px;
+	border-radius: 18px;
     background:none;
     border: none;
 }
@@ -52,6 +52,10 @@ button:hover {
 
 #date-label {
 	font-size: 18px
+}
+
+#form-label {
+	font-size: 16px
 }
 
 #form-combo {
