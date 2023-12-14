@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import argparse
+import os.path
+
 import gi
 import locale
 import socket
@@ -43,14 +45,16 @@ if args.log:
     if os.path.isfile(log_file):
         os.remove(log_file)
     from datetime import datetime
+
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
-
 # Load settings
-settings = load_json("/etc/greetd/nwg-hello.json")
+settings_path = "/etc/greetd/nwg-hello-default.json" if os.path.isfile(
+    "/etc/greetd/nwg-hello-custom.json") else "/etc/greetd/nwg-hello.json"
+settings = load_json(settings_path)
 if settings:
-    eprint("Loaded settings from: '/etc/greetd/nwg-hello.json'")
+    eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
 # set defaults if key not found
 defaults = {
     "session_dirs": ["/usr/share/wayland-sessions", "/usr/share/xsessions"],
@@ -66,7 +70,6 @@ if args.debug:
     if settings['lang']:
         eprint(f"Config lang: {settings['lang']}", log=args.log)
 
-
 # Load vocabulary
 voc = load_json(os.path.join(dir_name, "langs", "en_US"))
 user_locale = locale.getlocale()[0] if not settings["lang"] else settings["lang"]
@@ -79,12 +82,10 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
             voc[key] = loc[key]
     eprint(f"Vocabulary translated into: {user_locale}", log=args.log)
 
-
 # List users
 users = list_users()
 if args.debug:
     eprint(f"Found users: {users}", log=args.log)
-
 
 # List sessions
 sessions = list_sessions(settings['session_dirs'])
