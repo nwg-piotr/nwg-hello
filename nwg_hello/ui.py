@@ -12,7 +12,7 @@ def handle_keyboard(w, event):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, monitor, voc, log):
+    def __init__(self, sessions, users, monitor, voc, log):
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
         builder = Gtk.Builder()
@@ -20,6 +20,7 @@ class GreeterWindow(Gtk.Window):
 
         main_box = builder.get_object("main-box")
         form_wrapper = builder.get_object("form-wrapper")
+        form_wrapper.set_property("name", "form-wrapper")
 
         self.lbl_welcome = builder.get_object("lbl-welcome")
         self.lbl_welcome.set_text(f'{voc["welcome"]}')
@@ -29,7 +30,12 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date = builder.get_object("lbl-date")
 
         self.lbl_session = builder.get_object("lbl-session")
+        self.lbl_session.set_property("name", "form-label")
         self.lbl_session.set_text(f'{voc["session"]}:')
+
+        self.lbl_user = builder.get_object("lbl-user")
+        self.lbl_user.set_property("name", "form-label")
+        self.lbl_user.set_text(f'{voc["user"]}:')
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
@@ -38,8 +44,12 @@ class GreeterWindow(Gtk.Window):
         GtkLayerShell.init_for_window(self.window)
         GtkLayerShell.set_layer(self.window, GtkLayerShell.Layer.OVERLAY)
         GtkLayerShell.set_keyboard_interactivity(self.window, True)
-        if monitor:
-            GtkLayerShell.set_monitor(self.window, monitor)
+        GtkLayerShell.set_monitor(self.window, monitor)
+        GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.TOP, 1)
+        GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.BOTTOM, 1)
+        GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.LEFT, 1)
+        GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.RIGHT, 1)
+        GtkLayerShell.set_exclusive_zone(self.window, -1)
 
         screen = Gdk.Screen.get_default()
         provider = Gtk.CssProvider()
@@ -50,5 +60,4 @@ class GreeterWindow(Gtk.Window):
         except Exception as e:
             eprint(f"* {e}", log=log)
         self.window.show()
-        print(self.window.get_allocated_width())
-        form_wrapper.set_size_request(main_box.get_allocated_width() / 2, 0)
+        form_wrapper.set_size_request(monitor.get_geometry().width * 0.3, 0)

@@ -108,10 +108,9 @@ def main():
     display = Gdk.Display.get_default()
     for i in range(display.get_n_monitors()):
         monitor = display.get_monitor(i)
-        print(monitor)
         geometry = monitor.get_geometry()
 
-        win = GreeterWindow(monitor, voc, args.log)
+        win = GreeterWindow(sessions, users, monitor, voc, args.log)
 
     if not args.test:
         global client
