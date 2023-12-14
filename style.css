@@ -25,6 +25,7 @@ button:hover {
 }
 
 #power-button {
+	border-radius: 45px;
     background:none;
     border: none;
 }
