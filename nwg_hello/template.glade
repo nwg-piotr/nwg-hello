@@ -12,10 +12,6 @@
           <object class="GtkBox" id="form-wrapper">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">60</property>
-            <property name="margin-end">60</property>
-            <property name="margin-top">60</property>
-            <property name="margin-bottom">60</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox">
@@ -28,6 +24,8 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">center</property>
+                    <property name="margin-start">60</property>
+                    <property name="margin-end">60</property>
                     <property name="vexpand">True</property>
                     <property name="orientation">vertical</property>
                     <child>
@@ -150,9 +148,9 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="combo-password">
+                          <object class="GtkEntry" id="entry-password">
                             <property name="visible">True</property>
-                            <property name="can-focus">False</property>
+                            <property name="can-focus">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -191,7 +189,8 @@
                           <object class="GtkLabel" id="lbl-message">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="margin-bottom">6</property>
+                            <property name="margin-top">60</property>
+                            <property name="margin-bottom">12</property>
                             <property name="label" translatable="yes">Some message</property>
                           </object>
                           <packing>
@@ -218,6 +217,7 @@
                           <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="margin-top">60</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
