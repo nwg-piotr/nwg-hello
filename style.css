@@ -8,7 +8,7 @@ entry {
 
 button {
 	border-radius: 12px;
-	padding: 3px
+	padding: 12px
 }
 
 button:hover {
