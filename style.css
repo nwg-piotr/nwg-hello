@@ -2,6 +2,10 @@ window {
 	background-image: url("/usr/share/nwg-hello/nwg.jpg"); background-size: 100% 100%
 }
 
+#form-wrapper {
+	background-color: rgba(0, 0, 0, 0.2)
+}
+
 entry {
 	background-color: rgba(255, 255, 255, 0.1);
 	border: 1px solid #eee;
@@ -9,7 +13,7 @@ entry {
 	padding: 12px
 }
 
-entry:hover {
+entry:active {
 	background-color: rgba(255, 255, 255, 0.2)
 }
 
@@ -36,10 +40,6 @@ button:hover {
 
 #power-button:active {
     background-color: rgba(255, 255, 0, 0.2)
-}
-
-#form-wrapper {
-	background-color: rgba(0, 0, 0, 0.2)
 }
 
 #welcome-label {

@@ -41,15 +41,22 @@ class GreeterWindow(Gtk.Window):
             self.combo_session.append(session["name"], session["name"])
         self.combo_session.set_active_id(sessions[0]["name"])
 
+        self.lbl_user = builder.get_object("lbl-user")
+        self.lbl_user.set_property("name", "form-label")
+        self.lbl_user.set_text(f'{voc["user"]}:')
+
         self.combo_user = builder.get_object("combo-user")
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
         self.combo_user.set_active_id(users[0])
 
-        self.lbl_user = builder.get_object("lbl-user")
-        self.lbl_user.set_property("name", "form-label")
-        self.lbl_user.set_text(f'{voc["user"]}:')
+        self.lbl_password = builder.get_object("lbl-password")
+        self.lbl_password.set_property("name", "form-label")
+        self.lbl_password.set_text(f'{voc["password"]}:')
+
+        self.entry_password = builder.get_object("entry-password")
+        self.entry_password.set_property("name", "password-entry")
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
