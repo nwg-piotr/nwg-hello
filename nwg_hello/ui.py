@@ -61,9 +61,19 @@ class GreeterWindow(Gtk.Window):
 
         self.btn_restart = builder.get_object("btn-restart")
         self.btn_restart.set_property("name", "power-button")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "reboot.svg"), 48, 48)
+        img = Gtk.Image.new_from_pixbuf(pixbuf)
+        self.btn_restart.set_image(img)
+        self.btn_restart.set_always_show_image(True)
+        self.btn_restart.set_image_position(Gtk.PositionType.TOP)
 
-        self.btn_sleep = builder.get_object("btn-poweroff")
-        self.btn_sleep.set_property("name", "power-button")
+        self.btn_poweroff = builder.get_object("btn-poweroff")
+        self.btn_poweroff.set_property("name", "power-button")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "poweroff.svg"), 48, 48)
+        img = Gtk.Image.new_from_pixbuf(pixbuf)
+        self.btn_poweroff.set_image(img)
+        self.btn_poweroff.set_always_show_image(True)
+        self.btn_poweroff.set_image_position(Gtk.PositionType.TOP)
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
