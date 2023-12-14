@@ -51,7 +51,14 @@ class GreeterWindow(Gtk.Window):
         self.lbl_user.set_property("name", "form-label")
         self.lbl_user.set_text(f'{voc["user"]}:')
 
-        self.combo_session = builder.get_object("combo-session")
+        self.btn_sleep = builder.get_object("btn-sleep")
+        self.btn_sleep.set_property("name", "power-button")
+
+        self.btn_restart = builder.get_object("btn-restart")
+        self.btn_restart.set_property("name", "power-button")
+
+        self.btn_sleep = builder.get_object("btn-poweroff")
+        self.btn_sleep.set_property("name", "power-button")
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)

@@ -22,6 +22,10 @@ button:hover {
 	background-color: rgba(255, 255, 255, 0.2)
 }
 
+#power-button {
+    border: none;
+}
+
 #form-wrapper {
 	background-color: rgba(0, 0, 0, 0.2)
 }
