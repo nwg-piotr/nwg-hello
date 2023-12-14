@@ -2,7 +2,7 @@ window {
 	background-image: url("/usr/share/nwg-hello/nwg.jpg"); background-size: 100% 100%
 }
 
-#entry {
+entry {
 	border-radius: 12px;
 }
 
