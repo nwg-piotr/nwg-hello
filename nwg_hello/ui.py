@@ -10,6 +10,15 @@ from nwg_hello.tools import eprint
 def handle_keyboard(w, event):
     if event.type == Gdk.EventType.KEY_RELEASE and event.keyval == Gdk.KEY_Escape:
         Gtk.main_quit()
+        return True
+
+
+def p_icon_path(icon_name):
+    # allow user-defined icons
+    if os.path.isfile(f"/usr/share/nwg-hello/{icon_name}.svg"):
+        return f"/usr/share/nwg-hello/{icon_name}.svg"
+    else:
+        return f"/usr/share/nwg-hello/{icon_name}-default.svg"
 
 
 class GreeterWindow(Gtk.Window):
@@ -61,7 +70,7 @@ class GreeterWindow(Gtk.Window):
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "sleep.svg"), 48, 48)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("sleep")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
         self.btn_sleep.set_image(img)
         self.btn_sleep.set_always_show_image(True)
@@ -69,7 +78,7 @@ class GreeterWindow(Gtk.Window):
 
         self.btn_restart = builder.get_object("btn-restart")
         self.btn_restart.set_property("name", "power-button")
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "reboot.svg"), 48, 48)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("reboot")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
         self.btn_restart.set_image(img)
         self.btn_restart.set_always_show_image(True)
@@ -77,7 +86,7 @@ class GreeterWindow(Gtk.Window):
 
         self.btn_poweroff = builder.get_object("btn-poweroff")
         self.btn_poweroff.set_property("name", "power-button")
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(dir_name, "img", "poweroff.svg"), 48, 48)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("poweroff")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
         self.btn_poweroff.set_image(img)
         self.btn_poweroff.set_always_show_image(True)
