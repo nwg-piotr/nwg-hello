@@ -50,8 +50,8 @@ class GreeterWindow(Gtk.Window):
         for session in sessions:
             self.combo_session.append(session["name"], session["name"])
         if settings["custom-sessions"]:
-            for key in settings["custom-sessions"]:
-                self.combo_session.append(key, settings["custom-sessions"][key])
+            for item in settings["custom-sessions"]:
+                self.combo_session.append(item["exec"], item["name"])
         self.combo_session.set_active_id(sessions[0]["name"])
 
         self.lbl_user = builder.get_object("lbl-user")
