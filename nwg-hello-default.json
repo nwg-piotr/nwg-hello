@@ -3,5 +3,6 @@
     "/usr/share/wayland-sessions",
     "/usr/share/xsessions"
   ],
+  "monitor_nums": [],
   "lang": ""
 }
