@@ -49,8 +49,8 @@ class GreeterWindow(Gtk.Window):
         self.combo_session.set_property("name", "form-combo")
         for session in sessions:
             self.combo_session.append(session["name"], session["name"])
-        if settings["custom-sessions"]:
-            for item in settings["custom-sessions"]:
+        if settings["custom_sessions"]:
+            for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
         self.combo_session.set_active_id(sessions[0]["name"])
 

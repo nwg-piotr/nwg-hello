@@ -62,7 +62,7 @@ defaults = {
         "/usr/share/wayland-sessions",
         "/usr/share/xsessions"
     ],
-    "custom-sessions": [],
+    "custom_sessions": [],
     "monitor_nums": [],
     "lang": ""
 }
