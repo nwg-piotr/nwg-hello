@@ -27,6 +27,7 @@ from gi.repository import GLib, GtkLayerShell, Gtk, Gdk, GdkPixbuf
 dir_name = os.path.dirname(__file__)
 log_file = os.path.join(os.environ['HOME'], '.nwg_hello.log')
 voc = {}
+windows = []
 
 g_socket = os.getenv("GREETD_SOCK")
 client = None
@@ -58,6 +59,7 @@ if settings:
 # set defaults if key not found
 defaults = {
     "session_dirs": ["/usr/share/wayland-sessions", "/usr/share/xsessions"],
+    "monitor_nums": [],
     "lang": ""
 }
 for key in defaults:
@@ -106,12 +108,27 @@ def greetd(json_req):
 
 
 def main():
+    # Load css
+    screen = Gdk.Screen.get_default()
+    provider = Gtk.CssProvider()
+    style_context = Gtk.StyleContext()
+    style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+    try:
+        style_path = "/etc/greetd/nwg-hello-default.css" if os.path.isfile(
+            "/etc/greetd/nwg-hello-default.css") else "/etc/greetd/nwg-hello-default.css"
+        provider.load_from_path(style_path)
+        eprint(f"Loaded style from: '{style_path}'", log=log)
+    except Exception as e:
+        eprint(f"* {e}", log=args.log)
+
+    # Create UI for selected or all monitors
+    global windows
     display = Gdk.Display.get_default()
     for i in range(display.get_n_monitors()):
-        monitor = display.get_monitor(i)
-        geometry = monitor.get_geometry()
-
-        win = GreeterWindow(sessions, users, monitor, voc, args.log)
+        if not settings["monitor_nums"] or i in settings["monitor_nums"]:
+            monitor = display.get_monitor(i)
+            win = GreeterWindow(sessions, users, monitor, voc, args.log)
+            windows.append(win)
 
     if not args.test:
         global client

@@ -97,15 +97,5 @@ class GreeterWindow(Gtk.Window):
         GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.RIGHT, 1)
         GtkLayerShell.set_exclusive_zone(self.window, -1)
 
-        screen = Gdk.Screen.get_default()
-        provider = Gtk.CssProvider()
-        style_context = Gtk.StyleContext()
-        style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-        try:
-            style_path = "/etc/greetd/nwg-hello-default.css" if os.path.isfile(
-                "/etc/greetd/nwg-hello-default.css") else "/etc/greetd/nwg-hello-default.css"
-            provider.load_from_path(style_path)
-        except Exception as e:
-            eprint(f"* {e}", log=log)
         self.window.show()
         form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)
