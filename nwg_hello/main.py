@@ -124,7 +124,7 @@ def main():
         style_path = "/etc/greetd/nwg-hello-default.css" if os.path.isfile(
             "/etc/greetd/nwg-hello-default.css") else "/etc/greetd/nwg-hello-default.css"
         provider.load_from_path(style_path)
-        eprint(f"Loaded style from: '{style_path}'", log=log)
+        eprint(f"Loaded style from: '{style_path}'", log=args.log)
     except Exception as e:
         eprint(f"* {e}", log=args.log)
 
