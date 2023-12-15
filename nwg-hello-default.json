@@ -3,6 +3,9 @@
     "/usr/share/wayland-sessions",
     "/usr/share/xsessions"
   ],
+  "custom-sessions": {
+    "name": "Shell", "cmd": "/usr/bin/bash"
+  },
   "monitor_nums": [],
   "lang": ""
 }

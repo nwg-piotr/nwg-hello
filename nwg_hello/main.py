@@ -58,7 +58,11 @@ if settings:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
 # set defaults if key not found
 defaults = {
-    "session_dirs": ["/usr/share/wayland-sessions", "/usr/share/xsessions"],
+    "session_dirs": [
+        "/usr/share/wayland-sessions",
+        "/usr/share/xsessions"
+    ],
+    "custom-sessions": [],
     "monitor_nums": [],
     "lang": ""
 }
@@ -134,7 +138,7 @@ def main():
     for i in range(display.get_n_monitors()):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(sessions, users, monitor, voc, args.log)
+            win = GreeterWindow(settings, sessions, users, monitor, voc, args.log)
             windows.append(win)
 
     if not args.test:

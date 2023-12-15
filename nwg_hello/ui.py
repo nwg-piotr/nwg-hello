@@ -22,7 +22,7 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, sessions, users, monitor, voc, log):
+    def __init__(self, settings, sessions, users, monitor, voc, log):
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
         builder = Gtk.Builder()
@@ -49,6 +49,9 @@ class GreeterWindow(Gtk.Window):
         self.combo_session.set_property("name", "form-combo")
         for session in sessions:
             self.combo_session.append(session["name"], session["name"])
+        if settings["custom-sessions"]:
+            for key in settings["custom-sessions"]:
+                self.combo_session.append(key, settings["custom-sessions"][key])
         self.combo_session.set_active_id(sessions[0]["name"])
 
         self.lbl_user = builder.get_object("lbl-user")
