@@ -4,10 +4,11 @@
     "/usr/share/xsessions"
   ],
   "custom_sessions": [
-        {
-          "name": "Shell", "exec": "/usr/bin/bash"
-        }
-    ],
+    {
+      "name": "Shell",
+      "exec": "/usr/bin/bash"
+    }
+  ],
   "monitor_nums": [],
   "lang": ""
 }
