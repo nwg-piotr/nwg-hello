@@ -3,7 +3,7 @@
     "/usr/share/wayland-sessions",
     "/usr/share/xsessions"
   ],
-  "custom-sessions": [
+  "custom_sessions": [
         {
           "name": "Shell", "exec": "/usr/bin/bash"
         }

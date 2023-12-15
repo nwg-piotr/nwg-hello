@@ -73,6 +73,8 @@ for key in defaults:
 
 if args.debug:
     eprint(f"Config session_dirs: {settings['session_dirs']}", log=args.log)
+    if settings["custom_sessions"]:
+        eprint(f"Config custom_sessions: {settings['custom_sessions']}", log=args.log)
     if settings['lang']:
         eprint(f"Config lang: {settings['lang']}", log=args.log)
 
@@ -86,7 +88,7 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
     for key in voc:
         if key in loc:
             voc[key] = loc[key]
-    eprint(f"Vocabulary translated into: {user_locale}", log=args.log)
+    eprint(f"Vocabulary translated into: '{user_locale}'", log=args.log)
 
 # List users
 users = list_users()
