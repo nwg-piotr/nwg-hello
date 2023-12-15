@@ -3,6 +3,7 @@ import argparse
 import os.path
 
 import gi
+from datetime import datetime
 import locale
 import socket
 from nwg_hello.tools import *
@@ -45,7 +46,6 @@ if args.log:
     # clear log file
     if os.path.isfile(log_file):
         os.remove(log_file)
-    from datetime import datetime
 
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
@@ -105,6 +105,13 @@ def greetd(json_req):
         return json.loads(resp_trimmed)
     except ValueError:
         return {}
+
+
+def move_clock():
+    _now = datetime.now()
+    for win in windows:
+        win.update_time(_now)
+    return True
 
 
 def main():
@@ -168,6 +175,7 @@ def main():
                 print("interrupted")
                 client.close()
                 break
+    GLib.timeout_add(1, move_clock)
     Gtk.main()
 
 
