@@ -62,6 +62,9 @@ defaults = {
         "/usr/share/wayland-sessions",
         "/usr/share/xsessions"
     ],
+    "gtk-theme": "Adwaita-dark",
+    "gtk-icon-theme": "",
+    "gtk-cursor-theme": "",
     "custom_sessions": [],
     "monitor_nums": [],
     "lang": ""
@@ -121,6 +124,14 @@ def main():
         eprint(f"Loaded style from: '{style_path}'", log=args.log)
     except Exception as e:
         eprint(f"* {e}", log=args.log)
+
+    gtk_settings = Gtk.Settings.get_default()
+    if settings["gtk-theme"]:
+        gtk_settings.set_property("gtk-theme-name", settings["gtk-theme"])
+    if settings["gtk-icon-theme"]:
+        gtk_settings.set_property("gtk-icon-theme", settings["gtk-icon-theme"])
+    if settings["gtk-cursor-theme"]:
+        gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
 
     global client
     if not args.test:

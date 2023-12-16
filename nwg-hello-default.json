@@ -9,6 +9,9 @@
       "exec": "/usr/bin/bash"
     }
   ],
+  "gtk-theme": "Adwaita",
+  "gtk-icon-theme": "",
+  "gtk-cursor-theme": "",
   "monitor_nums": [],
   "lang": ""
 }
