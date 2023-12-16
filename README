@@ -1,4 +1,4 @@
-Do not edit *-default.* files, To define own settings and the style sheet, copy them:
+Do not edit *-default.* files. To define own settings and the style sheet, copy files to:
 
 # cp nwg-hello-default.json nwg-hello.json
 # cp nwg-hello-default.css nwg-hello.css
