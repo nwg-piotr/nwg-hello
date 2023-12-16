@@ -140,7 +140,7 @@ def main():
     for i in range(display.get_n_monitors()):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(settings, sessions, users, monitor, voc, args.log)
+            win = GreeterWindow(settings, sessions, users, monitor, voc, args.log, args.test)
             windows.append(win)
 
     if not args.test:

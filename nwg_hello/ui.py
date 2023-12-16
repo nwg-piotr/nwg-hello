@@ -22,7 +22,7 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, settings, sessions, users, monitor, voc, log):
+    def __init__(self, settings, sessions, users, monitor, voc, log, test):
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
         builder = Gtk.Builder()
@@ -110,7 +110,8 @@ class GreeterWindow(Gtk.Window):
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
-        self.window.connect("key-release-event", handle_keyboard)
+        if test:
+            self.window.connect("key-release-event", handle_keyboard)
 
         GtkLayerShell.init_for_window(self.window)
         GtkLayerShell.set_monitor(self.window, monitor)
