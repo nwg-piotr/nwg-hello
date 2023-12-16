@@ -71,6 +71,16 @@ class GreeterWindow(Gtk.Window):
         self.entry_password = builder.get_object("entry-password")
         self.entry_password.set_property("name", "password-entry")
 
+        self.cb_show_password = builder.get_object("cb-show-password")
+        self.cb_show_password.set_label(voc["show-password"])
+
+        self.lbl_message = builder.get_object("lbl-message")
+        self.lbl_message.set_text("")
+
+        self.btn_login = builder.get_object("btn-login")
+        self.btn_login.set_property("name", "login-button")
+        self.btn_login.set_label(voc["login"])
+
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("sleep")), 48, 48)
@@ -78,6 +88,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_sleep.set_image(img)
         self.btn_sleep.set_always_show_image(True)
         self.btn_sleep.set_image_position(Gtk.PositionType.TOP)
+        self.btn_sleep.set_label(voc["sleep"])
 
         self.btn_restart = builder.get_object("btn-restart")
         self.btn_restart.set_property("name", "power-button")
@@ -86,6 +97,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_restart.set_image(img)
         self.btn_restart.set_always_show_image(True)
         self.btn_restart.set_image_position(Gtk.PositionType.TOP)
+        self.btn_restart.set_label(voc["reboot"])
 
         self.btn_poweroff = builder.get_object("btn-poweroff")
         self.btn_poweroff.set_property("name", "power-button")
@@ -94,6 +106,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_poweroff.set_image(img)
         self.btn_poweroff.set_always_show_image(True)
         self.btn_poweroff.set_image_position(Gtk.PositionType.TOP)
+        self.btn_poweroff.set_label(voc["power-off"])
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
