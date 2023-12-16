@@ -142,6 +142,7 @@ class GreeterWindow(Gtk.Window):
             resp = greetd(self.client, jreq)
             # print("resp1", resp)
             self.lbl_message.set_text(resp)
+            self.lbl_message.set_text("on_user_changed")
             self.entry_password.grab_focus()
 
     def on_login_btn(self):
