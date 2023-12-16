@@ -152,5 +152,5 @@ class GreeterWindow(Gtk.Window):
         # resp = greetd(self.client, jreq)
         # print("resp3", resp)
         self.lbl_message.set_text("on_login_btn")
-        if "type" in resp and resp["type"] == "success":
-            sys.exit(0)
+        # if "type" in resp and resp["type"] == "success":
+        #     sys.exit(0)
