@@ -102,3 +102,15 @@ def parse_desktop_entry(path):
             return session
     else:
         return None
+
+
+def greetd(client, json_req):
+    req = json.dumps(json_req)
+    client.send(len(req).to_bytes(4, "little") + req.encode("utf-8"))
+    resp_raw = client.recv(128)
+    resp_len = int.from_bytes(resp_raw[0:4], "little")
+    resp_trimmed = resp_raw[4:resp_len + 4].decode()
+    try:
+        return json.loads(resp_trimmed)
+    except ValueError:
+        return {}

@@ -4,7 +4,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
 from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf
-from nwg_hello.tools import eprint
+from nwg_hello.tools import eprint, greetd
 
 
 def handle_keyboard(w, event):
@@ -22,7 +22,9 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, settings, sessions, users, monitor, voc, log, test):
+    def __init__(self, client, settings, sessions, users, monitor, voc, log, test):
+        self.client = client
+
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
         builder = Gtk.Builder()
@@ -59,6 +61,7 @@ class GreeterWindow(Gtk.Window):
         self.lbl_user.set_text(f'{voc["user"]}:')
 
         self.combo_user = builder.get_object("combo-user")
+        self.combo_user.connect("changed", self.on_user_changed)
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
@@ -130,3 +133,12 @@ class GreeterWindow(Gtk.Window):
     def update_time(self, now):
         self.lbl_clock.set_text(f'{now.strftime("%H:%M:%S")}')
         self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
+
+    def on_user_changed(self, combo):
+        if self.client:
+            username = input(combo.get_active_id())
+            jreq = {"type": "create_session", "username": username}
+            resp = greetd(jreq)
+            # print("resp1", resp)
+            self.lbl_message.set_text(resp)
+            self.entry_password.grab_focus()

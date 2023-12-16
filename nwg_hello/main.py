@@ -101,18 +101,6 @@ if args.debug:
     eprint(f"Found valid sessions: {sessions}", log=args.log)
 
 
-def greetd(json_req):
-    req = json.dumps(json_req)
-    client.send(len(req).to_bytes(4, "little") + req.encode("utf-8"))
-    resp_raw = client.recv(128)
-    resp_len = int.from_bytes(resp_raw[0:4], "little")
-    resp_trimmed = resp_raw[4:resp_len + 4].decode()
-    try:
-        return json.loads(resp_trimmed)
-    except ValueError:
-        return {}
-
-
 def move_clock():
     _now = datetime.now()
     for win in windows:
@@ -134,19 +122,25 @@ def main():
     except Exception as e:
         eprint(f"* {e}", log=args.log)
 
+    global client
+    if not args.test:
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        client.connect(g_socket)
+    else:
+        client = None
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
     for i in range(display.get_n_monitors()):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(settings, sessions, users, monitor, voc, args.log, args.test)
+            win = GreeterWindow(client, settings, sessions, users, monitor, voc, args.log, args.test)
             windows.append(win)
 
     if not args.test:
-        global client
-        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        client.connect(g_socket)
+        # global client
+        # client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        # client.connect(g_socket)
 
         start = 1
         while True:
@@ -161,7 +155,7 @@ def main():
                 if start == 2:
                     password = input("password: ")
                     jreq = {"type": "post_auth_message_response", "response": password}
-                    resp = greetd(jreq)
+                    resp = greetd(client, jreq)
                     print("resp2", resp)
                     if "error_type" in resp and resp["error_type"] == "auth_error":
                         print("auth error - try again")
