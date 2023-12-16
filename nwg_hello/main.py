@@ -51,8 +51,8 @@ if args.log:
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
 # Load settings
-settings_path = "/etc/greetd/nwg-hello.json" if os.path.isfile(
-    "/etc/greetd/nwg-hello.json") else "/etc/greetd/nwg-hello-default.json"
+settings_path = "/etc/nwg-hello/nwg-hello.json" if os.path.isfile(
+    "/etc/nwg-hello/nwg-hello.json") else "/etc/nwg-hello/nwg-hello-default.json"
 settings = load_json(settings_path)
 if settings:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
@@ -127,8 +127,8 @@ def main():
     style_context = Gtk.StyleContext()
     style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
     try:
-        style_path = "/etc/greetd/nwg-hello-default.css" if os.path.isfile(
-            "/etc/greetd/nwg-hello-default.css") else "/etc/greetd/nwg-hello-default.css"
+        style_path = "/etc/nwg-hello/nwg-hello-default.css" if os.path.isfile(
+            "/etc/nwg-hello/nwg-hello-default.css") else "/etc/nwg-hello/nwg-hello-default.css"
         provider.load_from_path(style_path)
         eprint(f"Loaded style from: '{style_path}'", log=args.log)
     except Exception as e:
