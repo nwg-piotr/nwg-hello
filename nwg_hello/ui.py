@@ -1,5 +1,6 @@
 import os
 import gi
+import sys
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
@@ -138,7 +139,15 @@ class GreeterWindow(Gtk.Window):
         if self.client:
             username = input(combo.get_active_id())
             jreq = {"type": "create_session", "username": username}
-            resp = greetd(jreq)
+            resp = greetd(self.client, jreq)
             # print("resp1", resp)
             self.lbl_message.set_text(resp)
             self.entry_password.grab_focus()
+
+    def on_login_btn(self):
+        cmd = self.combo_session.get_active_id()
+        jreq = {"type": "start_session", "cmd": cmd.split()}
+        resp = greetd(self.client, jreq)
+        print("resp3", resp)
+        if "type" in resp and resp["type"] == "success":
+            sys.exit(0)
