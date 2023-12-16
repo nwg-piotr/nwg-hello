@@ -4,10 +4,20 @@ import pwd
 import sys
 
 
+def temp_dir():
+    if os.getenv("TMPDIR"):
+        return os.getenv("TMPDIR")
+    elif os.getenv("TEMP"):
+        return os.getenv("TEMP")
+    elif os.getenv("TMP"):
+        return os.getenv("TMP")
+    return "/tmp"
+
+
 def eprint(*args, log=False):
     print(*args, file=sys.stderr)
     if log:
-        log_file = os.path.join(os.environ['HOME'], '.nwg_hello.log')
+        log_file = os.path.join(temp_dir(), 'nwg_hello.log')
         with open(log_file, 'a') as f:
             print(*args, file=f)
 
