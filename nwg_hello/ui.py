@@ -125,6 +125,7 @@ class GreeterWindow(Gtk.Window):
 
         self.window.show()
         form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)
+        self.entry_password.grab_focus()
 
     def update_time(self, now):
         self.lbl_clock.set_text(f'{now.strftime("%H:%M:%S")}')
