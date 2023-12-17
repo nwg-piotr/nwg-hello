@@ -31,9 +31,6 @@ log_file = os.path.join(temp_dir(), 'nwg-hello.log')
 voc = {}
 windows = []
 
-g_socket = os.getenv("GREETD_SOCK")
-client = None
-
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--debug", action="store_true", help="print Debug messages to stderr")
 parser.add_argument("-l", "--log", action="store_true", help=f"save output to '{log_file}' file")
@@ -81,6 +78,19 @@ if args.debug:
         eprint(f"Config custom_sessions: {settings['custom_sessions']}", log=args.log)
     if settings['lang']:
         eprint(f"Config lang: {settings['lang']}", log=args.log)
+
+if not args.test:
+    eprint("Attempting to connect the client", log=args.log)
+    try:
+        g_socket = os.getenv("GREETD_SOCK")
+        eprint(f"socket = '{g_socket}'", log=args.log)
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        eprint(f"client = '{client}'", log=args.log)
+    except Exception as e:
+        eprint(f"Could not connect: {e}", log=args.log)
+else:
+    eprint(f"Testing, skipped client connection", log=args.log)
+    client = None
 
 # Load vocabulary
 voc = load_json(os.path.join(dir_name, "langs", "en_US"))
@@ -134,19 +144,19 @@ def main():
     if settings["gtk-cursor-theme"]:
         gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
 
-    global client
-    if not args.test:
-        eprint("Attempting to connect the client...", log=args.log)
-        try:
-            client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            eprint(f"Client = {client}, g_socket = {g_socket}", log=args.log)
-            client.connect(g_socket)
-            eprint(f"Client created: {client}")
-        except Exception as e:
-            eprint(f"Failed creating/connecting client: {e}", log=args.log)
-            client = None
-    else:
-        client = None
+    # global client
+    # if not args.test:
+    #     eprint("Attempting to connect the client...", log=args.log)
+    #     try:
+    #         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    #         eprint(f"Client = '{client}', g_socket = '{g_socket}'", log=args.log)
+    #         client.connect(g_socket)
+    #         eprint(f"Client created: {client}")
+    #     except Exception as e:
+    #         eprint(f"Failed creating/connecting client: {e}", log=args.log)
+    #         client = None
+    # else:
+    #     client = None
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
