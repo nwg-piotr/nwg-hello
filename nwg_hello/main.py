@@ -27,7 +27,7 @@ except ValueError:
 from gi.repository import GLib, GtkLayerShell, Gtk, Gdk, GdkPixbuf
 
 dir_name = os.path.dirname(__file__)
-log_file = os.path.join(cache_dir(), 'nwg-hello.log')
+log_file = os.path.join(temp_dir(), 'nwg-hello.log')
 print(log_file)
 voc = {}
 windows = []
