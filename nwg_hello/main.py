@@ -144,57 +144,55 @@ def main():
             client = None
     else:
         client = None
-    print("client", client)
-    time.sleep(7)
     # Create UI for selected or all monitors
-    # global windows
-    # display = Gdk.Display.get_default()
-    # for i in range(display.get_n_monitors()):
-    #     if not settings["monitor_nums"] or i in settings["monitor_nums"]:
-    #         monitor = display.get_monitor(i)
-    #         win = GreeterWindow(client, settings, sessions, users, monitor, voc, args.log, args.test)
-    #         windows.append(win)
-    #
-    # if not args.test:
-    #     # global client
-    #     # client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    #     # client.connect(g_socket)
-    #
-    #     start = 1
-    #     while True:
-    #         try:
-    #             if start == 1:
-    #                 username = input("user: ")
-    #                 jreq = {"type": "create_session", "username": username}
-    #                 resp = greetd(jreq)
-    #                 print("resp1", resp)
-    #                 start = 2
-    #
-    #             if start == 2:
-    #                 password = input("password: ")
-    #                 jreq = {"type": "post_auth_message_response", "response": password}
-    #                 resp = greetd(client, jreq)
-    #                 print("resp2", resp)
-    #                 if "error_type" in resp and resp["error_type"] == "auth_error":
-    #                     print("auth error - try again")
-    #                     continue
-    #                 else:
-    #                     start = 3
-    #
-    #             if start == 3:
-    #                 cmd = input("cmd: ")
-    #                 jreq = {"type": "start_session", "cmd": cmd.split()}
-    #                 resp = greetd(jreq)
-    #                 print("resp3", resp)
-    #                 if "type" in resp and resp["type"] == "success":
-    #                     sys.exit()
-    #
-    #         except KeyboardInterrupt as k:
-    #             print("interrupted")
-    #             client.close()
-    #             break
-    # GLib.timeout_add(1, move_clock)
-    # Gtk.main()
+    global windows
+    display = Gdk.Display.get_default()
+    for i in range(display.get_n_monitors()):
+        if not settings["monitor_nums"] or i in settings["monitor_nums"]:
+            monitor = display.get_monitor(i)
+            win = GreeterWindow(client, settings, sessions, users, monitor, voc, args.log, args.test)
+            windows.append(win)
+
+    if not args.test:
+        global client
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        client.connect(g_socket)
+
+        start = 1
+        while True:
+            try:
+                if start == 1:
+                    username = input("user: ")
+                    jreq = {"type": "create_session", "username": username}
+                    resp = greetd(jreq)
+                    print("resp1", resp)
+                    start = 2
+
+                if start == 2:
+                    password = input("password: ")
+                    jreq = {"type": "post_auth_message_response", "response": password}
+                    resp = greetd(client, jreq)
+                    print("resp2", resp)
+                    if "error_type" in resp and resp["error_type"] == "auth_error":
+                        print("auth error - try again")
+                        continue
+                    else:
+                        start = 3
+
+                if start == 3:
+                    cmd = input("cmd: ")
+                    jreq = {"type": "start_session", "cmd": cmd.split()}
+                    resp = greetd(jreq)
+                    print("resp3", resp)
+                    if "type" in resp and resp["type"] == "success":
+                        sys.exit()
+
+            except KeyboardInterrupt as k:
+                print("interrupted")
+                client.close()
+                break
+    GLib.timeout_add(1, move_clock)
+    Gtk.main()
 
 
 if __name__ == "__main__":
