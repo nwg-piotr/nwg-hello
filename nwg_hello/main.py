@@ -137,7 +137,6 @@ def main():
     global client
     if not args.test:
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        print("g_socket", g_socket)
         client.connect(g_socket)
     else:
         client = None
