@@ -139,8 +139,9 @@ def main():
         try:
             client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             client.connect(g_socket)
+            eprint(f"Client created: {client}")
         except Exception as e:
-            eprint(f"{g_socket}, {e}", log=args.log)
+            eprint(f"Failed creating/connecting client: {e}", log=args.log)
             client = None
     else:
         client = None
