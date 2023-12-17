@@ -31,6 +31,7 @@ class GreeterWindow(Gtk.Window):
         eprint(f"users = {users}", log=log)
         eprint(f"monitor = {monitor}", log=log)
 
+        self.log = log
         self.client = client
 
         dir_name = os.path.dirname(__file__)
@@ -69,10 +70,10 @@ class GreeterWindow(Gtk.Window):
         self.lbl_user.set_text(f'{voc["user"]}:')
 
         self.combo_user = builder.get_object("combo-user")
-        # self.combo_user.connect("changed", self.on_user_changed)
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
+        self.combo_user.connect("changed", self.on_user_changed)
         self.combo_user.set_active_id(users[0])
 
         self.lbl_password = builder.get_object("lbl-password")
@@ -144,10 +145,14 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
 
     def on_user_changed(self, combo):
+        eprint("on_user_changed:", log=self.log)
         if self.client:
             username = input(combo.get_active_id())
+            eprint(f"username: {username}", log=self.log)
             jreq = {"type": "create_session", "username": username}
+            eprint(f"jreq: {jreq}", log=self.log)
             resp = greetd(self.client, jreq)
+            eprint(f"resp: {resp}", log=self.log)
             # print("resp1", resp)
             self.lbl_message.set_text(resp)
             self.lbl_message.set_text("on_user_changed")
