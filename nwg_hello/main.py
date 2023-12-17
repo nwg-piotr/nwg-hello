@@ -27,7 +27,8 @@ except ValueError:
 from gi.repository import GLib, GtkLayerShell, Gtk, Gdk, GdkPixbuf
 
 dir_name = os.path.dirname(__file__)
-log_file = os.path.join(temp_dir(), 'nwg_hello.log')
+log_file = os.path.join(cache_dir(), 'nwg-hello.log')
+print(log_file)
 voc = {}
 windows = []
 
@@ -45,8 +46,8 @@ args = parser.parse_args()
 
 if args.log:
     # clear log file
-    # if os.path.isfile(log_file):
-    #     os.remove(log_file)
+    if os.path.isfile(log_file):
+        os.remove(log_file)
 
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
