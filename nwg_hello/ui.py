@@ -148,7 +148,7 @@ class GreeterWindow(Gtk.Window):
         eprint("on_user_changed:", log=self.log)
         eprint(f"self.client: {self.client}", log=self.log)
         if self.client is not None:
-            username = input(combo.get_active_id())
+            username = combo.get_active_id()
             eprint(f"username: {username}", log=self.log)
             jreq = {"type": "create_session", "username": username}
             eprint(f"jreq: {jreq}", log=self.log)
