@@ -136,6 +136,7 @@ def main():
 
     global client
     if not args.test:
+        eprint("Attempting to connect the client...", log=args.log)
         try:
             client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             client.connect(g_socket)
