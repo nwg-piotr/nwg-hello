@@ -2,6 +2,7 @@
 import argparse
 import os.path
 import time
+from pathlib import Path
 
 import gi
 from datetime import datetime
@@ -44,6 +45,12 @@ if args.log:
     # clear log file
     if os.path.isfile(log_file):
         os.remove(log_file)
+
+        path = Path(log_file)
+        path.touch()
+
+        mode = 0o660
+        os.chmod(log_file, mode)
 
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
