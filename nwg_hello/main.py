@@ -32,8 +32,6 @@ voc = {}
 windows = []
 
 g_socket = os.getenv("GREETD_SOCK")
-print("g_socket0", g_socket)
-time.sleep(7)
 client = None
 
 parser = argparse.ArgumentParser()
@@ -146,6 +144,8 @@ def main():
             client = None
     else:
         client = None
+    print("client", client)
+    time.sleep(7)
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
