@@ -136,8 +136,11 @@ def main():
 
     global client
     if not args.test:
-        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        client.connect(g_socket)
+        try:
+            client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            client.connect(g_socket)
+        except:
+            client = None
     else:
         client = None
     # Create UI for selected or all monitors
