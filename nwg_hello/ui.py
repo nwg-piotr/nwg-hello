@@ -24,6 +24,13 @@ def p_icon_path(icon_name):
 
 class GreeterWindow(Gtk.Window):
     def __init__(self, client, settings, sessions, users, monitor, voc, log, test):
+        eprint(f"Creating GreeterWindow:", log=log)
+        eprint(f"client = {client}")
+        eprint(f"settings = {settings}")
+        eprint(f"sessions = {sessions}")
+        eprint(f"users = {users}")
+        eprint(f"monitor = {monitor}")
+
         self.client = client
 
         dir_name = os.path.dirname(__file__)

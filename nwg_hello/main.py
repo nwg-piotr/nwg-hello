@@ -41,15 +41,13 @@ parser.add_argument("-v", "--version", action="version", version="%(prog)s versi
 
 args = parser.parse_args()
 
-if args.log:
+if args.log and os.getenv("USER") == "greeter":
     # clear log file
     if os.path.isfile(log_file):
         os.remove(log_file)
 
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
-    mode = 0o777
-    os.chmod(log_file, mode)
 
 # Load settings
 settings_path = "/etc/nwg-hello/nwg-hello.json" if os.path.isfile(
@@ -83,7 +81,7 @@ if args.debug:
         eprint(f"Config lang: {settings['lang']}", log=args.log)
 
 if not args.test:
-    eprint("Attempting to connect the client", log=args.log)
+    eprint("Attempting to connect the client:", log=args.log)
     try:
         g_socket = os.getenv("GREETD_SOCK")
         eprint(f"socket = '{g_socket}'", log=args.log)
@@ -147,19 +145,6 @@ def main():
     if settings["gtk-cursor-theme"]:
         gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
 
-    # global client
-    # if not args.test:
-    #     eprint("Attempting to connect the client...", log=args.log)
-    #     try:
-    #         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    #         eprint(f"Client = '{client}', g_socket = '{g_socket}'", log=args.log)
-    #         client.connect(g_socket)
-    #         eprint(f"Client created: {client}")
-    #     except Exception as e:
-    #         eprint(f"Failed creating/connecting client: {e}", log=args.log)
-    #         client = None
-    # else:
-    #     client = None
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
