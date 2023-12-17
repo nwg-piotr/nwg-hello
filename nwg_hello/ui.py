@@ -152,10 +152,10 @@ class GreeterWindow(Gtk.Window):
             eprint(f"  username: {username}", log=self.log)
             jreq = {"  type": "create_session", "username": username}
             eprint(f"  jreq: {jreq}", log=self.log)
-            resp = greetd(jreq)
+            resp = greetd(self.client, jreq)
             eprint(f"  resp: {resp}", log=self.log)
-            # print("resp1", resp)
-            self.lbl_message.set_text(resp)
+
+            # self.lbl_message.set_text(resp)
             self.lbl_message.set_text("on_user_changed")
             self.entry_password.grab_focus()
 
