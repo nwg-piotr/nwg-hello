@@ -151,6 +151,6 @@ class GreeterWindow(Gtk.Window):
         # jreq = {"type": "start_session", "cmd": cmd.split()}
         # resp = greetd(self.client, jreq)
         # print("resp3", resp)
-        self.lbl_message.set_text("cmd")
+        self.lbl_message.set_text(cmd)
         # if "type" in resp and resp["type"] == "success":
         #     sys.exit(0)
