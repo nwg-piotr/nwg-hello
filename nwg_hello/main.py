@@ -139,7 +139,8 @@ def main():
         try:
             client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             client.connect(g_socket)
-        except:
+        except Exception as e:
+            eprint(e)
             client = None
     else:
         client = None
