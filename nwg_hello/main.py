@@ -139,6 +139,7 @@ def main():
         eprint("Attempting to connect the client...", log=args.log)
         try:
             client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            eprint(f"Client = {client}", log=args.log)
             client.connect(g_socket)
             eprint(f"Client created: {client}")
         except Exception as e:
