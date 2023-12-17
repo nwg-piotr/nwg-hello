@@ -153,6 +153,6 @@ class GreeterWindow(Gtk.Window):
             resp = greetd(self.client, jreq)
         except Exception as e:
             resp = e
-        self.lbl_message.set_text("cmd", cmd, "lbl_message", resp)
+        self.lbl_message.set_text(f"cmd {cmd} {resp}")
         # if "type" in resp and resp["type"] == "success":
         #     sys.exit(0)
