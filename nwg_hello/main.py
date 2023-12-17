@@ -32,7 +32,7 @@ voc = {}
 windows = []
 
 g_socket = os.getenv("GREETD_SOCK")
-client = None
+client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--debug", action="store_true", help="print Debug messages to stderr")
@@ -156,7 +156,6 @@ def main():
 
     if not args.test:
         global client
-        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         client.connect(g_socket)
 
         start = 1
