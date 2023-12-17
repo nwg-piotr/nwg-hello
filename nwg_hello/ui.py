@@ -147,12 +147,13 @@ class GreeterWindow(Gtk.Window):
             self.entry_password.grab_focus()
 
     def on_login_btn(self, btn):
-        cmd = self.combo_session.get_active_id()
-        jreq = {"type": "start_session", "cmd": cmd.split()}
-        try:
-            resp = greetd(self.client, jreq)
-        except Exception as e:
-            resp = e
-        self.lbl_message.set_text(f"cmd {cmd} {resp}")
-        # if "type" in resp and resp["type"] == "success":
-        #     sys.exit(0)
+        if self.client:
+            cmd = self.combo_session.get_active_id()
+            jreq = {"type": "start_session", "cmd": cmd.split()}
+            try:
+                resp = greetd(self.client, jreq)
+            except Exception as e:
+                resp = e
+            self.lbl_message.set_text(f"cmd {cmd} {resp}")
+            # if "type" in resp and resp["type"] == "success":
+            #     sys.exit(0)
