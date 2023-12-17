@@ -49,7 +49,7 @@ if args.log:
         path = Path(log_file)
         path.touch()
 
-        mode = 0o666
+        mode = 0o777
         os.chmod(log_file, mode)
 
     now = datetime.now()
