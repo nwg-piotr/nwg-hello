@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os.path
+import time
 
 import gi
 from datetime import datetime
@@ -32,6 +33,7 @@ windows = []
 
 g_socket = os.getenv("GREETD_SOCK")
 print("g_socket0", g_socket)
+time.sleep(7)
 client = None
 
 parser = argparse.ArgumentParser()
@@ -140,7 +142,7 @@ def main():
             client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             client.connect(g_socket)
         except Exception as e:
-            eprint(e)
+            eprint(g_socket, e)
             client = None
     else:
         client = None
