@@ -25,6 +25,10 @@ button:hover {
 	background-color: rgba(255, 255, 255, 0.2)
 }
 
+button:active {
+    background-color: rgba(255, 255, 0, 0.2)
+}
+
 #power-button {
 	border-radius: 18px;
     background:none;
