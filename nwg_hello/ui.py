@@ -84,7 +84,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_login = builder.get_object("btn-login")
         self.btn_login.set_property("name", "login-button")
         self.btn_login.set_label(voc["login"])
-        self.btn_login.connect("clicked", Gtk.main_quit)
+        self.btn_login.connect("clicked", self.on_login_btn)
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
