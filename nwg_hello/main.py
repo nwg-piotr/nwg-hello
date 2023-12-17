@@ -31,6 +31,7 @@ voc = {}
 windows = []
 
 g_socket = os.getenv("GREETD_SOCK")
+print("g_socket0", g_socket)
 client = None
 
 parser = argparse.ArgumentParser()
@@ -44,8 +45,8 @@ args = parser.parse_args()
 
 if args.log:
     # clear log file
-    if os.path.isfile(log_file):
-        os.remove(log_file)
+    # if os.path.isfile(log_file):
+    #     os.remove(log_file)
 
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
@@ -136,6 +137,7 @@ def main():
     global client
     if not args.test:
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        print("g_socket", g_socket)
         client.connect(g_socket)
     else:
         client = None

@@ -25,10 +25,10 @@ def cache_dir():
 
 def eprint(*args, log=False):
     print(*args, file=sys.stderr)
-    if log:
-        log_file = os.path.join(temp_dir(), 'nwg_hello.log')
-        with open(log_file, 'a') as f:
-            print(*args, file=f)
+    # if log:
+    #     log_file = os.path.join(temp_dir(), 'nwg_hello.log')
+    #     with open(log_file, 'a') as f:
+    #         print(*args, file=f)
 
 
 def list_users():
