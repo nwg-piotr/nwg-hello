@@ -146,6 +146,7 @@ class GreeterWindow(Gtk.Window):
 
     def on_user_changed(self, combo):
         eprint("on_user_changed:", log=self.log)
+        eprint(f"self.client: {self.client}", log=self.log)
         if self.client:
             username = input(combo.get_active_id())
             eprint(f"username: {username}", log=self.log)
