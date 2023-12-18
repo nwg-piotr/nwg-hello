@@ -31,6 +31,7 @@ class GreeterWindow(Gtk.Window):
         eprint(f"users = {users}", log=log)
         eprint(f"monitor = {monitor}", log=log)
 
+        self.voc = voc
         self.log = log
         self.client = client
 
@@ -184,7 +185,7 @@ class GreeterWindow(Gtk.Window):
             jreq = {"type": "post_auth_message_response", "response": password}
             resp = greetd(self.client, jreq)
             if "error_type" in resp and resp["error_type"] == "auth_error":
-                self.lbl_message.set_text("auth error - try again")
+                self.lbl_message.set_text(self.voc["login-failed"])
                 self.entry_password.set_text("")
             else:
                 jreq = {"type": "start_session", "cmd": cmd.split()}
