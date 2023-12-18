@@ -105,6 +105,7 @@ def parse_desktop_entry(path):
 
 
 def greetd(client, json_req):
+    eprint(f"greetd: request = {json_req}")
     req = json.dumps(json_req)
     client.send(len(req).to_bytes(4, "little") + req.encode("utf-8"))
     resp_raw = client.recv(128)
@@ -112,7 +113,7 @@ def greetd(client, json_req):
     resp_trimmed = resp_raw[4:resp_len + 4].decode()
     try:
         r = json.loads(resp_trimmed)
-        eprint(f"greetd: request: {json_req}, response: {r}")
+        eprint(f"greetd: response = {r}")
         return r
     except ValueError:
         return {}
