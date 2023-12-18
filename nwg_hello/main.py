@@ -39,13 +39,13 @@ parser.add_argument("-v", "--version", action="version", version="%(prog)s versi
 
 args = parser.parse_args()
 
-if args.log and os.getenv("USER") == "greeter":
-    # clear log file
-    if os.path.isfile(log_file):
-        os.remove(log_file)
-
-    now = datetime.now()
-    eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
+# if args.log and os.getenv("USER") == "greeter":
+#     # clear log file
+#     if os.path.isfile(log_file):
+#         os.remove(log_file)
+#
+#     now = datetime.now()
+#     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
 # Load settings
 settings_path = "/etc/nwg-hello/nwg-hello.json" if os.path.isfile(
