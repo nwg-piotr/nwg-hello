@@ -13,5 +13,8 @@
   "gtk-icon-theme": "",
   "gtk-cursor-theme": "",
   "monitor_nums": [],
-  "lang": ""
+  "lang": "",
+  "cmd-sleep": "systemctl suspend",
+  "cmd-reboot": "systemctl reboot",
+  "cmd-poweroff": "systemctl shutdown"
 }
