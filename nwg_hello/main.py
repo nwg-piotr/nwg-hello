@@ -152,7 +152,7 @@ def main():
     if settings["gtk-cursor-theme"]:
         gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
 
-    time.sleep(1)
+    time.sleep(1.5)
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
