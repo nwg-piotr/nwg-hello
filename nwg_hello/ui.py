@@ -169,7 +169,7 @@ class GreeterWindow(Gtk.Window):
             eprint(f"cmd: {cmd}", log=self.log)
             jreq = {"type": "create_session", "username": user}
             eprint(f"jreq: {jreq}", log=self.log)
-            resp = greetd(self.client, jreq)
+            # resp = greetd(self.client, jreq)
             GLib.timeout_add(0, greetd, self.client, jreq)
 
             # if "type" in resp and resp["type"] == "success":
