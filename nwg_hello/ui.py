@@ -186,7 +186,7 @@ class GreeterWindow(Gtk.Window):
             resp = greetd(self.client, jreq)
             if "error_type" in resp and resp["error_type"] == "auth_error":
                 print("auth error - try again")
-                self.lbl_message.set_text(resp)
+                self.lbl_message.set_text("auth_error")
             else:
                 jreq = {"type": "start_session", "cmd": cmd.split()}
                 resp = greetd(self.client, jreq)
