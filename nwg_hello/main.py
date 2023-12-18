@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os.path
+import time
 
 import gi
 from datetime import datetime
@@ -151,6 +152,7 @@ def main():
     if settings["gtk-cursor-theme"]:
         gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
 
+    time.sleep(3)
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
