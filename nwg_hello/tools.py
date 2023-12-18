@@ -72,6 +72,7 @@ def list_sessions(session_dirs):
                 if p.endswith('.desktop'):
                     session = parse_desktop_entry(p)
                     if session:
+                        session["X"] = session_dir == "/usr/share/xsessions"
                         _sessions.append(session)
     return _sessions
 

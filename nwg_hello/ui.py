@@ -29,6 +29,12 @@ class GreeterWindow(Gtk.Window):
         self.voc = voc
         self.log = log
         self.client = client
+        self.sessions = sessions
+        self.x_sessions = []
+
+        for item in self.sessions:
+            if item["X"]:
+                self.x_sessions.append(item["exec"])
 
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
@@ -156,6 +162,7 @@ class GreeterWindow(Gtk.Window):
             eprint(f"user: {user}", log=self.log)
             eprint(f"password: {password}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
+
             jreq = {"type": "create_session", "username": user}
             try:
                 resp = greetd(self.client, jreq, log=self.log)
@@ -168,7 +175,10 @@ class GreeterWindow(Gtk.Window):
                 self.lbl_message.set_text(self.voc["login-failed"])
                 self.entry_password.set_text("")
             else:
-                jreq = {"type": "start_session", "cmd": cmd.split()}
+                if cmd in self.x_sessions:
+                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": ['DISPLAY=localhost:0.0']}
+                else:
+                    jreq = {"type": "start_session", "cmd": cmd.split()}
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
