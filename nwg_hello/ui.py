@@ -162,6 +162,7 @@ class GreeterWindow(Gtk.Window):
     def on_login_btn(self, btn):
         if not self.entry_password.get_text():
             eprint("on_login_btn: passwd empty, cancelling", log=self.log)
+            return
         if self.client:
             try:
                 jreq = {"type": "cancel_session"}
