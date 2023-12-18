@@ -146,20 +146,16 @@ class GreeterWindow(Gtk.Window):
             username = combo.get_active_id()
             eprint(f"  username: {username}", log=self.log)
             jreq = {"  type": "create_session", "username": username}
-            eprint(f"  jreq: {jreq}", log=self.log)
             resp = greetd(self.client, jreq)
-            eprint(f"  resp: {resp}", log=self.log)
 
             self.lbl_message.set_text("on_user_changed")
             self.entry_password.grab_focus()
 
     def on_login_btn(self, btn):
-        eprint("on_login_btn:", log=self.log)
         if self.client:
             try:
                 jreq = {"type": "cancel_session"}
-                resp = greetd(self.client, jreq)
-                eprint(f"  resp: {resp}", log=self)
+                resp = greetd(self.client, jreq, log=self.log)
             except:
                 pass
 
@@ -172,19 +168,19 @@ class GreeterWindow(Gtk.Window):
             jreq = {"type": "create_session", "username": user}
             eprint(f"jreq: {jreq}", log=self.log)
             try:
-                resp = greetd(self.client, jreq)
+                resp = greetd(self.client, jreq, log=self.log)
                 eprint(resp, log=self.log)
             except Exception as e:
                 eprint(e, log=self.log)
 
             jreq = {"type": "post_auth_message_response", "response": password}
-            resp = greetd(self.client, jreq)
+            resp = greetd(self.client, jreq, log=self.log)
             if "error_type" in resp and resp["error_type"] == "auth_error":
                 self.lbl_message.set_text(self.voc["login-failed"])
                 self.entry_password.set_text("")
             else:
                 jreq = {"type": "start_session", "cmd": cmd.split()}
-                resp = greetd(self.client, jreq)
+                resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
 
