@@ -132,6 +132,10 @@ def move_clock():
 
 
 def main():
+    # Some monitors need some time to startup
+    if settings["delay_secs"] > 0:
+        time.sleep(settings["delay_secs"])
+
     # Load css
     screen = Gdk.Screen.get_default()
     provider = Gtk.CssProvider()
@@ -152,10 +156,6 @@ def main():
         gtk_settings.set_property("gtk-icon-theme", settings["gtk-icon-theme"])
     if settings["gtk-cursor-theme"]:
         gtk_settings.set_property("gtk-cursor-theme", settings["gtk-cursor-theme"])
-
-    # Some monitors need some time to startup
-    if settings["delay_secs"] > 0:
-        time.sleep(settings["delay_secs"])
 
     # Create UI for selected or all monitors
     global windows
