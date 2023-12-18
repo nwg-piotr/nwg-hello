@@ -157,10 +157,8 @@ class GreeterWindow(Gtk.Window):
             eprint(f"password: {password}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
             jreq = {"type": "create_session", "username": user}
-            eprint(f"jreq: {jreq}", log=self.log)
             try:
                 resp = greetd(self.client, jreq, log=self.log)
-                eprint(resp, log=self.log)
             except Exception as e:
                 eprint(e, log=self.log)
 
