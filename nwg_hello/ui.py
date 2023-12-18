@@ -98,7 +98,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_login = builder.get_object("btn-login")
         self.btn_login.set_property("name", "login-button")
         self.btn_login.set_label(voc["login"])
-        self.btn_login.connect("clicked", self.on_login_btn)
+        self.btn_login.connect("clicked", self.login)
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
@@ -154,7 +154,7 @@ class GreeterWindow(Gtk.Window):
             if event.keyval == Gdk.KEY_Escape:
                 Gtk.main_quit()
             elif event.keyval == Gdk.KEY_Return:
-                self.on_login_btn(None)
+                self.login(None)
 
         return True
 
@@ -171,10 +171,9 @@ class GreeterWindow(Gtk.Window):
     def on_password_cb(self, widget):
         self.entry_password.set_visibility(widget.get_active())
 
-    def on_login_btn(self, btn):
-
+    def login(self, btn):
         if not self.entry_password.get_text():
-            eprint("on_login_btn: passwd empty, cancelling", log=self.log)
+            eprint("Login: passwd empty, cancelling", log=self.log)
             return
         if self.client:
             try:
