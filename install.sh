@@ -11,6 +11,4 @@ install -d /var/cache/nwg-hello
 install -Dm644 -t /var/cache/nwg-hello cache.json -o greeter
 install -o greeter /var/cache/nwg-hello/cache.json
 
-# sudo mkdir -p /var/log/nwg-hello && sudo chown -R greeter:greeter /var/log/nwg-hello && sudo chmod -R 755 /var/log/nwg-hello
-
 python3 setup.py install --optimize=1
