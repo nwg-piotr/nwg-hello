@@ -25,6 +25,7 @@ class GreeterWindow(Gtk.Window):
         self.client = client
         self.sessions = sessions
         self.x_sessions = []
+        self.test = test
 
         for item in self.sessions:
             if item["X"]:
@@ -132,8 +133,7 @@ class GreeterWindow(Gtk.Window):
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
-        if test:
-            self.window.connect("key-release-event", self.handle_keyboard)
+        self.window.connect("key-release-event", self.handle_keyboard)
 
         GtkLayerShell.init_for_window(self.window)
         GtkLayerShell.set_monitor(self.window, monitor)
@@ -151,7 +151,7 @@ class GreeterWindow(Gtk.Window):
 
     def handle_keyboard(self, w, event):
         if event.type == Gdk.EventType.KEY_RELEASE:
-            if event.keyval == Gdk.KEY_Escape:
+            if self.test and event.keyval == Gdk.KEY_Escape:
                 Gtk.main_quit()
             elif event.keyval == Gdk.KEY_Return:
                 self.login(None)
