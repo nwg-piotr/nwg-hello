@@ -9,12 +9,12 @@
       "exec": "/usr/bin/bash"
     }
   ],
-  "gtk-theme": "Adwaita",
-  "gtk-icon-theme": "",
-  "gtk-cursor-theme": "",
   "monitor_nums": [],
-  "lang": "",
   "cmd-sleep": "systemctl suspend",
   "cmd-reboot": "systemctl reboot",
-  "cmd-poweroff": "systemctl shutdown"
+  "cmd-poweroff": "systemctl shutdown",
+  "gtk-theme": "Adwaita-dark",
+  "gtk-icon-theme": "",
+  "gtk-cursor-theme": "",
+  "lang": ""
 }
