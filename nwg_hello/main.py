@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import os.path
-import time
-from pathlib import Path
 
 import gi
 from datetime import datetime
@@ -87,6 +85,7 @@ if not args.test:
         eprint(f"socket = '{g_socket}'", log=args.log)
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         eprint(f"client = '{client}'", log=args.log)
+        client.connect(g_socket)
     except Exception as e:
         eprint(f"Could not connect: {e}", log=args.log)
 else:
