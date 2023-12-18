@@ -161,6 +161,13 @@ class GreeterWindow(Gtk.Window):
     def on_login_btn(self, btn):
         eprint("on_login_btn:", log=self.log)
         if self.client:
+            try:
+                jreq = {"type": "cancel_session"}
+                resp = greetd(self.client, jreq)
+                eprint(f"  resp: {resp}", log=self)
+            except:
+                pass
+
             user = self.combo_user.get_active_id()
             password = self.entry_password.get_text()
             cmd = self.combo_session.get_active_id()
