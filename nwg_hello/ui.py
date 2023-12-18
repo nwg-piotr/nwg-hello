@@ -167,11 +167,10 @@ class GreeterWindow(Gtk.Window):
             eprint(f"user: {user}", log=self.log)
             eprint(f"password: {password}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
-            # jreq = {"type": "start_session", "cmd": cmd.split()}
-            # try:
-            #     resp = greetd(self.client, jreq)
-            # except Exception as e:
-            #     resp = e
-            # self.lbl_message.set_text(f"cmd {cmd} {resp}")
+            jreq = {"type": "create_session", "username": user}
+            resp = greetd(self.client, jreq)
+            eprint(f"jreq: {jreq}", log=self.log)
+            eprint(f"resp: {resp}", log=self.log)
+
             # if "type" in resp and resp["type"] == "success":
             #     sys.exit(0)
