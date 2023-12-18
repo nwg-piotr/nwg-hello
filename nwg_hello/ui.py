@@ -154,7 +154,6 @@ class GreeterWindow(Gtk.Window):
             resp = greetd(self.client, jreq)
             eprint(f"  resp: {resp}", log=self.log)
 
-            # self.lbl_message.set_text(resp)
             self.lbl_message.set_text("on_user_changed")
             self.entry_password.grab_focus()
 
@@ -185,8 +184,7 @@ class GreeterWindow(Gtk.Window):
             jreq = {"type": "post_auth_message_response", "response": password}
             resp = greetd(self.client, jreq)
             if "error_type" in resp and resp["error_type"] == "auth_error":
-                print("auth error - try again")
-                self.lbl_message.set_text("auth_error")
+                self.lbl_message.set_text("auth error - try again")
             else:
                 jreq = {"type": "start_session", "cmd": cmd.split()}
                 resp = greetd(self.client, jreq)
