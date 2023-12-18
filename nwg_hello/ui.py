@@ -86,7 +86,7 @@ class GreeterWindow(Gtk.Window):
         self.cb_show_password.set_label(voc["show-password"])
 
         self.lbl_message = builder.get_object("lbl-message")
-        self.lbl_message.set_text("lbl_message")
+        # self.lbl_message.set_text("lbl_message")
 
         self.btn_login = builder.get_object("btn-login")
         self.btn_login.set_property("name", "login-button")
@@ -185,6 +185,7 @@ class GreeterWindow(Gtk.Window):
             resp = greetd(self.client, jreq)
             if "error_type" in resp and resp["error_type"] == "auth_error":
                 self.lbl_message.set_text("auth error - try again")
+                self.entry_password.set_text("")
             else:
                 jreq = {"type": "start_session", "cmd": cmd.split()}
                 resp = greetd(self.client, jreq)
