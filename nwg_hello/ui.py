@@ -73,7 +73,6 @@ class GreeterWindow(Gtk.Window):
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
-        self.combo_user.connect("changed", self.on_user_changed)
         self.combo_user.set_active_id(users[0])
 
         self.lbl_password = builder.get_object("lbl-password")
@@ -92,7 +91,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_login = builder.get_object("btn-login")
         self.btn_login.set_property("name", "login-button")
         self.btn_login.set_label(voc["login"])
-        # self.btn_login.connect("clicked", self.on_login_btn)
+        self.btn_login.connect("clicked", self.on_login_btn)
 
         self.btn_sleep = builder.get_object("btn-sleep")
         self.btn_sleep.set_property("name", "power-button")
@@ -160,13 +159,19 @@ class GreeterWindow(Gtk.Window):
             self.entry_password.grab_focus()
 
     def on_login_btn(self, btn):
+        eprint("on_login_btn:", log=self.log)
         if self.client:
+            user = self.combo_user.get_active_id()
+            password = self.entry_password.get_text()
             cmd = self.combo_session.get_active_id()
-            jreq = {"type": "start_session", "cmd": cmd.split()}
-            try:
-                resp = greetd(self.client, jreq)
-            except Exception as e:
-                resp = e
-            self.lbl_message.set_text(f"cmd {cmd} {resp}")
+            eprint(f"user: {user}", log=self.log)
+            eprint(f"password: {password}", log=self.log)
+            eprint(f"cmd: {cmd}", log=self.log)
+            # jreq = {"type": "start_session", "cmd": cmd.split()}
+            # try:
+            #     resp = greetd(self.client, jreq)
+            # except Exception as e:
+            #     resp = e
+            # self.lbl_message.set_text(f"cmd {cmd} {resp}")
             # if "type" in resp and resp["type"] == "success":
             #     sys.exit(0)
