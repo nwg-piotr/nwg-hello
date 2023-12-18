@@ -9,6 +9,6 @@ install -D -m 644 -t /usr/share/nwg-hello/ img/*
 
 install -d /var/cache/nwg-hello
 install -Dm644 -t /var/cache/nwg-hello cache.json -o greeter
-install -o greeter /var/cache/nwg-hello/cache.json
+#install -o greeter /var/cache/nwg-hello/cache.json
 
 python3 setup.py install --optimize=1
