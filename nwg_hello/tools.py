@@ -111,6 +111,8 @@ def greetd(client, json_req):
     resp_len = int.from_bytes(resp_raw[0:4], "little")
     resp_trimmed = resp_raw[4:resp_len + 4].decode()
     try:
-        return json.loads(resp_trimmed)
+        r = json.loads(resp_trimmed)
+        eprint(f"greetd: request: {json_req}, response: {r}")
+        return r
     except ValueError:
         return {}

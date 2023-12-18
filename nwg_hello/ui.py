@@ -4,7 +4,7 @@ import sys
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
-from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf
+from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf, GLib
 from nwg_hello.tools import eprint, greetd
 
 
@@ -170,7 +170,7 @@ class GreeterWindow(Gtk.Window):
             jreq = {"type": "create_session", "username": user}
             eprint(f"jreq: {jreq}", log=self.log)
             resp = greetd(self.client, jreq)
-            eprint(f"resp: {resp}", log=self.log)
+            GLib.timeout_add(0, greetd, self.client, jreq)
 
             # if "type" in resp and resp["type"] == "success":
             #     sys.exit(0)
