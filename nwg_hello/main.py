@@ -40,6 +40,9 @@ parser.add_argument("-v", "--version", action="version", version="%(prog)s versi
 
 args = parser.parse_args()
 
+if args.log:
+    args.debug = True
+
 if args.log and os.getenv("USER") == "greeter":
     #     # clear log file
     #     if os.path.isfile(log_file):
