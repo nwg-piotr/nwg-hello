@@ -4,14 +4,8 @@ import sys
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
-from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf, GLib
+from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf
 from nwg_hello.tools import eprint, greetd, launch
-
-
-def handle_keyboard(w, event):
-    if event.type == Gdk.EventType.KEY_RELEASE and event.keyval == Gdk.KEY_Escape:
-        Gtk.main_quit()
-        return True
 
 
 def p_icon_path(icon_name):
@@ -128,7 +122,7 @@ class GreeterWindow(Gtk.Window):
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
         if test:
-            self.window.connect("key-release-event", handle_keyboard)
+            self.window.connect("key-release-event", self.handle_keyboard)
 
         GtkLayerShell.init_for_window(self.window)
         GtkLayerShell.set_monitor(self.window, monitor)
@@ -144,6 +138,15 @@ class GreeterWindow(Gtk.Window):
         form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)
         self.entry_password.grab_focus()
 
+    def handle_keyboard(self, w, event):
+        if event.type == Gdk.EventType.KEY_RELEASE:
+            if event.keyval == Gdk.KEY_Escape:
+                Gtk.main_quit()
+            elif event.keyval == Gdk.KEY_Return:
+                self.on_login_btn(None)
+
+        return True
+
     def update_time(self, now):
         self.lbl_clock.set_text(f'{now.strftime("%H:%M:%S")}')
         self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
@@ -152,6 +155,8 @@ class GreeterWindow(Gtk.Window):
         self.entry_password.grab_focus()
 
     def on_login_btn(self, btn):
+        if not self.entry_password.get_text():
+            eprint("on_login_btn: passwd empty, cancelling", log=self.log)
         if self.client:
             try:
                 jreq = {"type": "cancel_session"}
@@ -185,6 +190,3 @@ class GreeterWindow(Gtk.Window):
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
-
-        # if "type" in resp and resp["type"] == "success":
-        #     sys.exit(0)
