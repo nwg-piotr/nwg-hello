@@ -174,7 +174,16 @@ class GreeterWindow(Gtk.Window):
                 eprint(resp, log=self.log)
             except Exception as e:
                 eprint(e, log=self.log)
-            # GLib.timeout_add(0, greetd, self.client, jreq)
 
-            # if "type" in resp and resp["type"] == "success":
-            #     sys.exit(0)
+            jreq = {"type": "post_auth_message_response", "response": password}
+            resp = greetd(self.client, jreq)
+            if "error_type" in resp and resp["error_type"] == "auth_error":
+                print("auth error - try again")
+            else:
+                jreq = {"type": "start_session", "cmd": cmd.split()}
+                resp = greetd(self.client, jreq)
+                if "type" in resp and resp["type"] == "success":
+                    sys.exit()
+
+        # if "type" in resp and resp["type"] == "success":
+        #     sys.exit(0)
