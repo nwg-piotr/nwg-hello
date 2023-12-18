@@ -86,7 +86,7 @@ class GreeterWindow(Gtk.Window):
         self.cb_show_password.set_label(voc["show-password"])
 
         self.lbl_message = builder.get_object("lbl-message")
-        # self.lbl_message.set_text("lbl_message")
+        self.lbl_message.set_text("")
 
         self.btn_login = builder.get_object("btn-login")
         self.btn_login.set_property("name", "login-button")
