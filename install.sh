@@ -8,8 +8,8 @@ install -D -m 644 -t /usr/share/nwg-hello/ nwg.jpg
 install -D -m 644 -t /usr/share/nwg-hello/ img/*
 
 install -d /var/cache/nwg-hello
-install -Dm644 -t /var/cache/nwg-hello cache.json
-install --owner=greeter /var/cache/nwg-hello/cache.json
+install -Dm644 -t --owner=greeter /var/cache/nwg-hello cache.json
+#install --owner=greeter /var/cache/nwg-hello/cache.json
 
 # sudo mkdir -p /var/log/nwg-hello && sudo chown -R greeter:greeter /var/log/nwg-hello && sudo chmod -R 755 /var/log/nwg-hello
 
