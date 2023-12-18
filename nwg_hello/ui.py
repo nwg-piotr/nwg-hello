@@ -140,16 +140,7 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
 
     def on_user_changed(self, combo):
-        eprint("on_user_changed:", log=self.log)
-        eprint(f"self.client: {self.client}", log=self.log)
-        if self.client is not None:
-            username = combo.get_active_id()
-            eprint(f"  username: {username}", log=self.log)
-            jreq = {"  type": "create_session", "username": username}
-            resp = greetd(self.client, jreq)
-
-            self.lbl_message.set_text("on_user_changed")
-            self.entry_password.grab_focus()
+        self.entry_password.grab_focus()
 
     def on_login_btn(self, btn):
         if self.client:
