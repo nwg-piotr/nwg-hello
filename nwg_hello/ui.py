@@ -60,6 +60,7 @@ class GreeterWindow(Gtk.Window):
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
         self.combo_session.set_active_id(sessions[0]["name"])
+        self.combo_session.connect("changed", self.on_session_changed)
 
         self.lbl_user = builder.get_object("lbl-user")
         self.lbl_user.set_property("name", "form-label")
@@ -70,6 +71,7 @@ class GreeterWindow(Gtk.Window):
         for user in users:
             self.combo_user.append(user, user)
         self.combo_user.set_active_id(users[0])
+        self.combo_user.connect("changed", self.on_user_changed)
 
         self.lbl_password = builder.get_object("lbl-password")
         self.lbl_password.set_property("name", "form-label")
@@ -152,6 +154,9 @@ class GreeterWindow(Gtk.Window):
     def update_time(self, now):
         self.lbl_clock.set_text(f'{now.strftime("%H:%M:%S")}')
         self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
+
+    def on_session_changed(self, combo):
+        self.entry_password.grab_focus()
 
     def on_user_changed(self, combo):
         self.entry_password.grab_focus()
