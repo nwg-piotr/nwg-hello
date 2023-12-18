@@ -168,8 +168,8 @@ class GreeterWindow(Gtk.Window):
             eprint(f"password: {password}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
             jreq = {"type": "create_session", "username": user}
-            resp = greetd(self.client, jreq)
             eprint(f"jreq: {jreq}", log=self.log)
+            resp = greetd(self.client, jreq)
             eprint(f"resp: {resp}", log=self.log)
 
             # if "type" in resp and resp["type"] == "success":
