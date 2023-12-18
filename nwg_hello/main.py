@@ -73,6 +73,11 @@ for key in defaults:
         eprint(f"Settings: using default value for '{key}'", log=args.log)
         settings[key] = defaults[key]
 
+# load cache
+cache = load_json("/var/cache/nwg-hello/cache.json")
+if args.debug:
+    eprint(f"Loaded cache: {cache}", log=args.log)
+
 if args.debug:
     eprint(f"Config session_dirs: {settings['session_dirs']}", log=args.log)
     if settings["custom_sessions"]:
@@ -152,7 +157,7 @@ def main():
     for i in range(display.get_n_monitors()):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(client, settings, sessions, users, monitor, voc, args.log, args.test)
+            win = GreeterWindow(client, settings, sessions, users, monitor, voc, cache, args.log, args.test)
             windows.append(win)
 
     # if not args.test:

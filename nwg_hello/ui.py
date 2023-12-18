@@ -5,7 +5,7 @@ import sys
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
 from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf
-from nwg_hello.tools import eprint, greetd, launch
+from nwg_hello.tools import eprint, greetd, launch, save_json
 
 
 def p_icon_path(icon_name):
@@ -17,7 +17,7 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, client, settings, sessions, users, monitor, voc, log, test):
+    def __init__(self, client, settings, sessions, users, monitor, voc, cache, log, test):
         eprint(f"Creating GreeterWindow on {monitor}", log=log)
 
         self.voc = voc
@@ -59,7 +59,11 @@ class GreeterWindow(Gtk.Window):
         if settings["custom_sessions"]:
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
-        self.combo_session.set_active_id(sessions[0]["name"])
+        if "session" in cache and cache["session"]:
+            # preselect last used session
+            self.combo_session.set_active_id(cache["session"])
+        else:
+            self.combo_session.set_active_id(sessions[0]["name"])
         self.combo_session.connect("changed", self.on_session_changed)
 
         self.lbl_user = builder.get_object("lbl-user")
@@ -70,6 +74,9 @@ class GreeterWindow(Gtk.Window):
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
+        if "user" in cache and cache["user"]:
+            # preselect last used user
+            self.combo_user.set_active_id(cache["user"])
         self.combo_user.set_active_id(users[0])
         self.combo_user.connect("changed", self.on_user_changed)
 
@@ -165,6 +172,7 @@ class GreeterWindow(Gtk.Window):
         self.entry_password.set_visibility(widget.get_active())
 
     def on_login_btn(self, btn):
+
         if not self.entry_password.get_text():
             eprint("on_login_btn: passwd empty, cancelling", log=self.log)
             return
@@ -194,6 +202,16 @@ class GreeterWindow(Gtk.Window):
                 self.lbl_message.set_text(self.voc["login-failed"])
                 self.entry_password.set_text("")
             else:
+                # store last used session name and username if both available
+                cache = {"session": "", "user": ""}
+                if self.combo_session.get_active_id():
+                    cache["session"] = self.combo_session.get_active_id()
+                if self.combo_user.get_active_id():
+                    cache["user"] = self.combo_user.get_active_id()
+                if cache["session"] and cache["user"]:
+                    eprint(f"Saving cache: {cache}", log=self.log)
+                    save_json(cache, "/var/cache/nwg-hello/cache.json")
+
                 if cmd in self.x_sessions:
                     jreq = {"type": "start_session", "cmd": cmd.split(), "env": ['DISPLAY=localhost:0.0']}
                 else:
