@@ -1,6 +1,7 @@
 import json
 import os
 import pwd
+import subprocess
 import sys
 
 
@@ -75,6 +76,11 @@ def list_sessions(session_dirs):
                         session["X"] = session_dir == "/usr/share/xsessions"
                         _sessions.append(session)
     return _sessions
+
+
+def launch(self, cmd, log=False):
+    eprint("Executing '{}'".format(cmd), log=log)
+    subprocess.Popen('exec {}'.format(cmd), shell=True)
 
 
 def parse_desktop_entry(path):

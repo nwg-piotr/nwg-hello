@@ -5,7 +5,7 @@ import sys
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
 from gi.repository import Gtk, Gdk, GtkLayerShell, GdkPixbuf, GLib
-from nwg_hello.tools import eprint, greetd
+from nwg_hello.tools import eprint, greetd, launch
 
 
 def handle_keyboard(w, event):
@@ -103,6 +103,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_sleep.set_always_show_image(True)
         self.btn_sleep.set_image_position(Gtk.PositionType.TOP)
         self.btn_sleep.set_label(voc["sleep"])
+        self.btn_sleep.connect("clicked", launch, settings["cmd-sleep"], self.log)
 
         self.btn_restart = builder.get_object("btn-restart")
         self.btn_restart.set_property("name", "power-button")
@@ -112,6 +113,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_restart.set_always_show_image(True)
         self.btn_restart.set_image_position(Gtk.PositionType.TOP)
         self.btn_restart.set_label(voc["reboot"])
+        self.btn_restart.connect("clicked", launch, settings["cmd-reboot"], self.log)
 
         self.btn_poweroff = builder.get_object("btn-poweroff")
         self.btn_poweroff.set_property("name", "power-button")
@@ -121,6 +123,7 @@ class GreeterWindow(Gtk.Window):
         self.btn_poweroff.set_always_show_image(True)
         self.btn_poweroff.set_image_position(Gtk.PositionType.TOP)
         self.btn_poweroff.set_label(voc["power-off"])
+        self.btn_poweroff.connect("clicked", launch, settings["cmd-poweroff"], self.log)
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
