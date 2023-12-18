@@ -67,7 +67,7 @@ defaults = {
     "gtk-cursor-theme": "",
     "custom_sessions": [],
     "monitor_nums": [],
-    "delay_secs": 0,
+    "delay_secs": 1,
     "lang": "",
     "cmd-sleep": "systemctl suspend",
     "cmd-reboot": "systemctl reboot",
