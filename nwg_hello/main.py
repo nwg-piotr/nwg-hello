@@ -63,7 +63,10 @@ defaults = {
     "gtk-cursor-theme": "",
     "custom_sessions": [],
     "monitor_nums": [],
-    "lang": ""
+    "lang": "",
+    "cmd-sleep": "systemctl suspend",
+    "cmd-reboot": "systemctl reboot",
+    "cmd-poweroff": "systemctl shutdown"
 }
 for key in defaults:
     if key not in settings:
