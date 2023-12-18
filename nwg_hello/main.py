@@ -160,7 +160,7 @@ def main():
     # Create UI for selected or all monitors
     global windows
     display = Gdk.Display.get_default()
-    for i in range(display.get_n_monitors()):
+    for i in reversed(range(display.get_n_monitors())):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
             win = GreeterWindow(client, settings, sessions, users, monitor, voc, cache, args.log, args.test)
