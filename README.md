@@ -70,5 +70,5 @@ command = "sway -c /etc/nwg-hello/sway-config"
 
 During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
-To avoid such a situation, you may use the alternative `greeter.conf` file. This has not been documented, but greetd
-looks for this file fist. Just `# cp config.toml greetd.conf` and make changes there.
+To avoid such a situation, you may use the alternative `greeter.conf` file. This has not been mentioned in docs, 
+but greetd looks for this file fist. Just `# cp config.toml greetd.conf` and make changes there.
