@@ -72,7 +72,7 @@ defaults = {
     "cmd-sleep": "systemctl suspend",
     "cmd-reboot": "systemctl reboot",
     "cmd-poweroff": "systemctl shutdown",
-    "env": ["TEST=123", "TEST2=456"]
+    "env": []
 }
 for key in defaults:
     if key not in settings:
