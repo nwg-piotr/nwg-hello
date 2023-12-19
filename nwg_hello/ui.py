@@ -25,15 +25,11 @@ class GreeterWindow(Gtk.Window):
         self.log = log
         self.client = client
         self.sessions = sessions
-        self.x_sessions = []
         self.test = test
-
-        for item in self.sessions:
-            if item["X"]:
-                self.x_sessions.append(item["exec"])
 
         dir_name = os.path.dirname(__file__)
         Gtk.Window.__init__(self)
+
         builder = Gtk.Builder()
         builder.add_from_file(os.path.join(dir_name, "template.glade"))
 

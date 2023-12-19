@@ -13,9 +13,9 @@
   "cmd-sleep": "systemctl suspend",
   "cmd-reboot": "systemctl reboot",
   "cmd-poweroff": "systemctl shutdown",
-  "gtk-theme": "Adwaita-dark",
+  "gtk-theme": "",
   "gtk-icon-theme": "",
-  "gtk-cursor-theme": "Uos-Dark",
+  "gtk-cursor-theme": "",
   "lang": "",
   "env-vars": []
 }
