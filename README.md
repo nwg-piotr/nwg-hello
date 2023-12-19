@@ -126,4 +126,4 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 ## Acknowledgments
 
 - [@milisarge](https://gist.github.com/milisarge) for [the snippet](https://gist.github.com/milisarge/d169756e316e185572605699e73ed3ae) that let me know how things work;
-- Marian Arlt for inspiring look of the Sugar Candy SDDM theme. 
+- [Marian Arlt](https://framagit.org/MarianArlt) for inspiring look of the Sugar Candy SDDM theme. 
