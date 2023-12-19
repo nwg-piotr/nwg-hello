@@ -15,6 +15,7 @@
   "cmd-poweroff": "systemctl shutdown",
   "gtk-theme": "Adwaita-dark",
   "gtk-icon-theme": "",
-  "gtk-cursor-theme": "",
-  "lang": ""
+  "gtk-cursor-theme": "Uos-Dark",
+  "lang": "",
+  "env-vars": []
 }
