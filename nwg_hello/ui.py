@@ -213,7 +213,7 @@ class GreeterWindow(Gtk.Window):
                     save_json(cache, "/var/cache/nwg-hello/cache.json")
 
                 # jreq = {"type": "start_session", "cmd": cmd.split()}
-                jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env"]}
+                jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
