@@ -3,7 +3,6 @@ import argparse
 import os.path
 import time
 
-import gi
 from datetime import datetime
 import locale
 import socket
@@ -44,9 +43,6 @@ if args.log:
     args.debug = True
 
 if args.log and os.getenv("USER") == "greeter":
-    #     # clear log file
-    #     if os.path.isfile(log_file):
-    #         os.remove(log_file)
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
@@ -54,7 +50,7 @@ if args.log and os.getenv("USER") == "greeter":
 settings_path = "/etc/nwg-hello/nwg-hello.json" if os.path.isfile(
     "/etc/nwg-hello/nwg-hello.json") else "/etc/nwg-hello/nwg-hello-default.json"
 settings = load_json(settings_path)
-if settings:
+if settings and args.debug:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
 # set defaults if key not found
 defaults = {
@@ -102,6 +98,7 @@ if not args.test:
         client.connect(g_socket)
     except Exception as e:
         eprint(f"Could not connect: {e}", log=args.log)
+        args.test = True
 else:
     eprint(f"Testing, skipped client connection", log=args.log)
     client = None
@@ -116,7 +113,8 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
     for key in voc:
         if key in loc:
             voc[key] = loc[key]
-    eprint(f"Vocabulary translated into: '{user_locale}'", log=args.log)
+    if args.debug:
+        eprint(f"Vocabulary translated into: '{user_locale}'", log=args.log)
 
 # List users
 users = list_users()
@@ -150,7 +148,8 @@ def main():
         style_path = "/etc/nwg-hello/nwg-hello-default.css" if os.path.isfile(
             "/etc/nwg-hello/nwg-hello-default.css") else "/etc/nwg-hello/nwg-hello-default.css"
         provider.load_from_path(style_path)
-        eprint(f"Loaded style from: '{style_path}'", log=args.log)
+        if args.debug:
+            eprint(f"Loaded style from: '{style_path}'", log=args.log)
     except Exception as e:
         eprint(f"* {e}", log=args.log)
 
