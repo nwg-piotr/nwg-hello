@@ -13,7 +13,7 @@
   "cmd-sleep": "systemctl suspend",
   "cmd-reboot": "systemctl reboot",
   "cmd-poweroff": "systemctl shutdown",
-  "gtk-theme": "",
+  "gtk-theme": "Adwaita",
   "gtk-icon-theme": "",
   "gtk-cursor-theme": "",
   "lang": "",
