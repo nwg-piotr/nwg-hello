@@ -20,6 +20,7 @@ class GreeterWindow(Gtk.Window):
     def __init__(self, client, settings, sessions, users, monitor, voc, cache, log, test):
         eprint(f"Creating GreeterWindow on {monitor}", log=log)
 
+        self.settings = settings
         self.voc = voc
         self.log = log
         self.client = client
@@ -211,10 +212,8 @@ class GreeterWindow(Gtk.Window):
                     eprint(f"Saving cache: {cache}", log=self.log)
                     save_json(cache, "/var/cache/nwg-hello/cache.json")
 
-                if cmd in self.x_sessions:
-                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": ['DISPLAY=localhost:0.0']}
-                else:
-                    jreq = {"type": "start_session", "cmd": cmd.split()}
+                # jreq = {"type": "start_session", "cmd": cmd.split()}
+                jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env"]}
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
