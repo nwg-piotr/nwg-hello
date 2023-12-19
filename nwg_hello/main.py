@@ -62,7 +62,7 @@ defaults = {
         "/usr/share/wayland-sessions",
         "/usr/share/xsessions"
     ],
-    "gtk-theme": "Adwaita-dark",
+    "gtk-theme": "",
     "gtk-icon-theme": "",
     "gtk-cursor-theme": "Uos-Dark",
     "custom_sessions": [],
@@ -153,13 +153,14 @@ def main():
     except Exception as e:
         eprint(f"* {e}", log=args.log)
 
-    # gtk_settings = Gtk.Settings.get_default()
-    # if settings["gtk-theme"]:
-    #     gtk_settings.set_property("gtk-theme-name", settings["gtk-theme"])
-    # if settings["gtk-icon-theme"]:
-    #     gtk_settings.set_property("gtk-icon-theme-name", settings["gtk-icon-theme"])
-    # if settings["gtk-cursor-theme"]:
-    #     gtk_settings.set_property("gtk-cursor-theme-name", settings["gtk-cursor-theme"])
+    gtk_settings = Gtk.Settings.get_default()
+    # gtk_settings.set_property("gtk-application-prefer-dark-theme", True)
+    if settings["gtk-theme"]:
+        gtk_settings.set_property("gtk-theme-name", settings["gtk-theme"])
+    if settings["gtk-icon-theme"]:
+        gtk_settings.set_property("gtk-icon-theme-name", settings["gtk-icon-theme"])
+    if settings["gtk-cursor-theme"]:
+        gtk_settings.set_property("gtk-cursor-theme-name", settings["gtk-cursor-theme"])
 
     # Create UI for selected or all monitors
     global windows
