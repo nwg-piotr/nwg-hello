@@ -122,3 +122,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 ## Styling
 
 Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` and make your changes there.
+
+## Acknowledgments
+
+- @milisarge for [the snippet](https://gist.github.com/milisarge/d169756e316e185572605699e73ed3ae) that let me know how things work;
+- Marian Arlt for inspiring look of the Sugar Candy SDDM theme. 
