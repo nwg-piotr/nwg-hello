@@ -62,7 +62,7 @@ defaults = {
         "/usr/share/wayland-sessions",
         "/usr/share/xsessions"
     ],
-    "gtk-theme": "",
+    "gtk-theme": "Adwaita-dark",
     "gtk-icon-theme": "",
     "gtk-cursor-theme": "Uos-Dark",
     "custom_sessions": [],
