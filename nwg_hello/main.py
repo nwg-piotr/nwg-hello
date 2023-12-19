@@ -62,9 +62,10 @@ defaults = {
         "/usr/share/wayland-sessions",
         "/usr/share/xsessions"
     ],
-    "gtk-theme": "",
+    "gtk-theme": "Adwaita",
     "gtk-icon-theme": "",
     "gtk-cursor-theme": "Uos-Dark",
+    "prefer-dark-theme": True,
     "custom_sessions": [],
     "monitor_nums": [],
     "delay_secs": 1,
@@ -154,7 +155,7 @@ def main():
         eprint(f"* {e}", log=args.log)
 
     gtk_settings = Gtk.Settings.get_default()
-    # gtk_settings.set_property("gtk-application-prefer-dark-theme", True)
+    gtk_settings.set_property("gtk-application-prefer-dark-theme", True)
     if settings["gtk-theme"]:
         gtk_settings.set_property("gtk-theme-name", settings["gtk-theme"])
     if settings["gtk-icon-theme"]:
