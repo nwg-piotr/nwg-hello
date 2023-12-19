@@ -30,7 +30,7 @@ by Marian Arlt;
 # Installation
 
 The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
-dependencies first). Then you need to edit the `/etc/greetd/config.toml` file.
+dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `/etc/greetd/greeter.conf` - see the tip below).
 
 ```toml
 [terminal]
