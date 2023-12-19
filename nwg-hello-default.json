@@ -12,7 +12,7 @@
   "delay_secs": 1,
   "cmd-sleep": "systemctl suspend",
   "cmd-reboot": "systemctl reboot",
-  "cmd-poweroff": "systemctl shutdown",
+  "cmd-poweroff": "systemctl poweroff",
   "gtk-theme": "Adwaita",
   "gtk-icon-theme": "",
   "gtk-cursor-theme": "",

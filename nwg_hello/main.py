@@ -68,7 +68,7 @@ defaults = {
     "lang": "",
     "cmd-sleep": "systemctl suspend",
     "cmd-reboot": "systemctl reboot",
-    "cmd-poweroff": "systemctl shutdown",
+    "cmd-poweroff": "systemctl poweroff",
     "env-vars": []
 }
 for key in defaults:
