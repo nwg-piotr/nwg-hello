@@ -1,1 +1,2 @@
-This repository is a work in progress, only published in order to sync the job between workplaces. The program is not yet functional. Please come back later.
+This program is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon written in python.
+It is meant to work under a Wayland compositor, like Hyprland or sway. It does not support X11 sessions.
