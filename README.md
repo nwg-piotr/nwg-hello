@@ -72,3 +72,42 @@ During the greetd package upgrades, the `config.toml` file may be overwritten wi
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
 To avoid such a situation, you may use the alternative `greeter.conf` file. This has not been mentioned in docs, 
 but greetd looks for this file fist. Just `# cp config.toml greetd.conf` and make changes there.
+
+# Configuration
+
+Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` and make your changes there.
+
+```json
+{
+  "session_dirs": [
+    "/usr/share/wayland-sessions"
+  ],
+  "custom_sessions": [
+    {
+      "name": "Shell",
+      "exec": "/usr/bin/bash"
+    }
+  ],
+  "monitor_nums": [],
+  "delay_secs": 1,
+  "cmd-sleep": "systemctl suspend",
+  "cmd-reboot": "systemctl reboot",
+  "cmd-poweroff": "systemctl poweroff",
+  "gtk-theme": "Adwaita",
+  "gtk-icon-theme": "",
+  "gtk-cursor-theme": "",
+  "prefer-dark-theme": true,
+  "lang": "",
+  "env-vars": []
+}
+```
+
+- `"session_dirs"`: comma-separated paths to session directories. We don't include `/usr/share/xsessions` here, as we don't run them.
+- `"custom_sessions"`: greetd can run whatever starts up from the command line. That's why we can add bash, zhs or something else here.
+- `"monitor_nums"`: leave as is to see the greeter on all monitors. Set e.g. `[0, 2]` for it to appear on the 1st and 3rd one.
+- `"delay_secs"`: some monitors take longer to turn on. In the meantime the greeter may behave oddly on other monitors. If it happens to restart/blink, increase this value. If you only have one monitor and no discrete GPU, you may probably set `0` here.
+- `"cmd-sleep"`, `"cmd-reboot"`, and `"cmd-poweroff"` are pre-defined for systemctl-based systems. Use whatever works for you.
+- `"gtk-theme"`, `"gtk-icon-theme"` and `"gtk-cursor-theme"` are of little importance as long, as you use the default css style sheet.
+- `"prefer-dark-theme"` should remain `true`, unless you need to turn it off in your own styling.
+- `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
+- `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
