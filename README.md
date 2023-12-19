@@ -1,3 +1,5 @@
+# nwg-hello
+
 This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell) project.
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
@@ -10,7 +12,7 @@ project, but it may be configured for standalone use.
 The screen layout is heavily inspired by [Sugar Candy SDDM theme](https://framagit.org/MarianArlt/sddm-sugar-candy) 
 by Marian Arlt;
 
-# Features
+## Features
 
 - multi-monitor support with gtk-layer-shell
 - multi-language support
@@ -18,7 +20,7 @@ by Marian Arlt;
 - automatically selects the last used session and user
 - allows setting environment variables
 
-# Dependencies
+## Dependencies
 
 - python >= 3.6
 - greetd
@@ -27,7 +29,7 @@ by Marian Arlt;
 - Hyprland or sway Wayland compositor
 - gnome-themes-extra - recommended as it provides us with the default Adwaita theme.
 
-# Installation
+## Installation
 
 The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
 dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greeter.conf` - see the tip below).
@@ -69,14 +71,14 @@ if you want to use Hyprland, or this line if you prefer sway:
 command = "sway -c /etc/nwg-hello/sway-config"
 ```
 
-## Tip
+### Tip
 
 During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
 To avoid such a situation, you may use the alternative `greeter.conf` file. This has not been mentioned in docs, 
 but greetd looks for this file fist. Just `# cp config.toml greetd.conf` and make changes there.
 
-# Configuration
+## Configuration
 
 Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` and make your changes there.
 
@@ -115,6 +117,6 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
-# Styling
+## Styling
 
 Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` and make your changes there.
