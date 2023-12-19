@@ -71,6 +71,8 @@ if you want to use Hyprland, or this line if you prefer sway:
 command = "sway -c /etc/nwg-hello/sway-config"
 ```
 
+__Do not change the__ `user = "greeter"` __line__, or some file-related functions won't work.  
+
 ### Tip
 
 During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
