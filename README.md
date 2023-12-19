@@ -25,6 +25,7 @@ by Marian Arlt;
 - gtk3
 - gtk-layer-shell
 - Hyprland or sway Wayland compositor
+- gnome-themes-extra - recommended as it provides us with the default Adwaita theme.
 
 # Installation
 
