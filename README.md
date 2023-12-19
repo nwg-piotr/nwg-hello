@@ -17,8 +17,8 @@ by Marian Arlt;
 - multi-monitor support with gtk-layer-shell
 - multi-language support
 - background & style customization with css
-- automatically selects the last used session and user
-- allows setting environment variables
+- automatic selection of the last used session and user
+- support for setting environment variables
 
 ## Dependencies
 
