@@ -183,7 +183,7 @@ class GreeterWindow(Gtk.Window):
             password = self.entry_password.get_text()
             cmd = self.combo_session.get_active_id()
             eprint(f"user: {user}", log=self.log)
-            eprint(f"password: {password}", log=self.log)
+            eprint(f"password: {'*' * len(password)}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
 
             jreq = {"type": "create_session", "username": user}

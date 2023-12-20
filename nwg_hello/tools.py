@@ -66,6 +66,7 @@ def load_text_file(path):
 
 def list_sessions(session_dirs):
     _sessions = []
+    _x_sessions = []
     for session_dir in session_dirs:
         if os.path.isdir(session_dir):
             for file_name in sorted(os.listdir(session_dir)):
@@ -73,9 +74,10 @@ def list_sessions(session_dirs):
                 if p.endswith('.desktop'):
                     session = parse_desktop_entry(p)
                     if session:
-                        session["X"] = session_dir == "/usr/share/xsessions"
                         _sessions.append(session)
-    return _sessions
+                        if session_dir == "/usr/share/xsessions":
+                            _x_sessions.append(session["name"])
+    return _sessions, _x_sessions
 
 
 def launch(self, cmd, log=False):

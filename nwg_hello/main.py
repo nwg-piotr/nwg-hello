@@ -122,9 +122,10 @@ if args.debug:
     eprint(f"Found users: {users}", log=args.log)
 
 # List sessions
-sessions = list_sessions(settings['session_dirs'])
+sessions, x_sessions = list_sessions(settings['session_dirs'])
 if args.debug:
     eprint(f"Found valid sessions: {sessions}", log=args.log)
+    eprint(f"X11 sessions: {x_sessions}", log=args.log)
 
 
 def move_clock():
