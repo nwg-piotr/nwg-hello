@@ -23,11 +23,11 @@ a graphical and feature-reach greeter based on GTK3. Since there was no such thi
 
 ## Features
 
-- multi-monitor support with gtk-layer-shell
-- multi-language support
-- background & style customization with css
-- automatic selection of the last used session and user
-- support for setting environment variables
+- Multi-monitor support with gtk-layer-shell;
+- multi-language support;
+- background & style customization with css;
+- automatic selection of the last used session and user;
+- support for setting environment variables.
 
 ## Dependencies
 
