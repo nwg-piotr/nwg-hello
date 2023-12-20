@@ -169,7 +169,7 @@ def main():
     for i in reversed(range(display.get_n_monitors())):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(client, settings, sessions, users, monitor, voc, cache, args.log, args.test)
+            win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
             windows.append(win)
 
     GLib.timeout_add(1, move_clock)

@@ -17,7 +17,7 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, client, settings, sessions, users, monitor, voc, cache, log, test):
+    def __init__(self, client, settings, sessions, x_sessions, users, monitor, voc, cache, log, test):
         eprint(f"Creating GreeterWindow on {monitor}", log=log)
 
         self.settings = settings
@@ -25,6 +25,7 @@ class GreeterWindow(Gtk.Window):
         self.log = log
         self.client = client
         self.sessions = sessions
+        self.x_sessions = x_sessions
         self.test = test
 
         dir_name = os.path.dirname(__file__)
@@ -208,8 +209,12 @@ class GreeterWindow(Gtk.Window):
                     eprint(f"Saving cache: {cache}", log=self.log)
                     save_json(cache, "/var/cache/nwg-hello/cache.json")
 
-                # jreq = {"type": "start_session", "cmd": cmd.split()}
-                jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
+                if cmd in self.x_sessions:
+                    jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
+                            "env": self.settings["env-vars"]}
+                else:
+                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
+
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()

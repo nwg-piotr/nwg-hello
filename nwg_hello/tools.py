@@ -76,7 +76,7 @@ def list_sessions(session_dirs):
                     if session:
                         _sessions.append(session)
                         if session_dir == "/usr/share/xsessions":
-                            _x_sessions.append(session["name"])
+                            _x_sessions.append(session["exec"])
     return _sessions, _x_sessions
 
 
