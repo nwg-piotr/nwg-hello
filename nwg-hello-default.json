@@ -1,6 +1,7 @@
 {
   "session_dirs": [
-    "/usr/share/wayland-sessions"
+    "/usr/share/wayland-sessions",
+    "/usr/share/xsessions"
   ],
   "custom_sessions": [
     {

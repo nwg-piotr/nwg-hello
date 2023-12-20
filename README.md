@@ -4,13 +4,22 @@ This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell)
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
 It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org). 
-It __does not support X11__ sessions. The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) 
+The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) 
 project, but it may be configured for standalone use.
 
 ![image](https://github.com/nwg-piotr/nwg-hello/assets/20579136/12da658f-ff2f-4a60-b5e4-797175928ebc)
 
 The screen layout is heavily inspired by [Sugar Candy SDDM theme](https://framagit.org/MarianArlt/sddm-sugar-candy) 
 by Marian Arlt;
+
+## Background
+
+I was looking for a good login manager for the nwg-iso project. I first used SDDM with the Sugar Candy theme, and it
+worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-based. Also, I know nothing on the QT
+framework, so introducing changes was a hell. The next choice was LightDM with [my modification](https://github.com/nwg-piotr/lightdm-nwg-greeter)
+of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked
+well, but LightDM happens to hang way too often. Then I gave a try to greetd, and that was it. I only needed a graphical
+and feature-reach greater based on GTK3. Since there was no such thing, I had to develop one from scratch.
 
 ## Features
 
@@ -109,7 +118,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 }
 ```
 
-- `"session_dirs"`: comma-separated paths to session directories. We don't include `/usr/share/xsessions` here, as we don't support them.
+- `"session_dirs"`: comma-separated paths to session directories. Modify only if you know well what you're doing.
 - `"custom_sessions"`: greetd can run whatever starts from the command line. This way we can add `bash`, `zsh` or something else here.
 - `"monitor_nums"`: leave as is to see the greeter on all monitors. Set e.g. `[0, 2]` for it to appear on the 1st and 3rd one.
 - `"delay_secs"`: some monitors take longer to turn on. In the meantime the greeter may behave oddly on other monitors. If it happens to restart/blink, increase this value. If you only have one monitor and no discrete GPU, you may probably set `0` here.
@@ -126,4 +135,4 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 ## Acknowledgments
 
 - [@milisarge](https://gist.github.com/milisarge) for [the snippet](https://gist.github.com/milisarge/d169756e316e185572605699e73ed3ae) that let me know how things work;
-- [Marian Arlt](https://framagit.org/MarianArlt) for inspiring look of the Sugar Candy SDDM theme. 
+- [Marian Arlt](https://framagit.org/MarianArlt) for inspiring look of the Sugar Candy SDDM theme.
