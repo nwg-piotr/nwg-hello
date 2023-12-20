@@ -83,7 +83,7 @@ def list_sessions(session_dirs):
 def launch(self, cmd, log=False):
     eprint("Executing cmd: '{}'".format(cmd), log=log)
     # Alright, I know. But subprocess sucks with systemd.
-    os.system(cmd)
+    eprint(os.popen(cmd).read(), log=log)
     
 
 def parse_desktop_entry(path):
