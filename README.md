@@ -132,7 +132,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 
 Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` and make your changes there.
 
-## Power icons
+## Custom icons
 
 If you'd like to use own icons, do not replace `*-default.svg` files. Place your `poweroff.svg`, `reboot.svg` and
 `sleep.svg` files in the same directory.
