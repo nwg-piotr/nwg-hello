@@ -96,7 +96,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 ```json
 {
   "session_dirs": [
-    "/usr/share/wayland-sessions"
+    "/usr/share/wayland-sessions",
+    "/usr/share/xsessions"
   ],
   "custom_sessions": [
     {
