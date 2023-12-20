@@ -83,7 +83,7 @@ def list_sessions(session_dirs):
 def launch(self, cmd, log=False):
     eprint("Executing cmd: '{}'".format(cmd), log=log)
     # subprocess.Popen('exec {}'.format(cmd), shell=True)
-    subprocess.run(cmd.split())
+    subprocess.run(cmd.split(), shell=True)
 
 
 def parse_desktop_entry(path):
