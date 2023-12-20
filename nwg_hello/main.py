@@ -122,9 +122,10 @@ if args.debug:
     eprint(f"Found users: {users}", log=args.log)
 
 # List sessions
-sessions = list_sessions(settings['session_dirs'])
+sessions, x_sessions = list_sessions(settings['session_dirs'])
 if args.debug:
     eprint(f"Found valid sessions: {sessions}", log=args.log)
+    eprint(f"X11 sessions: {x_sessions}", log=args.log)
 
 
 def move_clock():
@@ -168,7 +169,7 @@ def main():
     for i in reversed(range(display.get_n_monitors())):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(client, settings, sessions, users, monitor, voc, cache, args.log, args.test)
+            win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
             windows.append(win)
 
     GLib.timeout_add(1, move_clock)
