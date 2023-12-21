@@ -40,6 +40,8 @@ a graphical and feature-reach greeter based on GTK3. Since there was no such thi
 
 ## Installation
 
+[![Packaging status](https://repology.org/badge/vertical-allrepos/nwg-hello.svg)](https://repology.org/project/nwg-hello/versions)
+
 First you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
 
 The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
