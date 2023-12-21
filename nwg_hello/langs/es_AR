@@ -3,6 +3,7 @@
   "login": "Acceso",
   "login-failed": "Error de inicio de sesion",
   "password": "Contraseña",
+  "password-empty": "La contraseña no puede estar vacía",
   "power-off": "Apagado",
   "session": "Sesión",
   "show-password": "Mostrar contraseña",

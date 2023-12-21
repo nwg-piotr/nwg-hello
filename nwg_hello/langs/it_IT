@@ -3,6 +3,7 @@
   "login": "Login",
   "login-failed": "Accesso non riuscito",
   "password": "Parola d'ordine",
+  "password-empty": "La password non può essere vuota",
   "power-off": "Spegni",
   "session": "Sessione",
   "show-password": "Mostra password",

@@ -3,6 +3,7 @@
   "login": "Giriş yapmak",
   "login-failed": "Giriş başarısız oldu",
   "password": "Şifre",
+  "password-empty": "Şifre boş olamaz",
   "power-off": "Kapat",
   "session": "Oturum",
   "show-password": "Şifreyi göster",

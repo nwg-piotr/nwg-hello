@@ -3,6 +3,7 @@
   "login": "Se connecter",
   "login-failed": "La connexion a échoué",
   "password": "Mot de passe",
+  "password-empty": "Le mot de passe ne peut pas être vide",
   "power-off": "Éteindre",
   "session": "Session",
   "show-password": "Montrer le mot de passe",

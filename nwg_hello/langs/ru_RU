@@ -3,6 +3,7 @@
   "login": "Войти",
   "login-failed": "Ошибка входа",
   "password": "Пароль",
+  "password-empty": "Пароль не может быть пустым",
   "power-off": "Выключение",
   "session": "Сессия",
   "show-password": "Показать пароль",

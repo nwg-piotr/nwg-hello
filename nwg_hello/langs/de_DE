@@ -3,6 +3,7 @@
   "login": "Anmeldung",
   "login-failed": "Fehler bei der Anmeldung",
   "password": "Passwort",
+  "password-empty": "Passwort kann nicht leer sein",
   "power-off": "Ausschalten",
   "session": "Session",
   "show-password": "Passwort anzeigen",
