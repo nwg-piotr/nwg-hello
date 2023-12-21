@@ -9,7 +9,7 @@ def read(f_name):
 
 setup(
     name='nwg-hello',
-    version='0.1.0',
+    version='0.1.1',
     description='GTK3-based greeter for greetd',
     packages=find_packages(),
     include_package_data=True,
