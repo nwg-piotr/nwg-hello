@@ -89,6 +89,7 @@ class GreeterWindow(Gtk.Window):
         self.entry_password = builder.get_object("entry-password")
         self.entry_password.set_property("name", "password-entry")
         self.entry_password.set_visibility(False)
+        self.entry_password.connect("button-press-event", self.clear_message_label)
 
         cb_show_password = builder.get_object("cb-show-password")
         cb_show_password.set_label(voc["show-password"])
@@ -166,9 +167,15 @@ class GreeterWindow(Gtk.Window):
 
     def on_session_changed(self, combo):
         self.entry_password.grab_focus()
+        self.clear_message_label()
 
     def on_user_changed(self, combo):
         self.entry_password.grab_focus()
+        self.clear_message_label()
+
+    def clear_message_label(self, *args):
+        print("clear_message_label")
+        self.lbl_message.set_text("")
 
     def on_password_cb(self, widget):
         self.entry_password.set_visibility(widget.get_active())
