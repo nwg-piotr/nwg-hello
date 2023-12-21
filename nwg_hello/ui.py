@@ -176,6 +176,7 @@ class GreeterWindow(Gtk.Window):
     def login(self, btn):
         if not self.entry_password.get_text():
             eprint("Login: passwd empty, cancelling", log=self.log)
+            self.lbl_message.set_text(self.voc["password-empty"])
             return
         if self.client:
             try:
