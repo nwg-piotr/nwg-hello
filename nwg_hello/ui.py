@@ -25,10 +25,11 @@ class GreeterWindow(Gtk.Window):
         self.log = log
         self.client = client
         self.sessions = sessions
-        self.x_sessions = x_sessions
+        self.x_sessions = x_sessions  # contains session execs, not names
         self.test = test
 
         dir_name = os.path.dirname(__file__)
+
         Gtk.Window.__init__(self)
 
         builder = Gtk.Builder()
@@ -37,9 +38,9 @@ class GreeterWindow(Gtk.Window):
         form_wrapper = builder.get_object("form-wrapper")
         form_wrapper.set_property("name", "form-wrapper")
 
-        self.lbl_welcome = builder.get_object("lbl-welcome")
-        self.lbl_welcome.set_text(f'{voc["welcome"]}')
-        self.lbl_welcome.set_property("name", "welcome-label")
+        lbl_welcome = builder.get_object("lbl-welcome")
+        lbl_welcome.set_text(f'{voc["welcome"]}')
+        lbl_welcome.set_property("name", "welcome-label")
 
         self.lbl_clock = builder.get_object("lbl-clock")
         self.lbl_clock.set_property("name", "clock-label")
@@ -47,9 +48,9 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date = builder.get_object("lbl-date")
         self.lbl_date.set_property("name", "date-label")
 
-        self.lbl_session = builder.get_object("lbl-session")
-        self.lbl_session.set_property("name", "form-label")
-        self.lbl_session.set_text(f'{voc["session"]}:')
+        lbl_session = builder.get_object("lbl-session")
+        lbl_session.set_property("name", "form-label")
+        lbl_session.set_text(f'{voc["session"]}:')
 
         self.combo_session = builder.get_object("combo-session")
         self.combo_session.set_property("name", "form-combo")
@@ -59,75 +60,77 @@ class GreeterWindow(Gtk.Window):
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
         if "session" in cache and cache["session"]:
-            # preselect last used session
+            # preselect the session stored in cache
             self.combo_session.set_active_id(cache["session"])
         else:
             self.combo_session.set_active_id(sessions[0]["name"])
         self.combo_session.connect("changed", self.on_session_changed)
 
-        self.lbl_user = builder.get_object("lbl-user")
-        self.lbl_user.set_property("name", "form-label")
-        self.lbl_user.set_text(f'{voc["user"]}:')
+        lbl_user = builder.get_object("lbl-user")
+        lbl_user.set_property("name", "form-label")
+        lbl_user.set_text(f'{voc["user"]}:')
 
         self.combo_user = builder.get_object("combo-user")
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
         if "user" in cache and cache["user"]:
-            # preselect last used user
+            # preselect the user stored in cache
             self.combo_user.set_active_id(cache["user"])
-        self.combo_user.set_active_id(users[0])
+        else:
+            # or the 1st user
+            self.combo_user.set_active_id(users[0])
         self.combo_user.connect("changed", self.on_user_changed)
 
-        self.lbl_password = builder.get_object("lbl-password")
-        self.lbl_password.set_property("name", "form-label")
-        self.lbl_password.set_text(f'{voc["password"]}:')
+        lbl_password = builder.get_object("lbl-password")
+        lbl_password.set_property("name", "form-label")
+        lbl_password.set_text(f'{voc["password"]}:')
 
         self.entry_password = builder.get_object("entry-password")
         self.entry_password.set_property("name", "password-entry")
         self.entry_password.set_visibility(False)
 
-        self.cb_show_password = builder.get_object("cb-show-password")
-        self.cb_show_password.set_label(voc["show-password"])
-        self.cb_show_password.connect("toggled", self.on_password_cb)
+        cb_show_password = builder.get_object("cb-show-password")
+        cb_show_password.set_label(voc["show-password"])
+        cb_show_password.connect("toggled", self.on_password_cb)
 
         self.lbl_message = builder.get_object("lbl-message")
         self.lbl_message.set_text("")
 
-        self.btn_login = builder.get_object("btn-login")
-        self.btn_login.set_property("name", "login-button")
-        self.btn_login.set_label(voc["login"])
-        self.btn_login.connect("clicked", self.login)
+        btn_login = builder.get_object("btn-login")
+        btn_login.set_property("name", "login-button")
+        btn_login.set_label(voc["login"])
+        btn_login.connect("clicked", self.login)
 
-        self.btn_sleep = builder.get_object("btn-sleep")
-        self.btn_sleep.set_property("name", "power-button")
+        btn_sleep = builder.get_object("btn-sleep")
+        btn_sleep.set_property("name", "power-button")
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("sleep")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
-        self.btn_sleep.set_image(img)
-        self.btn_sleep.set_always_show_image(True)
-        self.btn_sleep.set_image_position(Gtk.PositionType.TOP)
-        self.btn_sleep.set_label(voc["sleep"])
-        self.btn_sleep.connect("clicked", launch, settings["cmd-sleep"], self.log)
+        btn_sleep.set_image(img)
+        btn_sleep.set_always_show_image(True)
+        btn_sleep.set_image_position(Gtk.PositionType.TOP)
+        btn_sleep.set_label(voc["sleep"])
+        btn_sleep.connect("clicked", launch, settings["cmd-sleep"], self.log)
 
-        self.btn_restart = builder.get_object("btn-restart")
-        self.btn_restart.set_property("name", "power-button")
+        btn_restart = builder.get_object("btn-restart")
+        btn_restart.set_property("name", "power-button")
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("reboot")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
-        self.btn_restart.set_image(img)
-        self.btn_restart.set_always_show_image(True)
-        self.btn_restart.set_image_position(Gtk.PositionType.TOP)
-        self.btn_restart.set_label(voc["reboot"])
-        self.btn_restart.connect("clicked", launch, settings["cmd-reboot"], self.log)
+        btn_restart.set_image(img)
+        btn_restart.set_always_show_image(True)
+        btn_restart.set_image_position(Gtk.PositionType.TOP)
+        btn_restart.set_label(voc["reboot"])
+        btn_restart.connect("clicked", launch, settings["cmd-reboot"], self.log)
 
-        self.btn_poweroff = builder.get_object("btn-poweroff")
-        self.btn_poweroff.set_property("name", "power-button")
+        btn_poweroff = builder.get_object("btn-poweroff")
+        btn_poweroff.set_property("name", "power-button")
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p_icon_path("poweroff")), 48, 48)
         img = Gtk.Image.new_from_pixbuf(pixbuf)
-        self.btn_poweroff.set_image(img)
-        self.btn_poweroff.set_always_show_image(True)
-        self.btn_poweroff.set_image_position(Gtk.PositionType.TOP)
-        self.btn_poweroff.set_label(voc["power-off"])
-        self.btn_poweroff.connect("clicked", launch, settings["cmd-poweroff"], self.log)
+        btn_poweroff.set_image(img)
+        btn_poweroff.set_always_show_image(True)
+        btn_poweroff.set_image_position(Gtk.PositionType.TOP)
+        btn_poweroff.set_label(voc["power-off"])
+        btn_poweroff.connect("clicked", launch, settings["cmd-poweroff"], self.log)
 
         self.window = builder.get_object("main-window")
         self.window.connect('destroy', Gtk.main_quit)
@@ -144,6 +147,7 @@ class GreeterWindow(Gtk.Window):
         GtkLayerShell.set_exclusive_zone(self.window, -1)
 
         self.window.show()
+
         form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)
         self.entry_password.grab_focus()
 
@@ -207,6 +211,7 @@ class GreeterWindow(Gtk.Window):
                     cache["user"] = self.combo_user.get_active_id()
                 if cache["session"] and cache["user"]:
                     eprint(f"Saving cache: {cache}", log=self.log)
+                    # this file belongs to the 'greeter' user
                     save_json(cache, "/var/cache/nwg-hello/cache.json")
 
                 if cmd in self.x_sessions:

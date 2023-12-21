@@ -23,9 +23,10 @@ except ValueError:
                        'For example you might need to run:\n\n' +
                        'GI_TYPELIB_PATH=build/src LD_LIBRARY_PATH=build/src python3 ' + ' '.join(sys.argv))
 
-from gi.repository import GLib, GtkLayerShell, Gtk, Gdk, GdkPixbuf
+from gi.repository import GLib, GtkLayerShell, Gtk, Gdk
 
 dir_name = os.path.dirname(__file__)
+
 log_file = os.path.join(temp_dir(), 'nwg-hello.log')
 voc = {}
 windows = []
@@ -76,7 +77,7 @@ for key in defaults:
         eprint(f"Settings: using default value for '{key}'", log=args.log)
         settings[key] = defaults[key]
 
-# load cache
+# load cache (the file has been preinstalled and belongs to the 'greeter' user)
 cache = load_json("/var/cache/nwg-hello/cache.json")
 if args.debug:
     eprint(f"Loaded cache: {cache}", log=args.log)
@@ -106,7 +107,7 @@ else:
 # Load vocabulary
 voc = load_json(os.path.join(dir_name, "langs", "en_US"))
 user_locale = locale.getlocale()[0] if not settings["lang"] else settings["lang"]
-# translate if necessary and possible
+# translate if necessary (and if we have a translation)
 if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "langs")):
     # translated phrases
     loc = load_json(os.path.join(dir_name, "langs", user_locale))
@@ -136,7 +137,7 @@ def move_clock():
 
 
 def main():
-    # Some monitors need some time to startup
+    # Some monitors take longer to startup; we can just time.sleep() here, as we're not yet on the GTK loop.
     if settings["delay_secs"] > 0:
         time.sleep(settings["delay_secs"])
 

@@ -1,7 +1,6 @@
 import json
 import os
 import pwd
-import subprocess
 import sys
 
 
@@ -15,17 +14,9 @@ def temp_dir():
     return "/tmp"
 
 
-def cache_dir():
-    if os.getenv("XDG_CACHE_HOME"):
-        return os.getenv("XDG_CACHE_HOME")
-    elif os.getenv("HOME") and os.path.isdir(os.path.join(os.getenv("HOME"), ".cache")):
-        return os.path.join(os.getenv("HOME"), ".cache")
-    else:
-        return None
-
-
 def eprint(*args, log=False):
     print(*args, file=sys.stderr)
+    # we don't log testing sessions
     if log and os.getenv("USER") == "greeter":
         log_file = os.path.join(temp_dir(), 'nwg-hello.log')
         with open(log_file, 'a') as f:
@@ -126,4 +117,5 @@ def greetd(client, json_req, log=False):
         eprint(f"greetd: response = {r}", log=log)
         return r
     except ValueError:
+        eprint(f"greetd: ValueError")
         return {}
