@@ -222,11 +222,14 @@ class GreeterWindow(Gtk.Window):
                     # this file belongs to the 'greeter' user
                     save_json(cache, "/var/cache/nwg-hello/cache.json")
 
-                if cmd in self.x_sessions:
-                    jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
-                            "env": self.settings["env-vars"]}
-                else:
-                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
+                try:
+                    if cmd in self.x_sessions:
+                        jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
+                                "env": self.settings["env-vars"]}
+                    else:
+                        jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
+                except Exception as e:
+                    eprint(f"Couldn't start session: {e}", log=self.log)
 
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
