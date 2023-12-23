@@ -220,23 +220,13 @@ class GreeterWindow(Gtk.Window):
                 if cache["session"] and cache["user"]:
                     eprint(f"Saving cache: {cache}", log=self.log)
                     # this file belongs to the 'greeter' user
-                    save_json(cache, "/var/cache/nwg-hello/cache.json")
+                    save_json(cache, "/var/cache/nwg-hello/cache.json", log=self.log)
 
-                eprint(f"cmd: {cmd}", log=self.log)
-                eprint(f"self.x_sessions: {self.x_sessions}", log=self.log)
-                eprint(f"self.settings['env-vars': {self.settings['env-vars']}]")
-                try:
-                    if cmd in self.x_sessions:
-                        jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
-                                "env": self.settings["env-vars"]}
-                        eprint("cmd in self.x_sessions", log=self.log)
-                    else:
-                        eprint("cmd not in self.x_sessions", log=self.log)
-                        jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
-                except Exception as e:
-                    eprint(f"Couldn't determine command for session: {e}", log=self.log)
-
-                eprint(f"That's jreq: {jreq}", log=self.log)
+                if cmd in self.x_sessions:
+                    jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
+                            "env": self.settings["env-vars"]}
+                else:
+                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
 
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
