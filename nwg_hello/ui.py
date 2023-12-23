@@ -229,7 +229,9 @@ class GreeterWindow(Gtk.Window):
                     else:
                         jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
                 except Exception as e:
-                    eprint(f"Couldn't start session: {e}", log=self.log)
+                    eprint(f"Couldn't determine command for session: {e}", log=self.log)
+
+                eprint(f"That's jreq: {jreq}", log=self.log)
 
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
