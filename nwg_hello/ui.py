@@ -198,6 +198,7 @@ class GreeterWindow(Gtk.Window):
             eprint(f"user: {user}", log=self.log)
             eprint(f"password: {'*' * len(password)}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
+            eprint(f"env vars: {self.settings['env-vars']}", log=self.log)
 
             jreq = {"type": "create_session", "username": user}
             try:
