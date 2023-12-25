@@ -45,7 +45,7 @@ a graphical and feature-reach greeter based on GTK3. Since there was no such thi
 First you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
 
 The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
-dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greeter.conf` - see the tip below).
+dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
 
 ```toml
 [terminal]
@@ -90,7 +90,7 @@ __Do not change the__ `user = "greeter"` __line__, or some file-related function
 
 During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
-To avoid such a situation, you may use the alternative `greeter.conf` file. This has not been mentioned in docs, 
+To avoid such a situation, you may use the alternative `greetd.conf` file. This has not been mentioned in docs, 
 but greetd looks for this file first. Just copy `config.toml` to `greetd.conf` and make changes to the copy.
 
 ## Configuration
