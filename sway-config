@@ -1,4 +1,4 @@
-exec "nwg-hello; swaymsg exit"
+exec "nwg-hello -l; swaymsg exit"
 
 bindsym Mod4+shift+e exec swaynag \
 	-t warning \

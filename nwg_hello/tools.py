@@ -40,9 +40,13 @@ def load_json(path):
         return {}
 
 
-def save_json(src_dict, path, en_ascii=True):
-    with open(path, 'w') as f:
-        json.dump(src_dict, f, indent=2, ensure_ascii=en_ascii)
+def save_json(src_dict, path, en_ascii=True, log=False):
+    try:
+        with open(path, 'w') as f:
+            json.dump(src_dict, f, indent=2, ensure_ascii=en_ascii)
+            eprint(f"Saved json to: '{src_dict}'", log=log)
+    except Exception as e:
+        eprint(f"Error saving json: '{f}'", log=log)
 
 
 def load_text_file(path):

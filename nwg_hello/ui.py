@@ -198,6 +198,7 @@ class GreeterWindow(Gtk.Window):
             eprint(f"user: {user}", log=self.log)
             eprint(f"password: {'*' * len(password)}", log=self.log)
             eprint(f"cmd: {cmd}", log=self.log)
+            eprint(f"env vars: {self.settings['env-vars']}", log=self.log)
 
             jreq = {"type": "create_session", "username": user}
             try:
@@ -220,7 +221,11 @@ class GreeterWindow(Gtk.Window):
                 if cache["session"] and cache["user"]:
                     eprint(f"Saving cache: {cache}", log=self.log)
                     # this file belongs to the 'greeter' user
-                    save_json(cache, "/var/cache/nwg-hello/cache.json")
+                    try:
+                        save_json(cache, "/var/cache/nwg-hello/cache.json", log=self.log)
+                        eprint("Cache saved", log=self.log)
+                    except Exception as e:
+                        eprint(f"Error saving cache: {e}", log=self.log)
 
                 if cmd in self.x_sessions:
                     jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
