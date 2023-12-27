@@ -1,6 +1,6 @@
 import json
 import os
-import pwd
+import subprocess
 import sys
 
 
@@ -22,13 +22,16 @@ def eprint(*args, log=False):
         with open(log_file, 'a') as f:
             print(*args, file=f)
 
-
 def list_users():
-    excluded = ["ftp"]
     users = []
-    for user in pwd.getpwall():
-        if user.pw_name not in excluded and user.pw_dir.startswith('/home/'):
-            users.append(user.pw_name)
+    for i in os.listdir('/home'):
+        try:
+            # ask pam about about users.
+            user = subprocess.check_output(['getent', 'passwd', i]).decode('ascii').strip()
+        except subprocess.SubprocessError:
+            # Skip nonexisting users.
+            continue
+        users.append(user.split(':')[0])
     return users
 
 
