@@ -24,9 +24,10 @@ def eprint(*args, log=False):
 
 
 def list_users():
+    excluded = ["ftp"]
     users = []
     for user in pwd.getpwall():
-        if user.pw_dir.startswith('/home/'):
+        if user.pw_name not in excluded and user.pw_dir.startswith('/home/'):
             users.append(user.pw_name)
     return users
 
