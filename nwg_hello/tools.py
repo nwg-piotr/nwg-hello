@@ -27,7 +27,7 @@ def list_users():
     with open('/etc/login.defs') as loglist:
         for line in loglist.readlines():
             if line.startswith('UID_MIN'):
-                uid_min = line.split(' ')[1]
+                uid_min = int(line.split(' ')[1])
     users = []
     for i in os.listdir('/home'):
         try:
@@ -36,9 +36,9 @@ def list_users():
         except subprocess.SubprocessError:
             # Skip nonexisting users.
             continue
-        user.split(':')
-        if user[2] >= uid_min:
-            users.append(user[0])
+        user = user.split(':')
+        if int(user[2]) >= uid_min:
+            users.append(user[0])     
     return users
 
 
