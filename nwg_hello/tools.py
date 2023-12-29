@@ -34,10 +34,10 @@ def list_users(log=False):
         eprint(f"Couldn't get min uid: '{e}'", log=log)
 
     users = []
-    for i in os.listdir('/home'):
+    for uname in os.listdir('/home'):
         try:
             # ask pam about users
-            user = subprocess.check_output(['getent', 'passwd', i]).decode('ascii').strip()
+            user = subprocess.check_output(['getent', 'passwd', uname]).decode('ascii').strip()
         except subprocess.SubprocessError:
             # skip nonexistent users
             continue
