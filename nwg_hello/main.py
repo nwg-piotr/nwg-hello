@@ -147,8 +147,8 @@ def main():
     style_context = Gtk.StyleContext()
     style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
     try:
-        style_path = "/etc/nwg-hello/nwg-hello-default.css" if os.path.isfile(
-            "/etc/nwg-hello/nwg-hello-default.css") else "/etc/nwg-hello/nwg-hello-default.css"
+        style_path = "/etc/nwg-hello/nwg-hello.css" if os.path.isfile(
+            "/etc/nwg-hello/nwg-hello.css") else "/etc/nwg-hello/nwg-hello-default.css"
         provider.load_from_path(style_path)
         if args.debug:
             eprint(f"Loaded style from: '{style_path}'", log=args.log)
