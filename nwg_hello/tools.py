@@ -22,6 +22,7 @@ def eprint(*args, log=False):
         with open(log_file, 'a') as f:
             print(*args, file=f)
 
+
 def list_users():
     uid_min = None
     with open('/etc/login.defs') as loglist:
@@ -31,14 +32,14 @@ def list_users():
     users = []
     for i in os.listdir('/home'):
         try:
-            # ask pam about about users.
+            # ask pam about users
             user = subprocess.check_output(['getent', 'passwd', i]).decode('ascii').strip()
         except subprocess.SubprocessError:
-            # Skip nonexisting users.
+            # skip nonexistent users
             continue
         user = user.split(':')
         if int(user[2]) >= uid_min:
-            users.append(user[0])     
+            users.append(user[0])
     return users
 
 
@@ -90,7 +91,7 @@ def launch(self, cmd, log=False):
     eprint("Executing cmd: '{}'".format(cmd), log=log)
     # Alright, I know. But subprocess sucks with systemd.
     eprint(os.popen(cmd).read(), log=log)
-    
+
 
 def parse_desktop_entry(path):
     paths = os.getenv('PATH').split(":")
