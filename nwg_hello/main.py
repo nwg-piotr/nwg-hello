@@ -118,7 +118,7 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
         eprint(f"Vocabulary translated into: '{user_locale}'", log=args.log)
 
 # List users
-users = list_users()
+users = list_users(log=args.log)
 if args.debug:
     eprint(f"Found users: {users}", log=args.log)
 

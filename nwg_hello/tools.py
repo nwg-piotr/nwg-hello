@@ -23,12 +23,16 @@ def eprint(*args, log=False):
             print(*args, file=f)
 
 
-def list_users():
-    uid_min = None
-    with open('/etc/login.defs') as loglist:
-        for line in loglist.readlines():
-            if line.startswith('UID_MIN'):
-                uid_min = int(line.split(' ')[1])
+def list_users(log=False):
+    uid_min = 1000
+    try:
+        with open('/etc/login.defs') as log_list:
+            for line in log_list.readlines():
+                if line.startswith('UID_MIN'):
+                    uid_min = int(line.split(' ')[1])
+    except Exception as e:
+        eprint(f"Couldn't get min uid: '{e}'", log=log)
+
     users = []
     for i in os.listdir('/home'):
         try:
