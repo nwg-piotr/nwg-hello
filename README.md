@@ -7,7 +7,7 @@ It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) 
 The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured
 for standalone use.
 
-![image](https://github.com/nwg-piotr/nwg-hello/assets/20579136/8a817bdf-a7a0-4790-be38-9306452ee120)
+<img src="https://github.com/nwg-piotr/nwg-hello/assets/20579136/8a817bdf-a7a0-4790-be38-9306452ee120" width=640 alt="Screenshot"><br>
 
 _The screen layout is heavily inspired by [Sugar Candy SDDM theme](https://framagit.org/MarianArlt/sddm-sugar-candy) 
 by Marian Arlt._
