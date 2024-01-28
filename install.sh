@@ -11,4 +11,7 @@ install -D -m 644 -t /usr/share/nwg-hello/ img/*
 install -d /var/cache/nwg-hello
 install -Dm644 -t /var/cache/nwg-hello cache.json -o greeter
 
+install -Dm 644 -t "/usr/share/licenses/nwg-hello" LICENSE
+install -Dm 644 -t "/usr/share/doc/nwg-hello" README.md
+
 python3 setup.py install --optimize=1
