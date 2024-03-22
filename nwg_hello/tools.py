@@ -37,13 +37,15 @@ def list_users(log=False):
     for uname in os.listdir('/home'):
         try:
             # ask pam about users
-            user = subprocess.check_output(['getent', 'passwd', uname]).decode('ascii').strip()
-        except subprocess.SubprocessError:
+            user = subprocess.check_output(['getent', 'passwd', uname]).decode('utf-8').strip()
+        except Exception as e:
             # skip nonexistent users
+            eprint(e)
             continue
-        user = user.split(':')
-        if int(user[2]) >= uid_min:
-            users.append(user[0])
+        if user:
+            user = user.split(':')
+            if int(user[2]) >= uid_min:
+                users.append(user[0])
     return users
 
 
