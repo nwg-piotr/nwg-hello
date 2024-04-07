@@ -37,7 +37,7 @@ class GreeterWindow(Gtk.Window):
                 os.path.join("/etc/nwg-hello", self.settings["template-name"])):
             # use custom template if name configured (must be placed in /etc/nwg-hello/)
             builder.add_from_file(
-                os.path.join(os.path.join("/etc/nwg-hello", self.settings["template-name"]), "template.glade"))
+                os.path.join(os.path.join("/etc/nwg-hello", self.settings["template-name"])))
         else:
             # use built-in template
             # (/usr/lib/python3.xx/site-packages/nwg_hello-x.y.z-py3.xx.egg/nwg_hello/template.glade)
