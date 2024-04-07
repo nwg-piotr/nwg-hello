@@ -63,6 +63,7 @@ defaults = {
     "gtk-icon-theme": "",
     "gtk-cursor-theme": "Uos-Dark",
     "prefer-dark-theme": True,
+    "template-name": "",
     "custom_sessions": [],
     "monitor_nums": [],
     "delay_secs": 1,
