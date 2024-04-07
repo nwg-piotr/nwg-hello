@@ -18,6 +18,7 @@
   "gtk-icon-theme": "",
   "gtk-cursor-theme": "",
   "prefer-dark-theme": true,
+  "template-name": "",
   "lang": "",
   "env-vars": []
 }

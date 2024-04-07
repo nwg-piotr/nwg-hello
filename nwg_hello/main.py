@@ -61,7 +61,7 @@ defaults = {
     ],
     "gtk-theme": "Adwaita",
     "gtk-icon-theme": "",
-    "gtk-cursor-theme": "Uos-Dark",
+    "gtk-cursor-theme": "",
     "prefer-dark-theme": True,
     "template-name": "",
     "custom_sessions": [],
