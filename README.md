@@ -118,6 +118,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "gtk-icon-theme": "",
   "gtk-cursor-theme": "",
   "prefer-dark-theme": true,
+  "template-name": "",
   "lang": "",
   "env-vars": []
 }
