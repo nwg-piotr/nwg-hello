@@ -1,0 +1,14 @@
+{
+  "failed-starting-session": "无法开始会话",
+  "login": "登录",
+  "login-failed": "登录失败",
+  "password": "密码",
+  "password-empty": "密码不能为空",
+  "power-off": "关机",
+  "session": "会话",
+  "show-password": "显示密码",
+  "sleep": "休眠",
+  "reboot": "重启",
+  "user": "用户",
+  "welcome": "欢迎!"
+}
