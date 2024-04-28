@@ -19,7 +19,7 @@ worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-
 framework, so couldn't adjust the greeter to my taste. The next choice was LightDM with [my modification](https://github.com/nwg-piotr/lightdm-nwg-greeter)
 of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked
 well, but LightDM would happen to hang way too often. Then I gave a try to greetd, and that was it. I only needed 
-a graphical and feature-reech greeter based on GTK3. Since there was no such thing, I had to develop my own.
+a nice graphical greeter based on GTK3. Since there was no such thing, I had to develop my own.
 
 ## Features
 
