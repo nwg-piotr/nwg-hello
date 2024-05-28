@@ -27,6 +27,7 @@ class GreeterWindow(Gtk.Window):
         self.sessions = sessions
         self.x_sessions = x_sessions  # contains session execs, not names
         self.test = test
+        self.cache = cache # store cache with all user sessions for later
 
         dir_name = os.path.dirname(__file__)
 
@@ -67,9 +68,10 @@ class GreeterWindow(Gtk.Window):
         if settings["custom_sessions"]:
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
-        if "session" in cache and cache["session"]:
-            # preselect the session stored in cache
-            self.combo_session.set_active_id(cache["session"])
+        if ("user" and "sessions") in self.cache and \
+            self.cache["user"] in self.cache["sessions"]:
+            # preselect the session stored in cache for the last user
+            self.combo_session.set_active_id(self.cache["sessions"][self.cache["user"]])
         else:
             self.combo_session.set_active_id(sessions[0]["name"])
         self.combo_session.connect("changed", self.on_session_changed)
@@ -82,9 +84,9 @@ class GreeterWindow(Gtk.Window):
         self.combo_user.set_property("name", "form-combo")
         for user in users:
             self.combo_user.append(user, user)
-        if "user" in cache and cache["user"]:
+        if "user" in self.cache and self.cache["user"]:
             # preselect the user stored in cache
-            self.combo_user.set_active_id(cache["user"])
+            self.combo_user.set_active_id(self.cache["user"])
         else:
             # or the 1st user
             self.combo_user.set_active_id(users[0])
@@ -178,6 +180,10 @@ class GreeterWindow(Gtk.Window):
         self.clear_message_label()
 
     def on_user_changed(self, combo):
+        selected_user = self.combo_user.get_active_id()
+        if "sessions" in self.cache and selected_user in self.cache["sessions"]:
+            # preselect user session if available in cache
+            self.combo_session.set_active_id(self.cache["sessions"][selected_user])
         self.entry_password.grab_focus()
         self.clear_message_label()
 
@@ -220,17 +226,20 @@ class GreeterWindow(Gtk.Window):
                 self.lbl_message.set_text(self.voc["login-failed"])
                 self.entry_password.set_text("")
             else:
+                # ensure the sessions dict exists in cache
+                if "sessions" not in self.cache:
+                    self.cache["sessions"] = {}
+
                 # store last used session name and username if both available
-                cache = {"session": "", "user": ""}
-                if self.combo_session.get_active_id():
-                    cache["session"] = self.combo_session.get_active_id()
                 if self.combo_user.get_active_id():
-                    cache["user"] = self.combo_user.get_active_id()
-                if cache["session"] and cache["user"]:
-                    eprint(f"Saving cache: {cache}", log=self.log)
+                    self.cache["user"] = self.combo_user.get_active_id()
+                if self.combo_session.get_active_id():
+                    self.cache["sessions"][self.cache["user"]] = self.combo_session.get_active_id()
+                if  self.cache["user"] and self.cache["sessions"][self.cache["user"]]:
+                    eprint(f"Saving cache: {self.cache}", log=self.log)
                     # this file belongs to the 'greeter' user
                     try:
-                        save_json(cache, "/var/cache/nwg-hello/cache.json", log=self.log)
+                        save_json(self.cache, "/var/cache/nwg-hello/cache.json", log=self.log)
                         eprint("Cache saved", log=self.log)
                     except Exception as e:
                         eprint(f"Error saving cache: {e}", log=self.log)
