@@ -27,7 +27,7 @@ class GreeterWindow(Gtk.Window):
         self.sessions = sessions
         self.x_sessions = x_sessions  # contains session execs, not names
         self.test = test
-        self.cache = cache # store cache with all user sessions for later
+        self.cache = cache  # store cache with all user sessions for later
 
         dir_name = os.path.dirname(__file__)
 
@@ -69,7 +69,7 @@ class GreeterWindow(Gtk.Window):
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
         if ("user" and "sessions") in self.cache and \
-            self.cache["user"] in self.cache["sessions"]:
+                self.cache["user"] in self.cache["sessions"]:
             # preselect the session stored in cache for the last user
             self.combo_session.set_active_id(self.cache["sessions"][self.cache["user"]])
         else:
@@ -235,7 +235,7 @@ class GreeterWindow(Gtk.Window):
                     self.cache["user"] = self.combo_user.get_active_id()
                 if self.combo_session.get_active_id():
                     self.cache["sessions"][self.cache["user"]] = self.combo_session.get_active_id()
-                if  self.cache["user"] and self.cache["sessions"][self.cache["user"]]:
+                if self.cache["user"] and self.cache["sessions"][self.cache["user"]]:
                     eprint(f"Saving cache: {self.cache}", log=self.log)
                     # this file belongs to the 'greeter' user
                     try:
