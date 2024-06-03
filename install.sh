@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Make sure you have 'python-build' 'python-installer' 'python-wheel' and 'python-setuptools' installed
+
 install -D -m 644 -t /etc/nwg-hello/ nwg-hello-default.json
 install -D -m 644 -t /etc/nwg-hello/ nwg-hello-default.css
 install -D -m 644 -t /etc/nwg-hello/ hyprland.conf
@@ -14,4 +16,6 @@ install -Dm644 -t /var/cache/nwg-hello cache.json -o greeter
 install -Dm 644 -t "/usr/share/licenses/nwg-hello" LICENSE
 install -Dm 644 -t "/usr/share/doc/nwg-hello" README.md
 
-python3 setup.py install --optimize=1
+python -m build --wheel --no-isolation
+[ -f /usr/bin/nwg-hello ] && sudo rm /usr/bin/nwg-hello
+python -m installer dist/*.whl

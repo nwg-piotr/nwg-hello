@@ -66,6 +66,7 @@ defaults = {
     "template-name": "",
     "custom_sessions": [],
     "monitor_nums": [],
+    "form_on_monitors": [],
     "delay_secs": 1,
     "lang": "",
     "cmd-sleep": "systemctl suspend",
@@ -171,8 +172,11 @@ def main():
     for i in reversed(range(display.get_n_monitors())):
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
-            win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
-            windows.append(win)
+            if not settings["form_on_monitors"] or i in settings["form_on_monitors"]:
+                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
+                windows.append(win)
+            else:
+                win = EmptyWindow(monitor, args.log, args.test)
 
     GLib.timeout_add(1, move_clock)
     Gtk.main()
