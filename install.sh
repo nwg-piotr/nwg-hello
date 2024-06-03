@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Make sure you have 'python-build' 'python-installer' 'python-wheel' and 'python-setuptools' installed
+
 install -D -m 644 -t /etc/nwg-hello/ nwg-hello-default.json
 install -D -m 644 -t /etc/nwg-hello/ nwg-hello-default.css
 install -D -m 644 -t /etc/nwg-hello/ hyprland.conf
