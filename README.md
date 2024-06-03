@@ -110,6 +110,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
     }
   ],
   "monitor_nums": [],
+  "form_on_monitors": [],
   "delay_secs": 1,
   "cmd-sleep": "systemctl suspend",
   "cmd-reboot": "systemctl reboot",
@@ -127,6 +128,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"session_dirs"`: comma-separated paths to session directories. Modify only if you know well what you're doing.
 - `"custom_sessions"`: greetd can run whatever starts from the command line. This way we can add `bash`, `zsh` or something else here. The `"name"` field is the display name. The `"exec"` field is a command.
 - `"monitor_nums"`: leave as is to see the greeter on all monitors. Set e.g. `[0, 2]` for it to appear on the 1st and 3rd one.
+- `"form_on_monitors"`: which of above monitors to display the login form on (just the wallpaper on the rest).
 - `"delay_secs"`: some monitors take longer to turn on. In the meantime the greeter may behave oddly on other monitors. If it happens to restart/blink, increase this value. If you only have one monitor and no discrete GPU, you may probably set `0` here.
 - `"cmd-sleep"`, `"cmd-reboot"`, and `"cmd-poweroff"` are pre-defined for systemd-based systems. Use whatever works for you.
 - `"gtk-theme"`, `"gtk-icon-theme"` and `"gtk-cursor-theme"` are of little importance as long, as you use classes and IDs from the default css style sheet.
