@@ -253,3 +253,34 @@ class GreeterWindow(Gtk.Window):
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
                     sys.exit()
+
+
+class EmptyWindow(Gtk.Window):
+    def __init__(self, monitor, log, test):
+        eprint(f"Creating EmptyWindow on {monitor}", log=log)
+
+        self.test = test
+
+        Gtk.Window.__init__(self)
+
+        self.connect('destroy', Gtk.main_quit)
+        self.connect("key-release-event", self.handle_keyboard)
+
+        GtkLayerShell.init_for_window(self)
+        GtkLayerShell.set_monitor(self, monitor)
+        GtkLayerShell.set_layer(self, GtkLayerShell.Layer.OVERLAY)
+        GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.ON_DEMAND)
+        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.TOP, True)
+        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.BOTTOM, True)
+        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, True)
+        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.RIGHT, True)
+        GtkLayerShell.set_exclusive_zone(self, -1)
+
+        self.show()
+
+    def handle_keyboard(self, w, event):
+        if event.type == Gdk.EventType.KEY_RELEASE:
+            if self.test and event.keyval == Gdk.KEY_Escape:
+                Gtk.main_quit()
+
+        return True
