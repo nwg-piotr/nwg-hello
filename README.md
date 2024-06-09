@@ -3,8 +3,8 @@
 This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell) project.
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
-It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org). Also see: 
-[Running on Debian and labwc](#running-on-debian-and-labwc) below.
+It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org)  (also see: 
+[Running on Debian and labwc](#running-on-debian-and-labwc) below).
 The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured
 for standalone use.
 
