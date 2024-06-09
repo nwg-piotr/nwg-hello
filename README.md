@@ -3,7 +3,8 @@
 This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell) project.
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
-It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org). 
+It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org). Also see: 
+[Running on Debian and labwc](#running-on-debian-and-labwc) below.
 The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured
 for standalone use.
 
@@ -152,6 +153,56 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 
 If you'd like to use own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your `poweroff.svg`, 
 `reboot.svg` and `sleep.svg` files in the same directory.
+
+## Running on Debian and labwc
+
+Submitted by @01micko.
+
+### configs
+
+#### /etc/greetd/greetd.conf
+
+```toml
+[terminal]
+# The VT to run the greeter on. Can be "next", "current" or a number
+# designating the VT.
+vt = 7
+
+# The default session, also known as the greeter.
+[default_session]
+
+command = "labwc --config-dir /etc/nwg-hello/labwc-config"
+
+# The user to run the command as. The privileges this user must have depends
+# on the greeter. A graphical greeter may for example require the user to be
+# in the `video` group.
+user = "_greetd"
+```
+
+NOTE: The user `_greetd` is a debian thing, even though it isn't set up correctly. You have to manually add to 'video' 
+group and `chown` all the files in `/etc/greetd`.
+
+#### /etc/nwg-hello/labwc-config/autostart
+
+```sh
+# start nwg-hello - full paths aren't required, but saves lookup time
+exec /usr/bin/nwg-hello; /usr/bin/labwc --exit
+```
+
+#### /etc/nwg-hello/labwc-config/rc.xml (optional)
+- only if you want a screenshot (using `PrtScr` key) of `nwg-hello` saved to /etc/greetd/
+
+```xml
+ <?xml version="1.0" ?>
+<labwc_config>
+
+  <keyboard>
+    <default />
+    <keybind key="Print"><action name="Execute" command="grim" /></keybind>
+  </keyboard>
+
+</labwc_config>
+```
 
 ## Acknowledgments
 
