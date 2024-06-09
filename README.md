@@ -156,7 +156,7 @@ If you'd like to use own icons, do not replace `/usr/share/nwg-hello/*-default.s
 
 ## Running on Debian and labwc
 
-Submitted by @01micko.
+Submitted by [@01micko](https://github.com/01micko).
 
 ### configs
 
