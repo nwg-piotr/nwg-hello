@@ -1,0 +1,14 @@
+{
+  "failed-starting-session": "セッションの開始に失敗しました",
+  "login": "ログイン",
+  "login-failed": "ログインに失敗しました",
+  "password": "パスワード",
+  "password-empty": "パスワードを空にすることはできません",
+  "power-off": "電源オフ",
+  "session": "セッション",
+  "show-password": "パスワードを表示",
+  "sleep": "スリープ",
+  "reboot": "再起動",
+  "user": "ユーザー",
+  "welcome": "ようこそ！"
+}
