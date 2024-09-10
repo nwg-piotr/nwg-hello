@@ -132,13 +132,6 @@ if args.debug:
     eprint(f"X11 sessions: {x_sessions}", log=args.log)
 
 
-def set_clock():
-    _now = datetime.now()
-    for win in windows:
-        win.update_time(_now)
-    return False
-
-
 def move_clock():
     _now = datetime.now()
     for win in windows:
@@ -187,7 +180,6 @@ def main():
             else:
                 win = EmptyWindow(monitor, args.log, args.test)
 
-    GLib.timeout_add(0, set_clock)
     GLib.timeout_add_seconds(1, move_clock)
     Gtk.main()
 
