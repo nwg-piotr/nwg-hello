@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import os.path
-import subprocess
 import time
 
 from datetime import datetime
@@ -174,13 +173,12 @@ def main():
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
             if not settings["form_on_monitors"] or i in settings["form_on_monitors"]:
-                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log,
-                                    args.test)
+                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
                 windows.append(win)
             else:
                 win = EmptyWindow(monitor, args.log, args.test)
 
-    GLib.timeout_add_seconds(1, move_clock)
+    GLib.timeout_add(1, move_clock)
     Gtk.main()
 
 
