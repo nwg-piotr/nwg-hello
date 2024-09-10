@@ -146,11 +146,6 @@ def move_clock():
     return True
 
 
-def click():
-    subprocess.Popen("swaymsg seat - cursor release button1", shell=True)
-    return False
-
-
 def main():
     # Some monitors take longer to startup; we can just time.sleep() here, as we're not yet on the GTK loop.
     if settings["delay_secs"] > 0:
@@ -191,10 +186,6 @@ def main():
                 windows.append(win)
             else:
                 win = EmptyWindow(monitor, args.log, args.test)
-
-    if os.getenv('SWAYSOCK'):
-        # emulate btn release to grab focus #20
-        Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE, 0, click)
 
     GLib.timeout_add(0, set_clock)
     GLib.timeout_add_seconds(1, move_clock)
