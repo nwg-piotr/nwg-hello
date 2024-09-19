@@ -150,7 +150,7 @@ class GreeterWindow(Gtk.Window):
         GtkLayerShell.init_for_window(self.window)
         GtkLayerShell.set_monitor(self.window, monitor)
         GtkLayerShell.set_layer(self.window, GtkLayerShell.Layer.OVERLAY)
-        GtkLayerShell.set_keyboard_mode(self.window, GtkLayerShell.KeyboardMode.ON_DEMAND)
+        GtkLayerShell.set_keyboard_mode(self.window, GtkLayerShell.KeyboardMode.EXCLUSIVE)
         GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.TOP, True)
         GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.BOTTOM, True)
         GtkLayerShell.set_anchor(self.window, GtkLayerShell.Edge.LEFT, True)
