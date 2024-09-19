@@ -131,11 +131,27 @@ if args.debug:
     eprint(f"X11 sessions: {x_sessions}", log=args.log)
 
 
+def set_clock():
+    _now = datetime.now()
+    for win in windows:
+        win.update_time(_now)
+    return False
+
+
 def move_clock():
     _now = datetime.now()
     for win in windows:
         win.update_time(_now)
     return True
+
+
+def emulate_mouse_event():
+    # In order to focus the window -> password form entry, we need to perform some mouse event.
+    # Although I tried hard, nothing worked well on Hyprland 0.43.0, so we'll only do it for sway.
+    if os.getenv('SWAYSOCK'):
+        subprocess.Popen("swaymsg seat - cursor release button1", shell=True)
+
+    return False
 
 
 def main():
@@ -178,7 +194,11 @@ def main():
             else:
                 win = EmptyWindow(monitor, args.log, args.test)
 
-    GLib.timeout_add(1, move_clock)
+    GLib.timeout_add(0, set_clock)
+    GLib.timeout_add(500, move_clock)
+
+    GLib.timeout_add(1000, emulate_mouse_event)
+
     Gtk.main()
 
 
