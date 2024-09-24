@@ -110,6 +110,9 @@ else:
 if os.path.isfile("/etc/nwg-hello/en_US"):
     # allow user-defined basic lang file in /etc/nwg-hello #19
     voc = load_json("/etc/nwg-hello/en_US")
+    if not voc:
+        eprint(f"Could not load /etc/nwg-hello/en_US, loading default file instead.")
+        voc = load_json(os.path.join(dir_name, "langs", "en_US"))
 else:
     # load predefined basic lang file
     voc = load_json(os.path.join(dir_name, "langs", "en_US"))
@@ -121,6 +124,9 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
     if os.path.isfile(os.path.join("/etc/nwg-hello", user_locale)):
         # allow user-defined lang files in /etc/nwg-hello #19
         loc = load_json(os.path.join("/etc/nwg-hello", user_locale))
+        if not loc:
+            eprint(f"Could not load {os.path.join('/etc/nwg-hello', user_locale)}, loading default file instead.")
+            loc = load_json(os.path.join(dir_name, "langs", user_locale))
     else:
         # load predefined lang file
         loc = load_json(os.path.join(dir_name, "langs", user_locale))
