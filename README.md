@@ -154,6 +154,14 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 If you'd like to use own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your `poweroff.svg`, 
 `reboot.svg` and `sleep.svg` files in the same directory.
 
+## Own language files
+
+You can't translate labels in the .glade file, as the program replaces the values with what's defined in 
+[language files](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs). Since the 0.2.4 version, however, 
+you can copy your lang file to `/etc/nwg-hello/` and make desired changes there, 
+see https://github.com/nwg-piotr/nwg-hello/issues/19. Be careful with syntax, the JSON format is unforgiving.
+Test your lang file by running `nwg-hello -t -d` from terminal.
+
 ## Running on Debian and labwc
 
 Submitted by [@01micko](https://github.com/01micko).

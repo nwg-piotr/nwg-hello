@@ -107,12 +107,37 @@ else:
     client = None
 
 # Load vocabulary
-voc = load_json(os.path.join(dir_name, "langs", "en_US"))
+if os.path.isfile("/etc/nwg-hello/en_US"):
+    # allow user-defined basic lang file in /etc/nwg-hello #19
+    voc = load_json("/etc/nwg-hello/en_US")
+    if not voc:
+        # couldn't load json!
+        eprint(f"Could not load /etc/nwg-hello/en_US, loading default file instead.")
+        voc = load_json(os.path.join(dir_name, "langs", "en_US"))
+    else:
+        if args.debug:
+            eprint(f"Using /etc/nwg-hello/en_US lang file")
+else:
+    # load predefined basic lang file
+    voc = load_json(os.path.join(dir_name, "langs", "en_US"))
+
 user_locale = locale.getlocale()[0] if not settings["lang"] else settings["lang"]
 # translate if necessary (and if we have a translation)
 if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "langs")):
     # translated phrases
-    loc = load_json(os.path.join(dir_name, "langs", user_locale))
+    if os.path.isfile(os.path.join("/etc/nwg-hello", user_locale)):
+        # allow user-defined lang files in /etc/nwg-hello #19
+        loc = load_json(os.path.join("/etc/nwg-hello", user_locale))
+        if not loc:
+            # couldn't load json!
+            eprint(f"Could not load {os.path.join('/etc/nwg-hello', user_locale)}, loading default file instead.")
+            loc = load_json(os.path.join(dir_name, "langs", user_locale))
+        else:
+            if args.debug:
+                eprint(f"Using /etc/nwg-hello/{user_locale} lang file")
+    else:
+        # load predefined lang file
+        loc = load_json(os.path.join(dir_name, "langs", user_locale))
     for key in voc:
         if key in loc:
             voc[key] = loc[key]
