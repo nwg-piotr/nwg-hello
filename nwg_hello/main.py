@@ -114,6 +114,9 @@ if os.path.isfile("/etc/nwg-hello/en_US"):
         # couldn't load json!
         eprint(f"Could not load /etc/nwg-hello/en_US, loading default file instead.")
         voc = load_json(os.path.join(dir_name, "langs", "en_US"))
+    else:
+        if args.debug:
+            eprint(f"Using /etc/nwg-hello/en_US lang file")
 else:
     # load predefined basic lang file
     voc = load_json(os.path.join(dir_name, "langs", "en_US"))
@@ -129,6 +132,9 @@ if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "
             # couldn't load json!
             eprint(f"Could not load {os.path.join('/etc/nwg-hello', user_locale)}, loading default file instead.")
             loc = load_json(os.path.join(dir_name, "langs", user_locale))
+        else:
+            if args.debug:
+                eprint(f"Using /etc/nwg-hello/{user_locale} lang file")
     else:
         # load predefined lang file
         loc = load_json(os.path.join(dir_name, "langs", user_locale))
