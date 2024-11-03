@@ -128,6 +128,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "gtk-cursor-theme": "",
   "prefer-dark-theme": true,
   "template-name": "",
+  "time-format": "%H:%M:%S",
+  "date-format": "%A, %d. %B",
   "lang": "",
   "env-vars": []
 }
@@ -142,6 +144,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"gtk-theme"`, `"gtk-icon-theme"` and `"gtk-cursor-theme"` are of little importance as long, as you use classes and IDs from the default css style sheet.
 - `"prefer-dark-theme"` should remain `true`, unless you need to turn it off for use with your own background and/or styling.
 - `"template-name"` allows use of own templates: find the built-in `/usr/lib/python3.xx/site-packages/nwg_hello-x.y.z-py3.xx.egg/nwg_hello/template.glade` file, copy to a folder somewhere in `~/`, edit and place as `/etc/nwg-hello/file-name.glade`. Do not change widget IDs. Set your `file-name.glade` as the `"template-name"` value. Leave blank to use the built-in template.
+- `"time-format"`: string to format clock with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
+- `"date-format"`: string to format date with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 

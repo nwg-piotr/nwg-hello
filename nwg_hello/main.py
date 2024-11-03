@@ -55,24 +55,31 @@ if settings and args.debug:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
 # set defaults if key not found
 defaults = {
-    "session_dirs": [
-        "/usr/share/wayland-sessions",
-        "/usr/share/xsessions"
-    ],
-    "gtk-theme": "Adwaita",
-    "gtk-icon-theme": "",
-    "gtk-cursor-theme": "",
-    "prefer-dark-theme": True,
-    "template-name": "",
-    "custom_sessions": [],
-    "monitor_nums": [],
-    "form_on_monitors": [],
-    "delay_secs": 1,
-    "lang": "",
-    "cmd-sleep": "systemctl suspend",
-    "cmd-reboot": "systemctl reboot",
-    "cmd-poweroff": "systemctl poweroff",
-    "env-vars": []
+  "session_dirs": [
+    "/usr/share/wayland-sessions",
+    "/usr/share/xsessions"
+  ],
+  "custom_sessions": [
+    {
+      "name": "Shell",
+      "exec": "/usr/bin/bash"
+    }
+  ],
+  "monitor_nums": [],
+  "form_on_monitors": [],
+  "delay_secs": 1,
+  "cmd-sleep": "systemctl suspend",
+  "cmd-reboot": "systemctl reboot",
+  "cmd-poweroff": "systemctl poweroff",
+  "gtk-theme": "Adwaita",
+  "gtk-icon-theme": "",
+  "gtk-cursor-theme": "",
+  "prefer-dark-theme": True,
+  "template-name": "",
+  "time-format": "%H:%M:%S",
+  "date-format": "%A, %d. %B",
+  "lang": "",
+  "env-vars": []
 }
 for key in defaults:
     if key not in settings:
@@ -159,14 +166,14 @@ if args.debug:
 def set_clock():
     _now = datetime.now()
     for win in windows:
-        win.update_time(_now)
+        win.update_time(_now, settings["time-format"], settings["date-format"])
     return False
 
 
 def move_clock():
     _now = datetime.now()
     for win in windows:
-        win.update_time(_now)
+        win.update_time(_now, settings["time-format"], settings["date-format"])
     return True
 
 
