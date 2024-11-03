@@ -171,9 +171,9 @@ class GreeterWindow(Gtk.Window):
 
         return True
 
-    def update_time(self, now):
-        self.lbl_clock.set_text(f'{now.strftime("%H:%M:%S")}')
-        self.lbl_date.set_text(f'{now.strftime("%A, %d. %B")}')
+    def update_time(self, now, time_format, date_format):
+        self.lbl_clock.set_text(f'{now.strftime(time_format)}')
+        self.lbl_date.set_text(f'{now.strftime(date_format)}')
 
     def on_session_changed(self, combo):
         self.entry_password.grab_focus()
