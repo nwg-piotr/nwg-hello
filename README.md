@@ -130,6 +130,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "template-name": "",
   "time-format": "%H:%M:%S",
   "date-format": "%A, %d. %B",
+  "layer": "overlay",
+  "keyboard-mode": "exclusive",
   "lang": "",
   "env-vars": []
 }
@@ -146,6 +148,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"template-name"` allows use of own templates: find the built-in `/usr/lib/python3.xx/site-packages/nwg_hello-x.y.z-py3.xx.egg/nwg_hello/template.glade` file, copy to a folder somewhere in `~/`, edit and place as `/etc/nwg-hello/file-name.glade`. Do not change widget IDs. Set your `file-name.glade` as the `"template-name"` value. Leave blank to use the built-in template.
 - `"time-format"`: string to format clock with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
 - `"date-format"`: string to format date with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
+- `"layer"`: allows to choose gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
+- `"keyboard-mode"`: allows to choose gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 

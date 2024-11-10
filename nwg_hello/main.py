@@ -55,31 +55,33 @@ if settings and args.debug:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
 # set defaults if key not found
 defaults = {
-  "session_dirs": [
-    "/usr/share/wayland-sessions",
-    "/usr/share/xsessions"
-  ],
-  "custom_sessions": [
-    {
-      "name": "Shell",
-      "exec": "/usr/bin/bash"
-    }
-  ],
-  "monitor_nums": [],
-  "form_on_monitors": [],
-  "delay_secs": 1,
-  "cmd-sleep": "systemctl suspend",
-  "cmd-reboot": "systemctl reboot",
-  "cmd-poweroff": "systemctl poweroff",
-  "gtk-theme": "Adwaita",
-  "gtk-icon-theme": "",
-  "gtk-cursor-theme": "",
-  "prefer-dark-theme": True,
-  "template-name": "",
-  "time-format": "%H:%M:%S",
-  "date-format": "%A, %d. %B",
-  "lang": "",
-  "env-vars": []
+    "session_dirs": [
+        "/usr/share/wayland-sessions",
+        "/usr/share/xsessions"
+    ],
+    "custom_sessions": [
+        {
+            "name": "Shell",
+            "exec": "/usr/bin/bash"
+        }
+    ],
+    "monitor_nums": [],
+    "form_on_monitors": [],
+    "delay_secs": 1,
+    "cmd-sleep": "systemctl suspend",
+    "cmd-reboot": "systemctl reboot",
+    "cmd-poweroff": "systemctl poweroff",
+    "gtk-theme": "Adwaita",
+    "gtk-icon-theme": "",
+    "gtk-cursor-theme": "",
+    "prefer-dark-theme": True,
+    "template-name": "",
+    "time-format": "%H:%M:%S",
+    "date-format": "%A, %d. %B",
+    "layer": "overlay",
+    "keyboard-mode": "exclusive",
+    "lang": "",
+    "env-vars": []
 }
 for key in defaults:
     if key not in settings:
@@ -221,10 +223,11 @@ def main():
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
             if not settings["form_on_monitors"] or i in settings["form_on_monitors"]:
-                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log, args.test)
+                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log,
+                                    args.test)
                 windows.append(win)
             else:
-                win = EmptyWindow(monitor, args.log, args.test)
+                win = EmptyWindow(settings, monitor, args.log, args.test)
 
     GLib.timeout_add(0, set_clock)
     GLib.timeout_add(500, move_clock)
