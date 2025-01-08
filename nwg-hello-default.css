@@ -1,5 +1,5 @@
 window {
-	background-image: url("/usr/share/nwg-hello/nwg.jpg"); background-size: 100% 100%
+	background-image: url("/usr/share/nwg-hello/nwg.jpg"); background-size: auto 100%
 }
 
 #form-wrapper {
