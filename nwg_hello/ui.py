@@ -212,10 +212,11 @@ class GreeterWindow(Gtk.Window):
         self.entry_password.set_visibility(widget.get_active())
 
     def login(self, btn):
-        if not self.entry_password.get_text():
-            eprint("Login: passwd empty, cancelling", log=self.log)
-            self.lbl_message.set_text(self.voc["password-empty"])
-            return
+        # https://github.com/nwg-piotr/nwg-hello/issues/34
+        # if not self.entry_password.get_text():
+        #     eprint("Login: passwd empty, cancelling", log=self.log)
+        #     self.lbl_message.set_text(self.voc["password-empty"])
+        #     return
         if self.client:
             try:
                 jreq = {"type": "cancel_session"}
