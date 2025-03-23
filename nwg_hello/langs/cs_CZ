@@ -1,0 +1,14 @@
+{
+  "failed-starting-session": "Nepodařilo se spustit relaci",
+  "login": "Přihlášení",
+  "login-failed": "Chyba přihlášení",
+  "password": "Heslo",
+  "password-empty": "Heslo nemůže být prázdné",
+  "power-off": "Vypnout",
+  "session": "Relace",
+  "show-password": "Zobrazit heslo",
+  "sleep": "Uspat",
+  "reboot": "Restartovat",
+  "user": "Uživatel",
+  "welcome": "Vítejte!"
+}
