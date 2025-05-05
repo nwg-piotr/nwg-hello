@@ -57,6 +57,9 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date = builder.get_object("lbl-date")
         self.lbl_date.set_property("name", "date-label")
 
+        if self.settings["avatar-show"]:
+            self.avatar_wrapper = builder.get_object("avatar-wrapper")
+
         lbl_session = builder.get_object("lbl-session")
         lbl_session.set_property("name", "form-label")
         lbl_session.set_text(f'{voc["session"]}:')
@@ -80,18 +83,6 @@ class GreeterWindow(Gtk.Window):
         lbl_user.set_property("name", "form-label")
         lbl_user.set_text(f'{voc["user"]}:')
 
-        self.combo_user = builder.get_object("combo-user")
-        self.combo_user.set_property("name", "form-combo")
-        for user in users:
-            self.combo_user.append(user, user)
-        if "user" in self.cache and self.cache["user"]:
-            # preselect the user stored in cache
-            self.combo_user.set_active_id(self.cache["user"])
-        else:
-            # or the 1st user
-            self.combo_user.set_active_id(users[0])
-        self.combo_user.connect("changed", self.on_user_changed)
-
         lbl_password = builder.get_object("lbl-password")
         lbl_password.set_property("name", "form-label")
         lbl_password.set_text(f'{voc["password"]}:')
@@ -107,6 +98,21 @@ class GreeterWindow(Gtk.Window):
 
         self.lbl_message = builder.get_object("lbl-message")
         self.lbl_message.set_text("")
+
+        self.combo_user = builder.get_object("combo-user")
+        self.combo_user.set_property("name", "form-combo")
+        for user in users:
+            self.combo_user.append(user, user)
+        self.combo_user.connect("changed", self.on_user_changed)
+        if "user" in self.cache and self.cache["user"]:
+            # preselect the user stored in the cache
+            self.combo_user.set_active_id(self.cache["user"])
+        else:
+            # or the 1st user
+            self.combo_user.set_active_id(users[0])
+
+        # password and message label moved up, as we've just connected user combo to on_user_changed(),
+        # that needs them to be already declared
 
         btn_login = builder.get_object("btn-login")
         btn_login.set_property("name", "login-button")
@@ -198,6 +204,21 @@ class GreeterWindow(Gtk.Window):
 
     def on_user_changed(self, combo):
         selected_user = self.combo_user.get_active_id()
+        # Look up user avatar
+        print(selected_user)
+        paths = [
+            f"/var/lib/AccountsService/icons/{selected_user + "a"}",
+            f"/var/lib/avatars/{selected_user}/.face",
+            os.path.join(p_icon_path("avatar"))
+        ]
+        for p in paths:
+            if os.path.exists(p):
+                print(p)
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
+                img = Gtk.Image.new_from_pixbuf(pixbuf)
+                img.set_property("name", "avatar-image")
+                break
+
         if "sessions" in self.cache and selected_user in self.cache["sessions"]:
             # preselect user session if available in cache
             self.combo_session.set_active_id(self.cache["sessions"][selected_user])
@@ -205,7 +226,6 @@ class GreeterWindow(Gtk.Window):
         self.clear_message_label()
 
     def clear_message_label(self, *args):
-        print("clear_message_label")
         self.lbl_message.set_text("")
 
     def on_password_cb(self, widget):
