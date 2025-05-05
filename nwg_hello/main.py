@@ -82,6 +82,7 @@ defaults = {
     "keyboard-mode": "exclusive",
     "lang": "",
     "avatar-show": True,
+    "avatar-rounded": True,
     "avatar-size": 100,
     "env-vars": []
 }

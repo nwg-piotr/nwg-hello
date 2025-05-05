@@ -213,10 +213,13 @@ class GreeterWindow(Gtk.Window):
             ]
             for p in paths:
                 if os.path.exists(p):
-                    pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
-                    img = Gtk.Image.new_from_pixbuf(pixbuf)
+                    if self.settings["avatar-rounded"]:
+                        img = RoundedImage(os.path.join(p), self.settings["avatar-size"])
+                    else:
+                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
+                        img = Gtk.Image.new_from_pixbuf(pixbuf)
                     img.set_property("name", "avatar-image")
-                    self.avatar_wrapper.pack_start(img, True, True, 0)
+                    self.avatar_wrapper.pack_start(img, True, False, 0)
                     self.avatar_wrapper.show_all()
                     break
 
@@ -339,3 +342,20 @@ class EmptyWindow(Gtk.Window):
                 Gtk.main_quit()
 
         return True
+
+class RoundedImage(Gtk.DrawingArea):
+    def __init__(self, image_path, size=100):
+        super().__init__()
+        self.image_path = image_path
+        self.size = size
+        self.connect("draw", self.on_draw)
+        self.set_size_request(size, size)
+
+    def on_draw(self, widget, cr):
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(self.image_path, self.size, self.size)
+        Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
+
+        # Create circle mask
+        cr.arc(self.size/2, self.size/2, self.size/2, 0, 2*3.14)
+        cr.clip()
+        cr.paint()
