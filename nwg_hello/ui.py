@@ -204,20 +204,21 @@ class GreeterWindow(Gtk.Window):
 
     def on_user_changed(self, combo):
         selected_user = self.combo_user.get_active_id()
-        # Look up user avatar
-        print(selected_user)
-        paths = [
-            f"/var/lib/AccountsService/icons/{selected_user + "a"}",
-            f"/var/lib/avatars/{selected_user}/.face",
-            os.path.join(p_icon_path("avatar"))
-        ]
-        for p in paths:
-            if os.path.exists(p):
-                print(p)
-                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
-                img = Gtk.Image.new_from_pixbuf(pixbuf)
-                img.set_property("name", "avatar-image")
-                break
+        if self.settings["avatar-show"]:
+            # Look up user avatar
+            paths = [
+                f"/var/lib/AccountsService/icons/{selected_user}",
+                f"/var/lib/avatars/{selected_user}/.face",
+                os.path.join(p_icon_path("avatar"))
+            ]
+            for p in paths:
+                if os.path.exists(p):
+                    pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
+                    img = Gtk.Image.new_from_pixbuf(pixbuf)
+                    img.set_property("name", "avatar-image")
+                    self.avatar_wrapper.pack_start(img, True, True, 0)
+                    self.avatar_wrapper.show_all()
+                    break
 
         if "sessions" in self.cache and selected_user in self.cache["sessions"]:
             # preselect user session if available in cache

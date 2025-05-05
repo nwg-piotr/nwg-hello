@@ -62,3 +62,7 @@ button:hover {
 
 #login-button {
 }
+
+#avatar-image {
+	border-radius: 50%;
+}
