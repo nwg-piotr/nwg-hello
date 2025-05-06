@@ -81,9 +81,10 @@ defaults = {
     "layer": "overlay",
     "keyboard-mode": "exclusive",
     "lang": "",
-    "avatar-show": True,
-    "avatar-rounded": True,
+    "avatar-show": False,
     "avatar-size": 100,
+    "avatar-border-width": 1,
+    "avatar-border-color": "#eee",
     "env-vars": []
 }
 for key in defaults:

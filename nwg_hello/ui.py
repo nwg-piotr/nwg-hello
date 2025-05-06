@@ -213,12 +213,8 @@ class GreeterWindow(Gtk.Window):
             ]
             for p in paths:
                 if os.path.exists(p):
-                    if self.settings["avatar-rounded"]:
-                        img = RoundedImage(os.path.join(p), self.settings["avatar-size"])
-                    else:
-                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(p), self.settings["avatar-size"], self.settings["avatar-size"])
-                        img = Gtk.Image.new_from_pixbuf(pixbuf)
-                    img.set_property("name", "avatar-image")
+                    img = RoundedImage(os.path.join(p), self.settings["avatar-size"],
+                                       self.settings["avatar-border-width"], self.settings["avatar-border-color"])
                     self.avatar_wrapper.pack_start(img, True, False, 0)
                     self.avatar_wrapper.show_all()
                     break
@@ -343,19 +339,48 @@ class EmptyWindow(Gtk.Window):
 
         return True
 
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    if len(hex_color) == 6:
+        r, g, b = [int(hex_color[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+    elif len(hex_color) == 3:
+        r, g, b = [int(c * 2, 16) / 255.0 for c in hex_color]
+    else:
+        raise ValueError("Invalid hex color format. Use #rrggbb or #rgb.")
+
+    return r, g, b
+
+
 class RoundedImage(Gtk.DrawingArea):
-    def __init__(self, image_path, size=100):
+    def __init__(self, image_path, size=100, border_width=1, border_color="#eee"):
         super().__init__()
         self.image_path = image_path
         self.size = size
+        self.border_width = border_width
+        try:
+            self.border_color = hex_to_rgb(border_color)
+        except ValueError as e:
+            eprint(e)
+            self.border_color = (0, 0, 0)
+
         self.connect("draw", self.on_draw)
         self.set_size_request(size, size)
 
     def on_draw(self, widget, cr):
+        radius = self.size / 2
+        center = radius
+
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(self.image_path, self.size, self.size)
         Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
 
         # Create circle mask
-        cr.arc(self.size/2, self.size/2, self.size/2, 0, 2*3.14)
+        cr.arc(self.size / 2, self.size / 2, self.size / 2, 0, 2 * 3.14)
         cr.clip()
         cr.paint()
+
+        cr.reset_clip()
+        cr.set_source_rgb(*self.border_color)
+        cr.set_line_width(self.border_width)
+        cr.arc(center, center, radius - self.border_width / 2, 0, 2 * 3.14)
+        cr.stroke()
