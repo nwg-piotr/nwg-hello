@@ -178,12 +178,12 @@ you can copy your lang file to `/etc/nwg-hello/` and make desired changes there,
 see https://github.com/nwg-piotr/nwg-hello/issues/19. Be careful with syntax, the JSON format is unforgiving.
 Test your lang file by running `nwg-hello -t -d` from terminal.
 
-## Avatars
+## User avatar
 
-New in version 0.4.0. Turned off in default config. The feature uses images stored as `/var/lib/AccountsService/icons/$USERNAME` 
-by gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well).
+New in version 0.4.0. Turned off in default config. The feature displays user's profile picture from `/var/lib/AccountsService/icons/$USERNAME`, 
+stored by gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well).
 Let me anticipate your question: is it possible to change the image's CSS attributes? No, sorry. It will always be 
-rounded, and you can only change the border width and color, see above.
+rounded, and you can only change the image size, border width and border color, see [Configuration](#configuration).
 
 ## Running on Debian and labwc
 
