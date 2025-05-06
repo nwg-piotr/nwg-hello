@@ -159,6 +159,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"avatar-size"`: avatar image size in pixels.
 - `"avatar-border-width"`: avatar border width in pixels.
 - `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
+- `"avatar-corner-radius"`: corner radius for rectangular avatar image,
+- `"avatar-circle"`: draw avatar as a circle (corner radius ignored),
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
 ## Styling
@@ -180,10 +182,14 @@ Test your lang file by running `nwg-hello -t -d` from terminal.
 
 ## User avatar
 
-New in version 0.4.0. Turned off in default config. The feature displays user's profile picture from `/var/lib/AccountsService/icons/$USERNAME`, 
-stored by gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well).
-Let me anticipate your question: is it possible to change the image's CSS attributes? No, sorry. It will always be 
-rounded, and you can only change the image size, border width and border color, see [Configuration](#configuration).
+New in version 0.4.0. Disabled in default config. Set `"avatar-show": true` to enable.
+
+The feature displays user's profile picture from `/var/lib/AccountsService/icons/$USERNAME`, stored by 
+gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well). See [Configuration](#configuration)
+for related values.
+
+NOTE: if you use your customized `/etc/nwg-hello/nwg-hello.json` file, remember to copy all `avatar-*` key-value pairs
+from `/etc/nwg-hello/nwg-hello-default.json`.
 
 ## Running on Debian and labwc
 
