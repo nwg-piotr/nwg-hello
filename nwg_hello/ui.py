@@ -216,7 +216,8 @@ class GreeterWindow(Gtk.Window):
                     for c in self.avatar_wrapper.get_children():
                         c.destroy()
                     img = RoundedImage(os.path.join(p), self.settings["avatar-size"],
-                                       self.settings["avatar-border-width"], self.settings["avatar-border-color"])
+                                       self.settings["avatar-border-width"], self.settings["avatar-border-color"],
+                                       self.settings["avatar-circle"], self.settings["avatar-corner-radius"])
                     self.avatar_wrapper.pack_start(img, True, False, 0)
                     self.avatar_wrapper.show_all()
                     break
@@ -355,11 +356,13 @@ def hex_to_rgb(hex_color):
 
 
 class RoundedImage(Gtk.DrawingArea):
-    def __init__(self, image_path, size=100, border_width=1, border_color="#eee"):
+    def __init__(self, image_path, size=100, border_width=1, border_color="#eee", circle=False, corner_radius=15):
         super().__init__()
         self.image_path = image_path
         self.size = size
         self.border_width = border_width
+        self.circle = circle  # circle or rounded square
+        self.corner_radius = corner_radius
         try:
             self.border_color = hex_to_rgb(border_color)
         except ValueError as e:
@@ -369,20 +372,35 @@ class RoundedImage(Gtk.DrawingArea):
         self.connect("draw", self.on_draw)
         self.set_size_request(size, size)
 
-    def on_draw(self, widget, cr):
-        radius = self.size / 2
-        center = radius
+    def draw_rounded_rectangle(self, cr, x, y, width, height, radius):
+        cr.new_sub_path()
+        cr.arc(x + width - radius, y + radius, radius, -0.5 * 3.14, 0)
+        cr.arc(x + width - radius, y + height - radius, radius, 0, 0.5 * 3.14)
+        cr.arc(x + radius, y + height - radius, radius, 0.5 * 3.14, 3.14)
+        cr.arc(x + radius, y + radius, radius, 3.14, 1.5 * 3.14)
+        cr.close_path()
 
+    def on_draw(self, widget, cr):
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(self.image_path, self.size, self.size)
         Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
 
-        # Create circle mask
-        cr.arc(self.size / 2, self.size / 2, self.size / 2, 0, 2 * 3.14)
+        if self.circle:
+            cr.arc(self.size / 2, self.size / 2, self.size / 2, 0, 2 * 3.14)
+        else:
+            self.draw_rounded_rectangle(cr, 0, 0, self.size, self.size, self.corner_radius)
+
         cr.clip()
         cr.paint()
 
         cr.reset_clip()
         cr.set_source_rgb(*self.border_color)
         cr.set_line_width(self.border_width)
-        cr.arc(center, center, radius - self.border_width / 2, 0, 2 * 3.14)
+
+        if self.circle:
+            radius = self.size / 2 - self.border_width / 2
+            cr.arc(self.size / 2, self.size / 2, radius, 0, 2 * 3.14)
+        else:
+            self.draw_rounded_rectangle(cr, self.border_width / 2, self.border_width / 2,
+                                        self.size - self.border_width, self.size - self.border_width,
+                                        self.corner_radius)
         cr.stroke()

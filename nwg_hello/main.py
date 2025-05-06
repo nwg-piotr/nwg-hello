@@ -85,6 +85,8 @@ defaults = {
     "avatar-size": 100,
     "avatar-border-width": 1,
     "avatar-border-color": "#eee",
+    "avatar-corner-radius": 20,
+    "avatar-circle": False,
     "env-vars": []
 }
 for key in defaults:
