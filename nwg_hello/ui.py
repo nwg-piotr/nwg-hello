@@ -213,6 +213,8 @@ class GreeterWindow(Gtk.Window):
             ]
             for p in paths:
                 if os.path.exists(p):
+                    for c in self.avatar_wrapper.get_children():
+                        c.destroy()
                     img = RoundedImage(os.path.join(p), self.settings["avatar-size"],
                                        self.settings["avatar-border-width"], self.settings["avatar-border-color"])
                     self.avatar_wrapper.pack_start(img, True, False, 0)
