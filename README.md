@@ -26,7 +26,7 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 
 - Multi-monitor support with gtk-layer-shell;
 - multi-language support;
-- background & style customization with css;
+- background and style customization with CSS;
 - automatic selection of the last used session and user;
 - support for setting environment variables.
 
@@ -133,6 +133,10 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "layer": "overlay",
   "keyboard-mode": "exclusive",
   "lang": "",
+  "avatar-show": false,
+  "avatar-size": 100,
+  "avatar-border-width": 1,
+  "avatar-border-color": "#eee",
   "env-vars": []
 }
 ```
@@ -148,9 +152,13 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"template-name"` allows use of own templates: find the built-in `/usr/lib/python3.xx/site-packages/nwg_hello-x.y.z-py3.xx.egg/nwg_hello/template.glade` file, copy to a folder somewhere in `~/`, edit and place as `/etc/nwg-hello/file-name.glade`. Do not change widget IDs. Set your `file-name.glade` as the `"template-name"` value. Leave blank to use the built-in template.
 - `"time-format"`: string to format clock with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
 - `"date-format"`: string to format date with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
-- `"layer"`: allows to choose gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
-- `"keyboard-mode"`: allows to choose gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
+- `"layer"`: allows choosing gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
+- `"keyboard-mode"`: allows choosing gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
+- `"avatar-show"`: determines whether to display the user's profile picture. You may use [Mugshot](https://github.com/bluesabre/mugshot) to set one.
+- `"avatar-size"`: avatar image size in pixels.
+- `"avatar-border-width"`: avatar border width in pixels.
+- `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
 ## Styling
@@ -169,6 +177,13 @@ You can't translate labels in the .glade file, as the program replaces the value
 you can copy your lang file to `/etc/nwg-hello/` and make desired changes there, 
 see https://github.com/nwg-piotr/nwg-hello/issues/19. Be careful with syntax, the JSON format is unforgiving.
 Test your lang file by running `nwg-hello -t -d` from terminal.
+
+## Avatars
+
+New in version 0.4.0. Turned off in default config. The feature uses images stored as `/var/lib/AccountsService/icons/$USERNAME` 
+by gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well).
+Let me anticipate your question: is it possible to change the image's CSS attributes? No, sorry. It will always be 
+rounded, and you can only change the border width and color, see above.
 
 ## Running on Debian and labwc
 
