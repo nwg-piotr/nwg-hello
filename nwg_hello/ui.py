@@ -57,6 +57,9 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date = builder.get_object("lbl-date")
         self.lbl_date.set_property("name", "date-label")
 
+        if self.settings["avatar-show"]:
+            self.avatar_wrapper = builder.get_object("avatar-wrapper")
+
         lbl_session = builder.get_object("lbl-session")
         lbl_session.set_property("name", "form-label")
         lbl_session.set_text(f'{voc["session"]}:')
@@ -80,18 +83,6 @@ class GreeterWindow(Gtk.Window):
         lbl_user.set_property("name", "form-label")
         lbl_user.set_text(f'{voc["user"]}:')
 
-        self.combo_user = builder.get_object("combo-user")
-        self.combo_user.set_property("name", "form-combo")
-        for user in users:
-            self.combo_user.append(user, user)
-        if "user" in self.cache and self.cache["user"]:
-            # preselect the user stored in cache
-            self.combo_user.set_active_id(self.cache["user"])
-        else:
-            # or the 1st user
-            self.combo_user.set_active_id(users[0])
-        self.combo_user.connect("changed", self.on_user_changed)
-
         lbl_password = builder.get_object("lbl-password")
         lbl_password.set_property("name", "form-label")
         lbl_password.set_text(f'{voc["password"]}:')
@@ -107,6 +98,21 @@ class GreeterWindow(Gtk.Window):
 
         self.lbl_message = builder.get_object("lbl-message")
         self.lbl_message.set_text("")
+
+        self.combo_user = builder.get_object("combo-user")
+        self.combo_user.set_property("name", "form-combo")
+        for user in users:
+            self.combo_user.append(user, user)
+        self.combo_user.connect("changed", self.on_user_changed)
+        if "user" in self.cache and self.cache["user"]:
+            # preselect the user stored in the cache
+            self.combo_user.set_active_id(self.cache["user"])
+        else:
+            # or the 1st user
+            self.combo_user.set_active_id(users[0])
+
+        # password and message label moved up, as we've just connected user combo to on_user_changed(),
+        # that needs them to be already declared
 
         btn_login = builder.get_object("btn-login")
         btn_login.set_property("name", "login-button")
@@ -198,6 +204,24 @@ class GreeterWindow(Gtk.Window):
 
     def on_user_changed(self, combo):
         selected_user = self.combo_user.get_active_id()
+        if self.settings["avatar-show"]:
+            # Look up user avatar
+            paths = [
+                f"/var/lib/AccountsService/icons/{selected_user}",
+                f"/var/lib/avatars/{selected_user}/.face",
+                os.path.join(p_icon_path("avatar"))
+            ]
+            for p in paths:
+                if os.path.exists(p):
+                    for c in self.avatar_wrapper.get_children():
+                        c.destroy()
+                    img = RoundedImage(os.path.join(p), self.settings["avatar-size"],
+                                       self.settings["avatar-border-width"], self.settings["avatar-border-color"],
+                                       self.settings["avatar-circle"], self.settings["avatar-corner-radius"])
+                    self.avatar_wrapper.pack_start(img, True, False, 0)
+                    self.avatar_wrapper.show_all()
+                    break
+
         if "sessions" in self.cache and selected_user in self.cache["sessions"]:
             # preselect user session if available in cache
             self.combo_session.set_active_id(self.cache["sessions"][selected_user])
@@ -205,7 +229,6 @@ class GreeterWindow(Gtk.Window):
         self.clear_message_label()
 
     def clear_message_label(self, *args):
-        print("clear_message_label")
         self.lbl_message.set_text("")
 
     def on_password_cb(self, widget):
@@ -318,3 +341,66 @@ class EmptyWindow(Gtk.Window):
                 Gtk.main_quit()
 
         return True
+
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    if len(hex_color) == 6:
+        r, g, b = [int(hex_color[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+    elif len(hex_color) == 3:
+        r, g, b = [int(c * 2, 16) / 255.0 for c in hex_color]
+    else:
+        raise ValueError("Invalid hex color format. Use #rrggbb or #rgb.")
+
+    return r, g, b
+
+
+class RoundedImage(Gtk.DrawingArea):
+    def __init__(self, image_path, size=100, border_width=1, border_color="#eee", circle=False, corner_radius=15):
+        super().__init__()
+        self.image_path = image_path
+        self.size = size
+        self.border_width = border_width
+        self.circle = circle  # circle or rounded square
+        self.corner_radius = corner_radius
+        try:
+            self.border_color = hex_to_rgb(border_color)
+        except ValueError as e:
+            eprint(e)
+            self.border_color = (0, 0, 0)
+
+        self.connect("draw", self.on_draw)
+        self.set_size_request(size, size)
+
+    def draw_rounded_rectangle(self, cr, x, y, width, height, radius):
+        cr.new_sub_path()
+        cr.arc(x + width - radius, y + radius, radius, -0.5 * 3.14, 0)
+        cr.arc(x + width - radius, y + height - radius, radius, 0, 0.5 * 3.14)
+        cr.arc(x + radius, y + height - radius, radius, 0.5 * 3.14, 3.14)
+        cr.arc(x + radius, y + radius, radius, 3.14, 1.5 * 3.14)
+        cr.close_path()
+
+    def on_draw(self, widget, cr):
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(self.image_path, self.size, self.size)
+        Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
+
+        if self.circle:
+            cr.arc(self.size / 2, self.size / 2, self.size / 2, 0, 2 * 3.14)
+        else:
+            self.draw_rounded_rectangle(cr, 0, 0, self.size, self.size, self.corner_radius)
+
+        cr.clip()
+        cr.paint()
+
+        cr.reset_clip()
+        cr.set_source_rgb(*self.border_color)
+        cr.set_line_width(self.border_width)
+
+        if self.circle:
+            radius = self.size / 2 - self.border_width / 2
+            cr.arc(self.size / 2, self.size / 2, radius, 0, 2 * 3.14)
+        else:
+            self.draw_rounded_rectangle(cr, self.border_width / 2, self.border_width / 2,
+                                        self.size - self.border_width, self.size - self.border_width,
+                                        self.corner_radius)
+        cr.stroke()

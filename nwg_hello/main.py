@@ -81,6 +81,12 @@ defaults = {
     "layer": "overlay",
     "keyboard-mode": "exclusive",
     "lang": "",
+    "avatar-show": False,
+    "avatar-size": 100,
+    "avatar-border-width": 1,
+    "avatar-border-color": "#eee",
+    "avatar-corner-radius": 20,
+    "avatar-circle": False,
     "env-vars": []
 }
 for key in defaults:
@@ -180,7 +186,7 @@ def move_clock():
 
 
 def emulate_mouse_event():
-    # In order to focus the window -> password form entry, we need to perform some mouse event.
+    # To focus the window -> password form entry, we need to perform some mouse event.
     # Although I tried hard, nothing worked well on Hyprland 0.43.0, so we'll only do it for sway.
     if os.getenv('SWAYSOCK'):
         subprocess.Popen("swaymsg seat - cursor release button1", shell=True)

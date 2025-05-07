@@ -3,10 +3,9 @@
 This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell) project.
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
-It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org)  (also see: 
+It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org) (also see: 
 [Running on Debian and labwc](#running-on-debian-and-labwc)).
-The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured
-for standalone use.
+The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured for standalone use.
 
 <img src="https://github.com/nwg-piotr/nwg-hello/assets/20579136/8a817bdf-a7a0-4790-be38-9306452ee120" width=640 alt="Screenshot"><br>
 
@@ -15,19 +14,20 @@ by Marian Arlt._
 
 ## Background
 
-I was looking for a good login manager for the nwg-iso project. I first used SDDM with the Sugar Candy theme, and it
-worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-based. Also, I know nothing on the QT
+I was in need of a good login manager for the nwg-iso project. I first used SDDM with the Sugar Candy theme, and it
+worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-based. Also, I know nothing about the QT
 framework, so couldn't adjust the greeter to my taste. The next choice was LightDM with [my modification](https://github.com/nwg-piotr/lightdm-nwg-greeter)
-of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked
-well, but LightDM would happen to hang way too often. Then I gave a try to greetd, and that was it. I only needed 
-a nice graphical greeter based on GTK3. Since there was no such thing, I had to develop one.
+of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked well, but LightDM would happen to hang way too 
+often. Then I gave a try to greetd, and that was it. I only needed a nice graphical greeter based on GTK3. Since there 
+was no such thing, I had to develop one.
 
 ## Features
 
 - Multi-monitor support with gtk-layer-shell;
 - multi-language support;
-- background & style customization with css;
+- background and style customization with CSS;
 - automatic selection of the last used session and user;
+- avatar (user picture) support;
 - support for setting environment variables.
 
 ## Dependencies
@@ -37,7 +37,7 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 - gtk3;
 - gtk-layer-shell;
 - Hyprland or sway Wayland compositor;
-- gnome-themes-extra (recommended, as it provides us with the default Adwaita theme).
+- gnome-themes-extra.
 
 ## Make dependencies
 
@@ -46,14 +46,20 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 - python-wheel
 - python-setuptools
 
+## Optional dependencies
+
+- mugshot: to set the user picture
+
 ## Installation
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/nwg-hello.svg)](https://repology.org/project/nwg-hello/versions)
 
-First you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
+First, you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
 
-The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
-dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
+The greeter can be installed as a package for your Linux distribution, or by cloning this repository and executing the 
+`install.sh` script (make sure you installed dependencies first). 
+
+Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
 
 ```toml
 [terminal]
@@ -92,11 +98,14 @@ if you want to use Hyprland, or this line if you prefer sway:
 command = "sway -c /etc/nwg-hello/sway-config"
 ```
 
+NOTE: you may need `sway --unsupported-gpu` for Nvidia. Also, if you'd like to make some additional configuration
+(e.g., monitor layout), edit `/etc/nwg-hello/hyprland.conf` or `/etc/nwg-hello/sway-config`, respectively.
+
 __Do not change the__ `user = "greeter"` __line__, or some file-related functions won't work.  
 
 ### Tip
 
-During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
+During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g., on Arch Linux
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
 To avoid such a situation, you may use the alternative `greetd.conf` file. This has not been mentioned in docs, 
 but greetd looks for this file first. Just copy `config.toml` to `greetd.conf` and make changes to the copy.
@@ -133,6 +142,12 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "layer": "overlay",
   "keyboard-mode": "exclusive",
   "lang": "",
+  "avatar-show": false,
+  "avatar-size": 100,
+  "avatar-border-width": 1,
+  "avatar-border-color": "#eee",
+  "avatar-corner-radius": 15,
+  "avatar-circle": false,
   "env-vars": []
 }
 ```
@@ -148,9 +163,15 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"template-name"` allows use of own templates: find the built-in `/usr/lib/python3.xx/site-packages/nwg_hello-x.y.z-py3.xx.egg/nwg_hello/template.glade` file, copy to a folder somewhere in `~/`, edit and place as `/etc/nwg-hello/file-name.glade`. Do not change widget IDs. Set your `file-name.glade` as the `"template-name"` value. Leave blank to use the built-in template.
 - `"time-format"`: string to format clock with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
 - `"date-format"`: string to format date with the strftime() function (see: https://www.man7.org/linux/man-pages/man3/strftime.3.html).
-- `"layer"`: allows to choose gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
-- `"keyboard-mode"`: allows to choose gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
+- `"layer"`: allows choosing gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
+- `"keyboard-mode"`: allows choosing gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
+- `"avatar-show"`: determines whether to display the user's profile picture.
+- `"avatar-size"`: avatar image size in pixels.
+- `"avatar-border-width"`: avatar border width in pixels.
+- `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
+- `"avatar-corner-radius"`: corner radius for rectangular avatar image,
+- `"avatar-circle"`: draw avatar as a circle (corner radius ignored),
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
 ## Styling
@@ -159,8 +180,9 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 
 ## Custom icons
 
-If you'd like to use own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your `poweroff.svg`, 
-`reboot.svg` and `sleep.svg` files in the same directory.
+If you'd like to use your own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your 
+`poweroff.svg`, `reboot.svg`, `sleep.svg` and `avatar.svg` files in the same directory. Attention: the `avatar.svg` file
+is not your profile picture, but a generic user image!
 
 ## Own language files
 
@@ -169,6 +191,19 @@ You can't translate labels in the .glade file, as the program replaces the value
 you can copy your lang file to `/etc/nwg-hello/` and make desired changes there, 
 see https://github.com/nwg-piotr/nwg-hello/issues/19. Be careful with syntax, the JSON format is unforgiving.
 Test your lang file by running `nwg-hello -t -d` from terminal.
+
+## User avatar
+
+New in version 0.4.0. Disabled in default config. Set `"avatar-show": true` to enable.
+
+The feature displays user's profile picture from `/var/lib/AccountsService/icons/$USERNAME`, stored by 
+gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well). See [Configuration](#configuration)
+for related values.
+
+Styling: no CSS is applicable here. You can set shape- and border-related values in config.
+
+NOTE: if you use your customized `/etc/nwg-hello/nwg-hello.json` file, remember to copy all `avatar-*` key-value pairs
+from `/etc/nwg-hello/nwg-hello-default.json`.
 
 ## Running on Debian and labwc
 
