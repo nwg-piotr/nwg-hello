@@ -146,6 +146,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "avatar-size": 100,
   "avatar-border-width": 1,
   "avatar-border-color": "#eee",
+  "avatar-corner-radius": 15,
+  "avatar-circle": false,
   "env-vars": []
 }
 ```
@@ -164,7 +166,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"layer"`: allows choosing gtk-layer-shell layer: 'background', 'bottom', 'top', 'overlay'; 'overlay' will be used if no value given.
 - `"keyboard-mode"`: allows choosing gtk-layer-shell keyboard mode: 'none', 'exclusive', 'on_demand'; 'exclusive' will be used if no value given.
 - `"lang"` allows you to force the use of a specific language, regardless of the `$LANG` system variable. Check if we have the translation in the [langs directory](https://github.com/nwg-piotr/nwg-hello/tree/main/nwg_hello/langs).
-- `"avatar-show"`: determines whether to display the user's profile picture. You may use [Mugshot](https://github.com/bluesabre/mugshot) to set one.
+- `"avatar-show"`: determines whether to display the user's profile picture.
 - `"avatar-size"`: avatar image size in pixels.
 - `"avatar-border-width"`: avatar border width in pixels.
 - `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
@@ -178,8 +180,9 @@ Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` an
 
 ## Custom icons
 
-If you'd like to use own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your `poweroff.svg`, 
-`reboot.svg` and `sleep.svg` files in the same directory.
+If you'd like to use your own icons, do not replace `/usr/share/nwg-hello/*-default.svg` files. Place your 
+`poweroff.svg`, `reboot.svg`, `sleep.svg` and `avatar.svg` files in the same directory. Attention: the `avatar.svg` file
+is not your profile picture, but a generic user image!
 
 ## Own language files
 
