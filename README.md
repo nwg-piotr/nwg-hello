@@ -3,10 +3,9 @@
 This program is a part of the [nwg-shell](https://nwg-piotr.github.io/nwg-shell) project.
 
 Nwg-hello is a GTK3-based greeter for the [greetd](https://git.sr.ht/~kennylevinsen/greetd) daemon, written in python.
-It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org)  (also see: 
+It is meant to work under a Wayland compositor, like [sway](https://swaywm.org) or [Hyprland](https://hyprland.org) (also see: 
 [Running on Debian and labwc](#running-on-debian-and-labwc)).
-The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured
-for standalone use.
+The greeter has been developed for the [nwg-iso](https://github.com/nwg-piotr/nwg-iso) project, but it may be configured for standalone use.
 
 <img src="https://github.com/nwg-piotr/nwg-hello/assets/20579136/8a817bdf-a7a0-4790-be38-9306452ee120" width=640 alt="Screenshot"><br>
 
@@ -15,12 +14,12 @@ by Marian Arlt._
 
 ## Background
 
-I was looking for a good login manager for the nwg-iso project. I first used SDDM with the Sugar Candy theme, and it
-worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-based. Also, I know nothing on the QT
+I was in need of a good login manager for the nwg-iso project. I first used SDDM with the Sugar Candy theme, and it
+worked pretty well. However, it brings QT dependencies, and my stuff is all GTK-based. Also, I know nothing about the QT
 framework, so couldn't adjust the greeter to my taste. The next choice was LightDM with [my modification](https://github.com/nwg-piotr/lightdm-nwg-greeter)
-of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked
-well, but LightDM would happen to hang way too often. Then I gave a try to greetd, and that was it. I only needed 
-a nice graphical greeter based on GTK3. Since there was no such thing, I had to develop one.
+of the [LightDM Elephant Greeter](https://github.com/max-moser/lightdm-elephant-greeter) by Maximilian Moser. It looked well, but LightDM would happen to hang way too 
+often. Then I gave a try to greetd, and that was it. I only needed a nice graphical greeter based on GTK3. Since there 
+was no such thing, I had to develop one.
 
 ## Features
 
@@ -38,7 +37,7 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 - gtk3;
 - gtk-layer-shell;
 - Hyprland or sway Wayland compositor;
-- gnome-themes-extra (recommended, as it provides us with the default Adwaita theme).
+- gnome-themes-extra.
 
 ## Make dependencies
 
@@ -55,7 +54,7 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/nwg-hello.svg)](https://repology.org/project/nwg-hello/versions)
 
-First you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
+First, you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
 
 The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
 dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
@@ -97,11 +96,14 @@ if you want to use Hyprland, or this line if you prefer sway:
 command = "sway -c /etc/nwg-hello/sway-config"
 ```
 
+NOTE: you may need `sway --unsupported-gpu` for Nvidia. Also, if you'd like to make some additional configuration
+(e.g., monitor layout), edit `/etc/nwg-hello/hyprland.conf` or `/etc/nwg-hello/sway-config`, respectively.
+
 __Do not change the__ `user = "greeter"` __line__, or some file-related functions won't work.  
 
 ### Tip
 
-During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g. on Arch Linux
+During the greetd package upgrades, the `config.toml` file may be overwritten with the default one. E.g., on Arch Linux
 your modified file gets renamed to `config.toml.pacsave`. This will restore the `agreety` greeter on your system.
 To avoid such a situation, you may use the alternative `greetd.conf` file. This has not been mentioned in docs, 
 but greetd looks for this file first. Just copy `config.toml` to `greetd.conf` and make changes to the copy.
