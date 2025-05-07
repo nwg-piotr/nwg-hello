@@ -56,8 +56,10 @@ was no such thing, I had to develop one.
 
 First, you need to [install and start greetd](https://wiki.archlinux.org/title/Greetd#Installation).
 
-The greeter can be installed by cloning this repository and executing the `install.sh` script (make sure you installed
-dependencies first). Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
+The greeter can be installed as a package for your Linux distribution, or by cloning this repository and executing the 
+`install.sh` script (make sure you installed dependencies first). 
+
+Then you need to edit the `/etc/greetd/config.toml` file (or `greetd.conf` - see the tip below).
 
 ```toml
 [terminal]
