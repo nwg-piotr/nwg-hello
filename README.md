@@ -28,6 +28,7 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 - multi-language support;
 - background and style customization with CSS;
 - automatic selection of the last used session and user;
+- avatar (user picture) support;
 - support for setting environment variables.
 
 ## Dependencies
@@ -45,6 +46,10 @@ a nice graphical greeter based on GTK3. Since there was no such thing, I had to 
 - python-installer
 - python-wheel
 - python-setuptools
+
+## Optional dependencies
+
+- mugshot: to set the user picture
 
 ## Installation
 
@@ -190,6 +195,8 @@ for related values.
 
 NOTE: if you use your customized `/etc/nwg-hello/nwg-hello.json` file, remember to copy all `avatar-*` key-value pairs
 from `/etc/nwg-hello/nwg-hello-default.json`.
+
+Styling: no CSS is applicable here. You can set shape- and border-related values in config.
 
 ## Running on Debian and labwc
 
