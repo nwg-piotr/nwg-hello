@@ -193,10 +193,10 @@ The feature displays user's profile picture from `/var/lib/AccountsService/icons
 gnome-control-center or some other tool ([Mugshot](https://github.com/bluesabre/mugshot) does the job perfectly well). See [Configuration](#configuration)
 for related values.
 
+Styling: no CSS is applicable here. You can set shape- and border-related values in config.
+
 NOTE: if you use your customized `/etc/nwg-hello/nwg-hello.json` file, remember to copy all `avatar-*` key-value pairs
 from `/etc/nwg-hello/nwg-hello-default.json`.
-
-Styling: no CSS is applicable here. You can set shape- and border-related values in config.
 
 ## Running on Debian and labwc
 
