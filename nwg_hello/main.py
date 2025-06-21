@@ -40,8 +40,6 @@ parser.add_argument("-l", "--log", action="store_true", help=f"save output to '{
 parser.add_argument("-t", "--test", action="store_true", help="Test GUI w/o connecting to daemon")
 parser.add_argument("-v", "--version", action="version", version="%(prog)s version {}".format(__version__),
                     help="display Version information")
-parser.add_argument("-a", "--arguments", action="store", default="",
-                    help="path to file containing custom arguments for sessions")
 parser.add_argument("-s", "--settings", action="store", default=default_settings_path,
                     help="custom settings path, default: /etc/nwg-hello/nwg-hello-default.json")
 parser.add_argument("-y", "--style", action="store", default=default_style_path,
@@ -59,21 +57,6 @@ if args.log and os.getenv("USER") == "greeter":
 # Get config files paths
 settings_path = args.settings if os.path.isfile(args.settings) else default_settings_path
 style_path = args.style if os.path.isfile(args.style) else default_style_path
-
-# Get custom arguments
-arguments = {}
-if os.path.isfile(args.arguments):
-    with open(args.arguments) as f:
-        for line in f.read().split('\n'):
-            if line.startswith('#') or '=' not in line:
-                continue
-
-            # found a line that contains information
-            i = line.index('=')
-            arguments[line[:i]] = line[i+1:]
-
-    if args.debug:
-        eprint(f"Loaded arguments from: {args.arguments}", log=args.log)
 
 # Load settings
 settings = load_json(settings_path)
@@ -253,8 +236,8 @@ def main():
         if not settings["monitor_nums"] or i in settings["monitor_nums"]:
             monitor = display.get_monitor(i)
             if not settings["form_on_monitors"] or i in settings["form_on_monitors"]:
-                win = GreeterWindow(client, settings, sessions, x_sessions, arguments,
-                                    users, monitor, voc, cache, args.log, args.test)
+                win = GreeterWindow(client, settings, sessions, x_sessions, users, monitor, voc, cache, args.log,
+                                    args.test)
                 windows.append(win)
             else:
                 win = EmptyWindow(settings, monitor, args.log, args.test)

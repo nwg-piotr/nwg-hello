@@ -17,7 +17,7 @@ def p_icon_path(icon_name):
 
 
 class GreeterWindow(Gtk.Window):
-    def __init__(self, client, settings, sessions, x_sessions, arguments, users, monitor, voc, cache, log, test):
+    def __init__(self, client, settings, sessions, x_sessions, users, monitor, voc, cache, log, test):
         eprint(f"Creating GreeterWindow on {monitor}", log=log)
 
         self.settings = settings
@@ -26,7 +26,6 @@ class GreeterWindow(Gtk.Window):
         self.client = client
         self.sessions = sessions
         self.x_sessions = x_sessions  # contains session execs, not names
-        self.arguments = arguments
         self.test = test
         self.cache = cache  # store cache with all user sessions for later
 
@@ -286,14 +285,11 @@ class GreeterWindow(Gtk.Window):
                     except Exception as e:
                         eprint(f"Error saving cache: {e}", log=self.log)
 
-                # get custom arguments
-                args = [] if cmd not in self.arguments else self.arguments[cmd].split()
-
                 if cmd in self.x_sessions:
-                    jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split() + args,
+                    jreq = {"type": "start_session", "cmd": ["startx", "/usr/bin/env"] + cmd.split(),
                             "env": self.settings["env-vars"]}
                 else:
-                    jreq = {"type": "start_session", "cmd": cmd.split() + args, "env": self.settings["env-vars"]}
+                    jreq = {"type": "start_session", "cmd": cmd.split(), "env": self.settings["env-vars"]}
 
                 resp = greetd(self.client, jreq, log=self.log)
                 if "type" in resp and resp["type"] == "success":
