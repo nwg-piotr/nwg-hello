@@ -174,21 +174,6 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"avatar-circle"`: draw avatar as a circle (corner radius ignored),
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
-## Custom arguments
-
-You can add custom arguments to specific sessions through the use of `-a` (or `--arguments`).
-This argument should be a path pointing to a file with the following format:
-
-```
-# this is a comment
-
-# use the format "executable=-argument1 --argument2 ..."
-sway=--unsupported-gpu
-```
-
-In the given example, `sway` sessions will be run with the `--unsupported-gpu` argument,
-allowing to [use Sway with a Nvidia GPU](https://github.com/nwg-piotr/nwg-hello/issues/33) more easily.
-
 ## Styling
 
 Copy `/etc/nwg-hello/nwg-hello-default.css` to `/etc/nwg-hello/nwg-hello.css` and make your changes there.
