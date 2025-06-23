@@ -1,5 +1,3 @@
-exec "nwg-hello; swaymsg exit"
-
 bindsym Mod4+shift+e exec swaynag \
 	-t warning \
 	-m 'What do you want to do?' \
@@ -7,3 +5,5 @@ bindsym Mod4+shift+e exec swaynag \
 	-b 'Reboot' 'systemctl reboot'
 
 include /etc/sway/config.d/*
+
+exec "nwg-hello; swaymsg exit"

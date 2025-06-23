@@ -31,12 +31,19 @@ log_file = os.path.join(temp_dir(), 'nwg-hello.log')
 voc = {}
 windows = []
 
+default_settings_path = "/etc/nwg-hello/nwg-hello-default.json"
+default_style_path = "/etc/nwg-hello/nwg-hello-default.css"
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--debug", action="store_true", help="print Debug messages to stderr")
 parser.add_argument("-l", "--log", action="store_true", help=f"save output to '{log_file}' file")
 parser.add_argument("-t", "--test", action="store_true", help="Test GUI w/o connecting to daemon")
 parser.add_argument("-v", "--version", action="version", version="%(prog)s version {}".format(__version__),
                     help="display Version information")
+parser.add_argument("-c", "--config", action="store", default=default_settings_path,
+                    help="custom config path, default: /etc/nwg-hello/nwg-hello-default.json")
+parser.add_argument("-s", "--stylesheet", action="store", default=default_style_path,
+                    help="custom stylesheet path, default: /etc/nwg-hello/nwg-hello-default.css")
 
 args = parser.parse_args()
 
@@ -47,9 +54,11 @@ if args.log and os.getenv("USER") == "greeter":
     now = datetime.now()
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
+# Get config files paths
+settings_path = args.settings if os.path.isfile(args.settings) else default_settings_path
+style_path = args.style if os.path.isfile(args.style) else default_style_path
+
 # Load settings
-settings_path = "/etc/nwg-hello/nwg-hello.json" if os.path.isfile(
-    "/etc/nwg-hello/nwg-hello.json") else "/etc/nwg-hello/nwg-hello-default.json"
 settings = load_json(settings_path)
 if settings and args.debug:
     eprint(f"Loaded settings from: '{settings_path}'", log=args.log)
@@ -205,8 +214,6 @@ def main():
     style_context = Gtk.StyleContext()
     style_context.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
     try:
-        style_path = "/etc/nwg-hello/nwg-hello.css" if os.path.isfile(
-            "/etc/nwg-hello/nwg-hello.css") else "/etc/nwg-hello/nwg-hello-default.css"
         provider.load_from_path(style_path)
         if args.debug:
             eprint(f"Loaded style from: '{style_path}'", log=args.log)
