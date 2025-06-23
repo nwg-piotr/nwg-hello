@@ -40,9 +40,9 @@ parser.add_argument("-l", "--log", action="store_true", help=f"save output to '{
 parser.add_argument("-t", "--test", action="store_true", help="Test GUI w/o connecting to daemon")
 parser.add_argument("-v", "--version", action="version", version="%(prog)s version {}".format(__version__),
                     help="display Version information")
-parser.add_argument("-s", "--settings", action="store", default=default_settings_path,
-                    help="custom settings path, default: /etc/nwg-hello/nwg-hello-default.json")
-parser.add_argument("-y", "--style", action="store", default=default_style_path,
+parser.add_argument("-c", "--config", action="store", default=default_settings_path,
+                    help="custom config path, default: /etc/nwg-hello/nwg-hello-default.json")
+parser.add_argument("-s", "--stylesheet", action="store", default=default_style_path,
                     help="custom stylesheet path, default: /etc/nwg-hello/nwg-hello-default.css")
 
 args = parser.parse_args()
