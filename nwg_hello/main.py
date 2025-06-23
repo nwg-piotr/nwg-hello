@@ -55,8 +55,8 @@ if args.log and os.getenv("USER") == "greeter":
     eprint(f'[nwg-hello log {now.strftime("%Y-%m-%d %H:%M:%S")}]', log=True)
 
 # Get config files paths
-settings_path = args.settings if os.path.isfile(args.settings) else default_settings_path
-style_path = args.style if os.path.isfile(args.style) else default_style_path
+settings_path = args.config if os.path.isfile(args.config) else default_settings_path
+style_path = args.stylesheet if os.path.isfile(args.stylesheet) else default_style_path
 
 # Load settings
 settings = load_json(settings_path)
