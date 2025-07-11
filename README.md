@@ -255,6 +255,10 @@ exec /usr/bin/nwg-hello; /usr/bin/labwc --exit
 </labwc_config>
 ```
 
+## Session files on NixOS
+
+On NixOS it may be necessary to add `"/share/wayland-sessions"` and/or `"/share/xsessions"` to `environment.pathsToLink` to ensure that the session files are available in the correct location.
+
 ## Acknowledgments
 
 - [@milisarge](https://gist.github.com/milisarge) for [the snippet](https://gist.github.com/milisarge/d169756e316e185572605699e73ed3ae) that let me know how things work;
