@@ -6,9 +6,9 @@
   "password-empty": "Le mot de passe ne peut pas être vide",
   "power-off": "Éteindre",
   "session": "Session",
-  "show-password": "Montrer le mot de passe",
-  "sleep": "Dormir",
+  "show-password": "Afficher le mot de passe",
+  "sleep": "Mettre en veille",
   "reboot": "Redémarrer",
   "user": "Utilisateur",
-  "welcome": "Bienvenu!"
+  "welcome": "Bienvenue!"
 }
