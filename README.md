@@ -89,7 +89,7 @@ command = "agreety --cmd /bin/sh"
 with
 
 ```toml
-command = "Hyprland -c /etc/nwg-hello/hyprland.conf"
+command = "env HYPRLAND_CONFIG=/etc/nwg-hello/hyprland.conf start-hyprland"
 ```
 
 if you want to use Hyprland, or this line if you prefer sway:
