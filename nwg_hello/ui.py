@@ -71,12 +71,15 @@ class GreeterWindow(Gtk.Window):
         if settings["custom_sessions"]:
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
+
+        # preselect the session stored in cache for the last user
         if ("user" and "sessions") in self.cache and \
-                self.cache["user"] in self.cache["sessions"]:
-            # preselect the session stored in cache for the last user
-            self.combo_session.set_active_id(self.cache["sessions"][self.cache["user"]])
+                self.cache["user"] in self.cache["sessions"] and \
+                self.combo_session.set_active_id(self.cache["sessions"][self.cache["user"]]):
+            pass
         else:
-            self.combo_session.set_active_id(sessions[0]["name"])
+            # or select the first session as the default
+            self.combo_session.set_active(0)
         self.combo_session.connect("changed", self.on_session_changed)
 
         lbl_user = builder.get_object("lbl-user")
