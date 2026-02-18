@@ -154,19 +154,21 @@ else:
     voc = load_json(os.path.join(dir_name, "langs", "en_US"))
 
 user_locale = locale.getlocale()[0] if not settings["lang"] else settings["lang"]
+user_lang_file = os.path.join("/etc/nwg-hello", user_locale)
+has_user_lang_file = os.path.isfile(user_lang_file)
 # translate if necessary (and if we have a translation)
-if user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "langs")):
+if (user_locale != "en_US" and user_locale in os.listdir(os.path.join(dir_name, "langs"))) or has_user_lang_file:
     # translated phrases
-    if os.path.isfile(os.path.join("/etc/nwg-hello", user_locale)):
+    if has_user_lang_file:
         # allow user-defined lang files in /etc/nwg-hello #19
-        loc = load_json(os.path.join("/etc/nwg-hello", user_locale))
+        loc = load_json(user_lang_file)
         if not loc:
             # couldn't load json!
-            eprint(f"Could not load {os.path.join('/etc/nwg-hello', user_locale)}, loading default file instead.")
+            eprint(f"Could not load {user_lang_file}, loading default file instead.")
             loc = load_json(os.path.join(dir_name, "langs", user_locale))
         else:
             if args.debug:
-                eprint(f"Using /etc/nwg-hello/{user_locale} lang file")
+                eprint(f"Using {user_lang_file} lang file")
     else:
         # load predefined lang file
         loc = load_json(os.path.join(dir_name, "langs", user_locale))
