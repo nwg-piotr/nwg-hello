@@ -140,7 +140,7 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "time-format": "%H:%M:%S",
   "date-format": "%A, %d. %B",
   "layer": "overlay",
-  "keyboard-mode": "exclusive",
+  "keyboard-mode": "on_demand",
   "lang": "",
   "avatar-show": false,
   "avatar-size": 100,

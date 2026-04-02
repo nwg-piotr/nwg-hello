@@ -96,7 +96,7 @@ defaults = {
     "time-format": "%H:%M:%S",
     "date-format": "%A, %d. %B",
     "layer": "overlay",
-    "keyboard-mode": "exclusive",
+    "keyboard-mode": "on_demand",
     "lang": "",
     "avatar-show": False,
     "avatar-size": 100,

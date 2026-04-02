@@ -324,10 +324,10 @@ class EmptyWindow(Gtk.Window):
 
         if settings["keyboard-mode"].upper() == "NONE":
             GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.NONE)
-        elif settings["keyboard-mode"].upper() == "ON_DEMAND":
-            GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.ON_DEMAND)
-        else:
+        elif settings["keyboard-mode"].upper() == "EXCLUSIVE":
             GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.EXCLUSIVE)
+        else:
+            GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.ON_DEMAND)
 
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.TOP, True)
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.BOTTOM, True)
