@@ -171,7 +171,7 @@ class GreeterWindow(Gtk.Window):
         if self.settings["keyboard-mode"].upper() == "NONE":
             GtkLayerShell.set_keyboard_mode(self.window, GtkLayerShell.KeyboardMode.NONE)
         elif self.settings["keyboard-mode"].upper() == "ON_DEMAND" or self.settings[
-            "keyboard-mode"].upper() == "ON-DEMAND":
+            "keyboard-mode"].upper() == "ON_DEMAND":
             GtkLayerShell.set_keyboard_mode(self.window, GtkLayerShell.KeyboardMode.ON_DEMAND)
         else:
             GtkLayerShell.set_keyboard_mode(self.window, GtkLayerShell.KeyboardMode.EXCLUSIVE)
