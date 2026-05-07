@@ -130,7 +130,7 @@ def parse_desktop_entry(path):
 def greetd(client, json_req, log=False):
     to_log = json_req.copy()
     if json_req["type"] == "post_auth_message_response":
-        to_log["reponse"] = "*" * len(to_log["reponse"])
+        to_log["response"] = "*" * len(to_log["response"])
     eprint(f"greetd: request = {to_log}", log=log)
     req = json.dumps(json_req)
     client.send(len(req).to_bytes(4, "little") + req.encode("utf-8"))
