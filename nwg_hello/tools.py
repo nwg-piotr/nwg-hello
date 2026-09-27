@@ -105,6 +105,8 @@ def parse_desktop_entry(path):
     lines = load_text_file(path).splitlines()
     if lines:
         for line in lines:
+            if line.startswith('NoDisplay=') and line.split('=', 1)[1].strip().lower() == 'true':
+                return None
             if line.startswith('Name'):
                 session['name'] = line.split("=")[1]
                 continue
