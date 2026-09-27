@@ -90,6 +90,8 @@ def list_sessions(session_dirs):
                         _sessions.append(session)
                         if session_dir == "/usr/share/xsessions":
                             _x_sessions.append(session["exec"])
+
+    _sessions.sort(key=lambda session: session["name"])
     return _sessions, _x_sessions
 
 
