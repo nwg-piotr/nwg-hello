@@ -154,6 +154,9 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "avatar-border-color": "#eee",
   "avatar-corner-radius": 15,
   "avatar-circle": false,
+  "remember_session": true,
+  "remember_user": true,
+  "show_userlist": true,
   "env-vars": []
 }
 ```
@@ -178,6 +181,9 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
 - `"avatar-corner-radius"`: corner radius for rectangular avatar image,
 - `"avatar-circle"`: draw avatar as a circle (corner radius ignored),
+- `"remember_session"`: determines whether to save last chosen session.
+- `"remember_user"`: determines whether to save last user.
+- `"show_userlist"`: determines whether to show a user list or a field for username entry.
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
 ## Styling

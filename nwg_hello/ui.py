@@ -72,10 +72,17 @@ class GreeterWindow(Gtk.Window):
             for item in settings["custom_sessions"]:
                 self.combo_session.append(item["exec"], item["name"])
 
-        # preselect the session stored in cache for the last user
-        if ("user" and "sessions") in self.cache and \
+        # preselect the session stored in cache for the last user (if remember_session is enabled)
+        if self.settings.get("remember_session", True) and \
+                "user" in self.cache and \
+                "sessions" in self.cache and \
                 self.cache["user"] in self.cache["sessions"] and \
                 self.combo_session.set_active_id(self.cache["sessions"][self.cache["user"]]):
+            pass
+        elif self.settings.get("remember_session", True) and \
+                "sessions" in self.cache and \
+                "default" in self.cache["sessions"] and \
+                self.combo_session.set_active_id(self.cache["sessions"]["default"]):
             pass
         else:
             # or select the first session as the default
@@ -103,16 +110,26 @@ class GreeterWindow(Gtk.Window):
         self.lbl_message.set_text("")
 
         self.combo_user = builder.get_object("combo-user")
-        self.combo_user.set_property("name", "form-combo")
-        for user in users:
-            self.combo_user.append(user, user)
-        self.combo_user.connect("changed", self.on_user_changed)
-        if "user" in self.cache and self.cache["user"]:
-            # preselect the user stored in the cache
-            self.combo_user.set_active_id(self.cache["user"])
+        self.entry_user = builder.get_object("entry-user")
+
+        if self.settings.get("show_userlist", True):
+            self.entry_user.hide()
+            self.combo_user.set_property("name", "form-combo")
+            for user in users:
+                self.combo_user.append(user, user)
+            self.combo_user.connect("changed", self.on_user_changed)
+            if self.settings.get("remember_user", True) and "user" in self.cache and self.cache["user"]:
+                # preselect the user stored in the cache
+                self.combo_user.set_active_id(self.cache["user"])
+            else:
+                # or the 1st user
+                self.combo_user.set_active_id(users[0])
         else:
-            # or the 1st user
-            self.combo_user.set_active_id(users[0])
+            self.combo_user.hide()
+            self.entry_user.set_property("name", "form-combo")
+            self.entry_user.connect("focus-out-event", self.on_user_changed)
+            if self.settings.get("remember_user", True) and "user" in self.cache and self.cache["user"]:
+                self.entry_user.set_text(self.cache["user"])
 
         # password and message label moved up, as we've just connected user combo to on_user_changed(),
         # that needs them to be already declared
@@ -186,7 +203,10 @@ class GreeterWindow(Gtk.Window):
         self.window.show()
 
         form_wrapper.set_size_request(monitor.get_geometry().width * 0.37, 0)
-        self.entry_password.grab_focus()
+        if self.settings.get("show_userlist", True) and self.entry_user is not None:
+            self.entry_password.grab_focus()
+        else:
+            self.entry_user.grab_focus()
 
     def handle_keyboard(self, w, event):
         if event.type == Gdk.EventType.KEY_RELEASE:
@@ -202,11 +222,17 @@ class GreeterWindow(Gtk.Window):
         self.lbl_date.set_text(f'{now.strftime(date_format)}')
 
     def on_session_changed(self, combo):
-        self.entry_password.grab_focus()
+        if self.settings.get("show_userlist", True):
+            self.entry_password.grab_focus()
+        else:
+            self.entry_user.grab_focus()
         self.clear_message_label()
 
     def on_user_changed(self, combo):
-        selected_user = self.combo_user.get_active_id()
+        if self.settings.get("show_userlist", True):
+            selected_user = self.combo_user.get_active_id()
+        else:
+            selected_user = self.entry_user.get_text().strip()
         if self.settings["avatar-show"]:
             # Look up user avatar
             paths = [
@@ -225,10 +251,12 @@ class GreeterWindow(Gtk.Window):
                     self.avatar_wrapper.show_all()
                     break
 
-        if "sessions" in self.cache and selected_user in self.cache["sessions"]:
+        if self.settings.get("remember_session", True) and \
+                "sessions" in self.cache and selected_user in self.cache["sessions"]:
             # preselect user session if available in cache
             self.combo_session.set_active_id(self.cache["sessions"][selected_user])
-        self.entry_password.grab_focus()
+        if self.settings.get("show_userlist", True):
+            self.entry_password.grab_focus()
         self.clear_message_label()
 
     def clear_message_label(self, *args):
@@ -250,7 +278,10 @@ class GreeterWindow(Gtk.Window):
             except:
                 pass
 
-            user = self.combo_user.get_active_id()
+            if self.settings.get("show_userlist", True):
+                user = self.combo_user.get_active_id()
+            else:
+                user = self.entry_user.get_text().strip()
             password = self.entry_password.get_text()
             cmd = self.combo_session.get_active_id()
             eprint(f"user: {user}", log=self.log)
@@ -274,12 +305,26 @@ class GreeterWindow(Gtk.Window):
                 if "sessions" not in self.cache:
                     self.cache["sessions"] = {}
 
-                # store last used session name and username if both available
-                if self.combo_user.get_active_id():
-                    self.cache["user"] = self.combo_user.get_active_id()
-                if self.combo_session.get_active_id():
-                    self.cache["sessions"][self.cache["user"]] = self.combo_session.get_active_id()
-                if self.cache["user"] and self.cache["sessions"][self.cache["user"]]:
+                # store last used username if remember_user is enabled
+                if self.settings.get("remember_user", True) and user:
+                    self.cache["user"] = user
+                elif not self.settings.get("remember_user", True):
+                    # clear stored user so it isn't shown next time
+                    self.cache.pop("user", None)
+
+                # store last used session if remember_session is enabled
+                if self.settings.get("remember_session", True) and self.combo_session.get_active_id():
+                    if self.settings.get("remember_user", True) and user:
+                        if "user" in self.cache and self.cache["user"]:
+                            self.cache["sessions"][self.cache["user"]] = self.combo_session.get_active_id()
+                    else:
+                        self.cache["sessions"]["default"] = self.combo_session.get_active_id()
+                elif not self.settings.get("remember_session", True):
+                    # clear stored sessions so they aren't shown next time
+                    self.cache.pop("sessions", None)
+
+                # save cache only if at least one of remember_user or remember_session is True
+                if self.settings.get("remember_user", True) or self.settings.get("remember_session", True):
                     eprint(f"Saving cache: {self.cache}", log=self.log)
                     # this file belongs to the 'greeter' user
                     try:

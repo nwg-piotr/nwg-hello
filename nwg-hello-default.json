@@ -31,5 +31,8 @@
   "avatar-border-color": "#eee",
   "avatar-corner-radius": 15,
   "avatar-circle": false,
+  "remember_session": true,
+  "remember_user": true,
+  "show_userlist": true,
   "env-vars": []
 }
