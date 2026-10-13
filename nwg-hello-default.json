@@ -31,5 +31,7 @@
   "avatar-border-color": "#eee",
   "avatar-corner-radius": 15,
   "avatar-circle": false,
+  "play-login-sound": false,
+  "play-login-sound-once": true,
   "env-vars": []
 }

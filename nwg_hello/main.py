@@ -104,6 +104,8 @@ defaults = {
     "avatar-border-color": "#eee",
     "avatar-corner-radius": 20,
     "avatar-circle": False,
+    "play-login-sound": False,
+    "play-login-sound-once": True,
     "env-vars": []
 }
 for key in defaults:
@@ -213,6 +215,89 @@ def emulate_mouse_event():
     return False
 
 
+sound_ctx = None
+
+
+def play_login_sound():
+    # Turned off by default (user must opt-in)
+    if not settings.get("play-login-sound", False):
+        return False  # Return False to prevent the GTK timeout from repeating
+
+    # Check user preference regarding playback frequency
+    play_once = settings.get("play-login-sound-once", True)
+    played_flag_file = os.path.join(temp_dir(), 'nwg-hello-sound-played')
+
+    # Abort if the user wants the sound only once per boot and the flag file already exists
+    if play_once and os.path.isfile(played_flag_file):
+        return False
+
+    global sound_ctx
+    try:
+        import gi
+        gi.require_version('GSound', '1.0')
+        from gi.repository import GSound
+
+        # 1. Get the current sound theme directly from GTK settings
+        gtk_settings = Gtk.Settings.get_default()
+        sound_theme = gtk_settings.get_property("gtk-sound-theme-name")
+        if not sound_theme:
+            sound_theme = "freedesktop"
+
+        # 2. Manually locate the sound file to bypass the libcanberra Wayland bug (-9 error)
+        event_id = "desktop-login"
+        sound_path = None
+
+        search_dirs = [
+            os.path.expanduser("~/.local/share/sounds"),
+            "/usr/share/sounds"
+        ]
+
+        # Try the user's theme first, then fallback to freedesktop
+        themes_to_try = [sound_theme, "freedesktop"]
+        extensions = [".oga", ".ogg", ".wav"]
+
+        for directory in search_dirs:
+            for theme in themes_to_try:
+                for ext in extensions:
+                    path = os.path.join(directory, theme, "stereo", f"{event_id}{ext}")
+                    if os.path.isfile(path):
+                        sound_path = path
+                        break
+                if sound_path:
+                    break
+            if sound_path:
+                break
+
+        sound_ctx = GSound.Context()
+        sound_ctx.init()
+
+        play_args = {
+            GSound.ATTR_EVENT_ID: event_id,
+            GSound.ATTR_MEDIA_ROLE: "event"
+        }
+
+        # 3. If we found the physical file, inject it directly.
+        # GSound will use the path instead of failing to resolve the event ID.
+        if sound_path:
+            play_args[GSound.ATTR_MEDIA_FILENAME] = sound_path
+
+        sound_ctx.play_simple(play_args)
+
+        # 4. Create the flag file only if the one-time playback option is active
+        if play_once:
+            with open(played_flag_file, 'w') as f:
+                f.write("1")
+
+    except ValueError:
+        # Catch gi.require_version error if GSound is not installed
+        eprint("Warning: Option 'play-login-sound' is enabled, but the GSound library is missing.")
+    except Exception as e:
+        # Catch sound server errors (e.g., missing PipeWire on the greeter user account)
+        eprint(f"Warning: Couldn't play the desktop login sound: {e}")
+
+    return False  # Crucial: Ends the timeout_add task in the GTK loop
+
+
 def main():
     # Some monitors take longer to startup; we can just time.sleep() here, as we're not yet on the GTK loop.
     if settings["delay_secs"] > 0:
@@ -251,6 +336,10 @@ def main():
                 windows.append(win)
             else:
                 win = EmptyWindow(settings, monitor, args.log, args.test)
+    if windows:
+        windows[0].connect("map", lambda w: play_login_sound())
+
+    GLib.timeout_add(100, play_login_sound)
 
     GLib.timeout_add(0, set_clock)
     GLib.timeout_add(500, move_clock)
