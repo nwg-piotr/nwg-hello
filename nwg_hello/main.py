@@ -106,7 +106,8 @@ defaults = {
     "avatar-circle": False,
     "play-login-sound": False,
     "play-login-sound-once": True,
-    "login-sound-path": "/usr/share/sounds/Smooth/stereo/desktop-login.oga",
+    "login-sound-path": "",
+    "login-sound-volume": "-10",
     "env-vars": []
 }
 for key in defaults:
@@ -233,6 +234,7 @@ def play_login_sound():
         return False
 
     global sound_ctx
+    sound_path = ""
     try:
         import gi
         gi.require_version('GSound', '1.0')
@@ -243,18 +245,19 @@ def play_login_sound():
 
         play_args = {
             GSound.ATTR_EVENT_ID: "desktop-login",
-            GSound.ATTR_MEDIA_ROLE: "event"
+            GSound.ATTR_MEDIA_ROLE: "event",
+            GSound.ATTR_CANBERRA_VOLUME: settings["login-sound-volume"]
         }
 
         # 1. If the user provided an explicit path in nwg-hello.json, use it
-        custom_path = settings.get("login-sound-path", "")
-        if custom_path and os.path.isfile(custom_path):
-            play_args[GSound.ATTR_MEDIA_FILENAME] = custom_path
+        sound_path = settings["login-sound-path"]
+        if sound_path and os.path.isfile(sound_path):
+            play_args[GSound.ATTR_MEDIA_FILENAME] = sound_path
         else:
             # 2. Fallback to the default system sound if no custom path is provided or the file is missing
-            default_path = "/usr/share/sounds/freedesktop/stereo/service-login.oga"
-            if os.path.isfile(default_path):
-                play_args[GSound.ATTR_MEDIA_FILENAME] = default_path
+            sound_path = "/usr/share/sounds/freedesktop/stereo/service-login.oga"
+            if os.path.isfile(sound_path):
+                play_args[GSound.ATTR_MEDIA_FILENAME] = sound_path
 
         # 3. Inject the arguments and play the sound
         sound_ctx.play_simple(play_args)
@@ -265,9 +268,9 @@ def play_login_sound():
                 f.write("1")
 
     except ValueError:
-        eprint("Warning: Option 'play-login-sound' is enabled, but the GSound library is missing.")
+        eprint("Warning: Option 'play-login-sound' is enabled, but the GSound library is missing")
     except Exception as e:
-        eprint(f"Warning: Couldn't play the desktop login sound: {e}")
+        eprint(f"Warning: Couldn't play '{sound_path}' desktop login sound: {e}")
 
     return False  # Crucial: Ends the timeout_add task in the GTK loop
 

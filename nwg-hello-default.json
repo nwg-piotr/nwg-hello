@@ -33,5 +33,7 @@
   "avatar-circle": false,
   "play-login-sound": false,
   "play-login-sound-once": true,
+  "login-sound-path": "",
+  "login-sound-volume": "-10",
   "env-vars": []
 }
