@@ -106,6 +106,7 @@ defaults = {
     "avatar-circle": False,
     "play-login-sound": False,
     "play-login-sound-once": True,
+    "login-sound-path": "/usr/share/sounds/Smooth/stereo/desktop-login.oga",
     "env-vars": []
 }
 for key in defaults:
@@ -237,50 +238,25 @@ def play_login_sound():
         gi.require_version('GSound', '1.0')
         from gi.repository import GSound
 
-        # 1. Get the current sound theme directly from GTK settings
-        gtk_settings = Gtk.Settings.get_default()
-        sound_theme = gtk_settings.get_property("gtk-sound-theme-name")
-        if not sound_theme:
-            sound_theme = "freedesktop"
-
-        # 2. Manually locate the sound file to bypass the libcanberra Wayland bug (-9 error)
-        event_id = "desktop-login"
-        sound_path = None
-
-        search_dirs = [
-            os.path.expanduser("~/.local/share/sounds"),
-            "/usr/share/sounds"
-        ]
-
-        # Try the user's theme first, then fallback to freedesktop
-        themes_to_try = [sound_theme, "freedesktop"]
-        extensions = [".oga", ".ogg", ".wav"]
-
-        for directory in search_dirs:
-            for theme in themes_to_try:
-                for ext in extensions:
-                    path = os.path.join(directory, theme, "stereo", f"{event_id}{ext}")
-                    if os.path.isfile(path):
-                        sound_path = path
-                        break
-                if sound_path:
-                    break
-            if sound_path:
-                break
-
         sound_ctx = GSound.Context()
         sound_ctx.init()
 
         play_args = {
-            GSound.ATTR_EVENT_ID: event_id,
+            GSound.ATTR_EVENT_ID: "desktop-login",
             GSound.ATTR_MEDIA_ROLE: "event"
         }
 
-        # 3. If we found the physical file, inject it directly.
-        # GSound will use the path instead of failing to resolve the event ID.
-        if sound_path:
-            play_args[GSound.ATTR_MEDIA_FILENAME] = sound_path
+        # 1. If the user provided an explicit path in nwg-hello.json, use it
+        custom_path = settings.get("login-sound-path", "")
+        if custom_path and os.path.isfile(custom_path):
+            play_args[GSound.ATTR_MEDIA_FILENAME] = custom_path
+        else:
+            # 2. Fallback to the default system sound if no custom path is provided or the file is missing
+            default_path = "/usr/share/sounds/freedesktop/stereo/service-login.oga"
+            if os.path.isfile(default_path):
+                play_args[GSound.ATTR_MEDIA_FILENAME] = default_path
 
+        # 3. Inject the arguments and play the sound
         sound_ctx.play_simple(play_args)
 
         # 4. Create the flag file only if the one-time playback option is active
@@ -289,10 +265,8 @@ def play_login_sound():
                 f.write("1")
 
     except ValueError:
-        # Catch gi.require_version error if GSound is not installed
         eprint("Warning: Option 'play-login-sound' is enabled, but the GSound library is missing.")
     except Exception as e:
-        # Catch sound server errors (e.g., missing PipeWire on the greeter user account)
         eprint(f"Warning: Couldn't play the desktop login sound: {e}")
 
     return False  # Crucial: Ends the timeout_add task in the GTK loop
@@ -336,8 +310,6 @@ def main():
                 windows.append(win)
             else:
                 win = EmptyWindow(settings, monitor, args.log, args.test)
-    if windows:
-        windows[0].connect("map", lambda w: play_login_sound())
 
     GLib.timeout_add(100, play_login_sound)
 
