@@ -36,7 +36,7 @@ was no such thing, I had to develop one.
 - greetd;
 - gtk3;
 - gtk-layer-shell;
-- Hyprland, Niri, or sway Wayland compositor;
+- some Wayland compositor (on my side tested on sway, Hyprland, Niri, and Mango;
 - gnome-themes-extra.
 
 ## Make dependencies
