@@ -104,6 +104,8 @@ defaults = {
     "avatar-border-color": "#eee",
     "avatar-corner-radius": 20,
     "avatar-circle": False,
+    "play-login-sound-once": True,
+    "login-sound-volume": "-10",
     "env-vars": []
 }
 for key in defaults:
@@ -213,6 +215,100 @@ def emulate_mouse_event():
     return False
 
 
+def find_sound_file(theme_name):
+    sound_names = ["desktop-login", "service-login"]
+    extensions = [".oga", ".ogg", ".wav"]
+
+    # Tylko ogólnosystemowe ścieżki dostępne dla procesów systemowych/greetera
+    sound_dirs = [
+        "/usr/share/sounds",
+        "/usr/local/share/sounds"
+    ]
+
+    # Najpierw szukamy w motywie wskazanym w nwg-look, a jako fallback w 'freedesktop'
+    themes = [theme_name]
+    if theme_name != "freedesktop":
+        themes.append("freedesktop")
+
+    for t in themes:
+        for d in sound_dirs:
+            stereo_dir = os.path.join(d, t, "stereo")
+            if os.path.isdir(stereo_dir):
+                for name in sound_names:
+                    for ext in extensions:
+                        candidate = os.path.join(stereo_dir, name + ext)
+                        if os.path.isfile(candidate):
+                            return candidate
+    return ""
+
+
+sound_ctx = None
+
+
+def play_login_sound():
+    # Sprawdzamy, czy dźwięk ma zagrać tylko raz na uruchomienie systemu
+    play_once = settings.get("play-login-sound-once", True)
+    played_flag_file = os.path.join(temp_dir(), 'nwg-hello-sound-played')
+
+    if play_once and os.path.isfile(played_flag_file):
+        return False
+
+    # 1. Wczytujemy konfigurację wyeksportowaną z nwg-look
+    sound_json_path = "/var/cache/nwg-hello/sound.json"
+    if not os.path.isfile(sound_json_path):
+        return False  # Brak pliku = nwg-look nie wyeksportował konfiguracji lub opcja jest wyłączona
+
+    sound_theme = "freedesktop"
+    try:
+        with open(sound_json_path, 'r') as f:
+            sound_data = json.load(f)
+
+        # Jeśli w nwg-look dźwięki zdarzeń są wyłączone — przerywamy
+        if not sound_data.get("gtk-enable-event-sounds", False):
+            return False
+
+        sound_theme = sound_data.get("gtk-sound-theme-name", sound_theme)
+    except Exception as e:
+        eprint(f"Warning: Failed reading {sound_json_path}: {e}")
+        return False
+
+    # 2. Szukamy odpowiedniego pliku dźwiękowego w systemie
+    sound_path = find_sound_file(sound_theme)
+    if not sound_path:
+        eprint(f"Warning: No valid login sound file found for theme '{sound_theme}'")
+        return False
+
+    # 3. Odtwarzamy dźwięk przez GSound
+    global sound_ctx
+    try:
+        import gi
+        gi.require_version('GSound', '1.0')
+        from gi.repository import GSound
+
+        sound_ctx = GSound.Context()
+        sound_ctx.init()
+
+        play_args = {
+            GSound.ATTR_EVENT_ID: "desktop-login",
+            GSound.ATTR_MEDIA_ROLE: "event",
+            GSound.ATTR_CANBERRA_VOLUME: settings["login-sound-volume"],
+            GSound.ATTR_MEDIA_FILENAME: sound_path
+        }
+
+        sound_ctx.play_simple(play_args)
+
+        if play_once:
+            with open(played_flag_file, 'w') as f:
+                f.write("1")
+
+    except ValueError:
+        eprint("Warning: Sound playback requested, but GSound library is missing")
+    except Exception as e:
+        eprint(f"Warning: Couldn't play '{sound_path}' desktop login sound: {e}")
+
+    return False  # Koniec zadania timeout_add w GTK
+
+
 def main():
     # Some monitors take longer to startup; we can just time.sleep() here, as we're not yet on the GTK loop.
     if settings["delay_secs"] > 0:
@@ -251,6 +347,8 @@ def main():
                 windows.append(win)
             else:
                 win = EmptyWindow(settings, monitor, args.log, args.test)
+
+    GLib.timeout_add(100, play_login_sound)
 
     GLib.timeout_add(0, set_clock)
     GLib.timeout_add(500, move_clock)

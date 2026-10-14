@@ -23,6 +23,7 @@ done
 
 rm -rf /etc/nwg-hello
 rm -rf /usr/share/nwg-hello
+rm -rf /var/cache/nwg-hello
 
 rm -f /usr/share/licenses/$PROGRAM_NAME/LICENSE
 rm -f /usr/share/doc/$PROGRAM_NAME/README.md
