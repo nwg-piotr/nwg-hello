@@ -101,14 +101,20 @@ if you want to use Hyprland, or this line if you prefer niri:
 command = "niri -c /etc/nwg-hello/niri.kdl"
 ```
 
+or this if you use mango:
+
+```toml
+command = "mango -c /etc/nwg-hello/mango.conf"
+```
+
 or this line if you prefer sway:
 
 ```toml
 command = "sway -c /etc/nwg-hello/sway-config"
 ```
 
-NOTE: you may need `sway --unsupported-gpu` for Nvidia. Also, if you'd like to make some additional configuration
-(e.g., monitor layout), edit `/etc/nwg-hello/hyprland.conf`, `/etc/nwg-hello/niri.kdl`, or `/etc/nwg-hello/sway-config`, respectively.
+*NOTE*: you may need `sway --unsupported-gpu` for Nvidia. Also, if you'd like to make some additional configuration
+(e.g., monitor layout), edit `/etc/nwg-hello/hyprland.conf`, `/etc/nwg-hello/niri.kdl`, or `/etc/nwg-hello/sway-config`, or `/etc/nwg-hello/mango.conf` respectively.
 
 __Do not change the__ `user = "greeter"` __line__, or some file-related functions won't work.  
 
