@@ -28,6 +28,7 @@ was no such thing, I had to develop one.
 - background and style customization with CSS;
 - automatic selection of the last used session and user;
 - avatar (user picture) support;
+- sound theme & login sound support (synchronized with [nwg-look](https://github.com/nwg-piotr/nwg-look));
 - support for setting environment variables.
 
 ## Dependencies
@@ -48,7 +49,9 @@ was no such thing, I had to develop one.
 
 ## Optional dependencies
 
-- mugshot: to set the user picture
+- mugshot: to set the user picture;
+- gsound: for login sound playback support;
+- sound-theme-freedesktop (or any GTK sound theme): system login sounds.
 
 ## Installation
 
@@ -154,6 +157,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
   "avatar-border-color": "#eee",
   "avatar-corner-radius": 15,
   "avatar-circle": false,
+  "play-login-sound-once": true,
+  "login-sound-volume": "-10",
   "env-vars": []
 }
 ```
@@ -178,6 +183,8 @@ Copy `/etc/nwg-hello/nwg-hello-default.json` to `/etc/nwg-hello/nwg-hello.json` 
 - `"avatar-border-color"`: a hexadecimal value of avatar border color ("#rgb" or "#rrggbb").
 - `"avatar-corner-radius"`: corner radius for rectangular avatar image,
 - `"avatar-circle"`: draw avatar as a circle (corner radius ignored),
+- `"play-login-sound-once"`: set `true` to ensure the sound only plays once per boot session,
+-  `"login-sound-volume"`: volume level in decibels (dB) as a string (e.g. `"0"` for standard volume, `"-10"` for lower volume (default)),
 - `"env-vars"` allows to pass an array of environment variables. Use like this: `["MY_VAR=value", "OTHER_VAR=value1"]`.
 
 ## Styling
@@ -210,6 +217,26 @@ Styling: no CSS is applicable here. You can set shape- and border-related values
 
 NOTE: if you use your customized `/etc/nwg-hello/nwg-hello.json` file, remember to copy all `avatar-*` key-value pairs
 from `/etc/nwg-hello/nwg-hello-default.json`.
+
+## Login sound
+
+New in version 0.5.0. Requires nwg-look 1.2.1.
+
+`nwg-hello` can play a startup sound based on your GTK sound theme preferences configured in `nwg-look`.
+
+### How it works:
+1. When you click **Apply** in `nwg-look`, it exports your current sound theme name (`gtk-sound-theme-name`) and event sound toggle (`gtk-enable-event-sounds`) to `/var/cache/nwg-hello/sound.json`.
+2. On startup, `nwg-hello` reads this file. If event sounds are enabled, it searches system-wide directories (`/usr/share/sounds`, `/usr/local/share/sounds`) for a `desktop-login` or `service-login` sound file (`.oga`, `.ogg`, `.wav`) matching the selected GTK theme (falling back to `freedesktop`).
+3. If found, the sound is played once via `GSound`.
+
+> **Note:** Sound themes installed in user-local directories (such as `~/.local/share/sounds` or `~/.sounds`) **will not work**, as the `greeter` user runs in its own system context and has no access to individual user home directories. Only system-wide sound themes are supported.
+
+### Configuration in `nwg-hello.json`:
+You can adjust the volume in `/etc/nwg-hello/nwg-hello.json`:
+- `"login-sound-volume"`: volume level in decibels (dB) as a string (e.g. `"0"` for standard volume, `"-10"` for lower volume (default)).
+- `"play-login-sound-once"`: `true` (default) to ensure the sound only plays once per boot session.
+
+*Note for packagers:* `/var/cache/nwg-hello/sound.json` should be initialized via `tmpfiles.d` with `0666` permissions so `nwg-look` (running as a normal user) can write to it seamlessly.
 
 ## Running on Debian and labwc
 
