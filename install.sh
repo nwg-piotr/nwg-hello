@@ -41,6 +41,7 @@ install -D -m 644 -t /usr/share/nwg-hello/ img/*
 
 install -d /var/cache/nwg-hello
 install -Dm644 -t /var/cache/nwg-hello cache.json -o greeter
+install -Dm666 -t /var/cache/nwg-hello sound.json -o greeter
 
 install -Dm 644 -t "/usr/share/licenses/$PROGRAM_NAME" LICENSE
 install -Dm 644 -t "/usr/share/doc/$PROGRAM_NAME" README.md
