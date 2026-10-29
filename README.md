@@ -92,10 +92,16 @@ command = "agreety --cmd /bin/sh"
 with
 
 ```toml
+command = "/usr/bin/start-hyprland -- -c /etc/nwg-hello/hyprland.lua"
+```
+
+if you want to use Hyprland (v0.55 or higher), or
+
+```toml
 command = "/usr/bin/start-hyprland -- -c /etc/nwg-hello/hyprland.conf"
 ```
 
-if you want to use Hyprland, or this line if you prefer niri:
+if you are on an older version of Hyprland (lower than v0.55), or this line if you prefer niri:
 
 ```toml
 command = "niri -c /etc/nwg-hello/niri.kdl"
