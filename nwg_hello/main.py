@@ -155,6 +155,7 @@ else:
     # load predefined basic lang file
     voc = load_json(os.path.join(dir_name, "langs", "en_US"))
 
+locale.setlocale(locale.LC_TIME, "")
 user_locale = locale.getlocale()[0] if not settings["lang"] else settings["lang"]
 user_lang_file = os.path.join("/etc/nwg-hello", user_locale)
 has_user_lang_file = os.path.isfile(user_lang_file)
